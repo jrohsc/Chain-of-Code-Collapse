@@ -1,0 +1,5095 @@
+,id,function_name,code,input,output,numsteps,problem_id
+0,sample_0,distinctDifferenceArray,"def distinctDifferenceArray(a: List[int]) -> List[int]:
+    return [len(set(a[:i+1]))-len(set(a[i+1:]))for i in range(len(a))]","distinctDifferenceArray(a = [1, 2, 3, 4, 5])","[-3, -1, 1, 3, 5]",678,[0 2 0]
+1,sample_1,distinctDifferenceArray,"def distinctDifferenceArray(nums: List[int]) -> List[int]:
+    r = Counter(nums)
+    l = set()
+    ans = []
+    for x in nums:
+        r[x] -= 1
+        if not r[x]:
+            del r[x]
+        l.add(x)
+        ans.append(len(l) - len(r))
+    return ans","distinctDifferenceArray(nums = [1, 2, 3, 4, 5])","[-3, -1, 1, 3, 5]",869,[ 0 11  0]
+2,sample_2,distinctDifferenceArray,"def distinctDifferenceArray(nums: List[int]) -> List[int]:
+    return [len(set(nums[:i + 1])) - len(set(nums[i + 1:])) for i in range(len(nums))]","distinctDifferenceArray(nums = [1, 2, 3, 4, 5])","[-3, -1, 1, 3, 5]",678,[ 0 17  0]
+3,sample_3,distinctDifferenceArray,"def distinctDifferenceArray(nums: List[int]) -> List[int]:
+    n = len(nums)
+    ans = []
+    for i in range(1, n + 1):
+        pref = nums[:i]
+        suff = nums[i:]
+        ans.append(len(set(pref)) - len(set(suff)))
+    return ans","distinctDifferenceArray(nums = [3, 2, 3, 4, 2])","[-2, -1, 0, 2, 3]",707,[0 9 1]
+4,sample_4,distinctDifferenceArray,"def distinctDifferenceArray(nums: List[int]) -> List[int]:
+    c = collections.Counter(nums)
+    suf = len(c)
+    ca = collections.Counter()
+    ans = []
+    for num in nums:
+        c[num] -= 1
+        if c[num] == 0:
+            suf -= 1
+        ca[num] += 1
+        ans.append(len(ca) - suf)
+    return ans","distinctDifferenceArray(nums = [3, 2, 3, 4, 2])","[-2, -1, 0, 2, 3]",853,[0 1 1]
+5,sample_5,distinctDifferenceArray,"def distinctDifferenceArray(nums: List[int]) -> List[int]:
+    return [len(set(nums[:(i + 1)])) - len(set(nums[(i + 1):])) for i in range(len(nums))]","distinctDifferenceArray(nums = [3, 2, 3, 4, 2])","[-2, -1, 0, 2, 3]",678,[0 6 1]
+6,sample_6,colorTheArray,"def colorTheArray(n: int, queries: List[List[int]]) -> List[int]:
+    res = []
+    arr = [0]*n
+    
+    curr = 0
+    
+    for i,v in queries:
+        pv = arr[i]
+        
+        if i+1 <n and arr[i+1]==v:
+            curr += 1
+        if i-1>=0 and arr[i-1] == v:
+            curr += 1
+        if i+1 <n and arr[i+1]==pv and pv:
+            curr -= 1
+        if i-1>=0 and arr[i-1] == pv and pv:
+            curr -= 1
+        arr[i] = v
+        
+        res += [curr]
+    return res","colorTheArray(n = 1, queries = [[0, 100000]])",[0],614,[1 5 1]
+7,sample_7,colorTheArray,"def colorTheArray(n: int, queries: List[List[int]]) -> List[int]:
+    ret = 0
+    a = [0] * n
+    ans = []
+    for x, y in queries:
+        if x > 0 and a[x-1] == a[x] and a[x] != 0:
+            ret -= 1
+        if x < n-1 and a[x+1] == a[x] and a[x] != 0:
+            ret -= 1
+        a[x] = y
+        if x > 0 and a[x-1] == a[x] and a[x] != 0:
+            ret += 1
+        if x < n-1 and a[x+1] == a[x] and a[x] != 0:
+            ret += 1
+        ans.append(ret)
+    return ans","colorTheArray(n = 1, queries = [[0, 100000]])",[0],605,[ 1 11  1]
+8,sample_8,colorTheArray,"def colorTheArray(n: int, queries: List[List[int]]) -> List[int]:
+    a = [0] * n
+    y = 0
+    ans = []
+    for i, c in queries:
+        y -= a[i] and (i > 0 and a[i] == a[i - 1]) + (i < n - 1 and a[i] == a[i + 1])
+        y += (i > 0 and c == a[i - 1]) + (i < n - 1 and c == a[i + 1])
+        a[i] = c
+        ans.append(y)
+    return ans","colorTheArray(n = 1, queries = [[0, 100000]])",[0],604,[1 9 1]
+9,sample_9,colorTheArray,"def colorTheArray(n: int, queries: List[List[int]]) -> List[int]:
+    c = [0] * n
+    ans = 0
+    res = []
+    for i, x in queries:
+        if c[i]:
+            if i:
+                ans -= c[i] == c[i - 1]
+            if i + 1 < n:
+                ans -= c[i] == c[i + 1]
+        c[i] = x
+        if i:
+            ans += c[i] == c[i - 1]
+        if i + 1 < n:
+            ans += c[i] == c[i + 1]
+        res.append(ans)
+    return res","colorTheArray(n = 1, queries = [[0, 100000]])",[0],596,[1 2 1]
+10,sample_10,colorTheArray,"def colorTheArray(n: int, queries: List[List[int]]) -> List[int]:
+    colors = [0] * n
+    ans = []
+    res = 0
+    for i, c in queries:
+        if i and colors[i] == colors[i-1] and colors[i] > 0: res -= 1
+        if i < n - 1 and colors[i] == colors[i+1] and colors[i] > 0: res -= 1
+        colors[i] = c
+        if i and colors[i] == colors[i-1] and colors[i] > 0: res += 1
+        if i < n - 1 and colors[i] == colors[i+1] and colors[i] > 0: res += 1
+        ans.append(res)
+    return ans","colorTheArray(n = 4, queries = [[0, 2], [1, 2], [3, 1], [1, 1], [2, 1]])","[0, 1, 1, 0, 2]",980,[ 1 12  0]
+11,sample_11,colorTheArray,"def colorTheArray(n: int, queries: List[List[int]]) -> List[int]:
+    color = [0] * (n + 1)
+    ans = 0
+    out = []
+    for i, x in queries:
+        if color[i] == color[i-1] and color[i] != 0:
+            ans -= 1
+        if color[i] == color[i+1] and color[i] != 0:
+            ans -= 1
+        
+        color[i] = x
+        
+        if color[i] == color[i-1]:
+            ans += 1
+        if color[i] == color[i+1]:
+            ans += 1
+            
+        out.append(ans)
+    return out","colorTheArray(n = 4, queries = [[0, 2], [1, 2], [3, 1], [1, 1], [2, 1]])","[0, 1, 1, 0, 2]",940,[ 1 16  0]
+12,sample_12,doesValidArrayExist,"def doesValidArrayExist(derived: List[int]) -> bool:
+    n = len(derived)
+    last = 0
+    for i in range(n-1):
+        last = derived[i] ^ last
+    if derived[n-1] == last:
+        return True
+    last = 1
+    for i in range(n-1):
+        last = derived[i] ^ last
+    if derived[n-1] == (1 ^ last):
+        return True
+    return False","doesValidArrayExist(derived = [1, 1, 0])",True,550,[3 9 0]
+13,sample_13,doesValidArrayExist,"def doesValidArrayExist(derived: List[int]) -> bool:
+    original = [True]
+    for i in derived:
+        if i == 0:
+            original.append(original[-1])
+        else:
+            original.append(not original[-1])
+    return original[0] == original[-1]","doesValidArrayExist(derived = [1, 1, 0])",True,570,[ 3 18  0]
+14,sample_14,doesValidArrayExist,"def doesValidArrayExist(derived: List[int]) -> bool:
+    n = len(derived)
+    ans = [0]*n
+    for x in [0, 1]:
+        ans = [0]*n
+        ans[-1] = x
+        for i in range(n-2, -1, -1):
+            ans[i] = ans[i+1]^derived[i]
+        if ans[n-1]^ans[0] == derived[n-1]:
+            return True
+    return False","doesValidArrayExist(derived = [1, 0])",False,634,[3 3 2]
+15,sample_15,doesValidArrayExist,"def doesValidArrayExist(derived: List[int]) -> bool:
+    
+    v = 0
+    for c in derived:
+        v ^= c
+    if v == 0: return True
+    
+    v = 1
+    for c in derived:
+        v ^= c
+    if v == 1: return True
+    
+    return False","doesValidArrayExist(derived = [1, 1, 0])",True,541,[3 8 0]
+16,sample_16,doesValidArrayExist,"def doesValidArrayExist(derived: List[int]) -> bool:
+    curr = 0
+    for i in range(len(derived)):
+        if i == len(derived) - 1:
+            return curr == 0 if derived[i] == 0 else curr == 1
+        
+        if derived[i] == 1:
+            curr = 0 if curr == 1 else 1","doesValidArrayExist(derived = [1, 1, 0])",True,590,[3 5 0]
+17,sample_17,doesValidArrayExist,"def doesValidArrayExist(derived: List[int]) -> bool:
+    n = len(derived)
+    if n == 1:
+        return derived[0] == 0
+    ans = 0
+    for i in range(n - 1):
+        ans ^= derived[i]
+    return ans == derived[-1]","doesValidArrayExist(derived = [1, 1])",True,539,[ 3 14  1]
+18,sample_18,minLength,"def minLength(s: str) -> int:
+    while ""AB"" in s or ""CD"" in s:
+        s = s.replace(""AB"", """")
+        s = s.replace(""CD"", """")
+    return len(s)",minLength(s = 'ABFCACDB'),2,537,[ 4 17  0]
+19,sample_19,minLength,"def minLength(s: str) -> int:
+    while 'AB' in s or 'CD' in s:
+        s = s.replace('AB', '').replace('CD', '')
+    return len(s)",minLength(s = 'ABFCACDB'),2,531,[4 8 0]
+20,sample_20,minLength,"def minLength(s: str) -> int:
+    
+    while 1:
+        n = len(s)
+        if n < 2:
+            break
+        for i in range(n - 1):
+            if s[i:i + 2] == ""AB"" or s[i:i + 2] == ""CD"":
+                s = s[:i] + s[i + 2:]
+                break
+        else:
+            break
+    
+    return len(s)",minLength(s = 'ACBBD'),5,604,[ 4 21  1]
+21,sample_21,minLength,"def minLength(s: str) -> int:
+    while ""AB"" in s or ""CD"" in s:
+        s = s.replace(""AB"", """")
+        s = s.replace(""CD"", """")
+    return len(s)",minLength(s = 'ACBBD'),5,497,[4 7 1]
+22,sample_22,minLength,"def minLength(s: str) -> int:
+    stack = []
+    for c in s:
+        stack.append(c)
+        if len(stack) > 1 and stack[-2] + stack[-1] in [""AB"", ""CD""]:
+            stack.pop()
+            stack.pop()
+            
+    return len(stack)",minLength(s = 'ABFCACDB'),2,716,[4 6 0]
+23,sample_23,minLength,"def minLength(s: str) -> int:
+    while True:
+        t=s.replace(""AB"","""").replace(""CD"","""")
+        if t==s:
+            return len(t)
+        else:
+            s=t",minLength(s = 'ACBBD'),5,504,[ 4 14  1]
+24,sample_24,makeSmallestPalindrome,"def makeSmallestPalindrome(s: str) -> str:
+    ans = []
+    for i in range(len(s) // 2):
+        ans.append(min(s[i], s[-i-1]))
+    if len(s) & 1:
+        ans = ans + [s[len(s) // 2]] + ans[::-1]
+    else:
+        ans = ans + ans[::-1]
+    return ''.join(ans)",makeSmallestPalindrome(s = 'seven'),'neven',569,[5 5 2]
+25,sample_25,makeSmallestPalindrome,"def makeSmallestPalindrome(s: str) -> str:
+    s = list(s)
+    left, right = 0, len(s) - 1
+    while left < right:
+        c1, c2 = s[left], s[right]
+        if c1 != c2:
+            s[left] = min(c1, c2)
+            s[right] = s[left]
+        left += 1
+        right -= 1
+    return ''.join(s)",makeSmallestPalindrome(s = 'seven'),'neven',586,[ 5 14  2]
+26,sample_26,makeSmallestPalindrome,"def makeSmallestPalindrome(s: str) -> str:
+    s = list(s)
+    n = len(s)
+    for i in range(n):
+        c = min(s[i], s[n - 1 - i])
+        s[i] = c
+        s[n - 1 - i] = c
+    return """".join(s)",makeSmallestPalindrome(s = 'abcd'),'abba',633,[5 3 1]
+27,sample_27,makeSmallestPalindrome,"def makeSmallestPalindrome(s: str) -> str:
+  n = len(s)
+  result = list(s)
+  
+  for i in range(n // 2):
+    i2 = n - 1 - i
+    if result[i] == result[i2]:
+      continue
+    if result[i] < result[i2]:
+      result[i2] = result[i]
+    else:
+      result[i] = result[i2]
+  
+  return ''.join(result)",makeSmallestPalindrome(s = 'abcd'),'abba',579,[ 5 13  1]
+28,sample_28,makeSmallestPalindrome,"def makeSmallestPalindrome(s: str) -> str:
+    n = len(s)
+    s = list(s)
+    
+    for i in range(n // 2):
+        x = i
+        y = n - 1 - i
+        c = min(s[x], s[y])
+        s[x] = c
+        s[y] = c
+    return """".join(s)",makeSmallestPalindrome(s = 'seven'),'neven',575,[5 0 2]
+29,sample_29,makeSmallestPalindrome,"def makeSmallestPalindrome(s: str) -> str:
+    ans = []
+    for i in range(len(s) // 2):
+        ans.append(min(s[i], s[-(i + 1)]))
+    
+    a = ans[::-1]
+    if len(s) % 2:
+        ans.append(s[len(s) // 2])
+        
+    ans.extend(a)
+    return """".join(ans)",makeSmallestPalindrome(s = 'seven'),'neven',575,[5 4 2]
+30,sample_30,removeTrailingZeros,"def removeTrailingZeros(num: str) -> str:
+    while num and num[-1] == ""0"":
+        num = num[:-1]
+    
+    return num",removeTrailingZeros(num = '51230100'),'512301',529,[7 0 0]
+31,sample_31,removeTrailingZeros,"def removeTrailingZeros(num: str) -> str:
+    d = list(num)
+    while d and d[-1] == '0':
+        d.pop()
+    return ''.join(d)",removeTrailingZeros(num = '51230100'),'512301',533,[7 1 0]
+32,sample_32,removeTrailingZeros,"def removeTrailingZeros(num: str) -> str:
+    while num[-1] == '0':
+        num = num[:-1]
+    return num",removeTrailingZeros(num = '51230100'),'512301',523,[7 3 0]
+33,sample_33,removeTrailingZeros,"def removeTrailingZeros(num: str) -> str:
+    arr = list(num)
+    while arr and arr[-1] == ""0"":
+        arr.pop()
+    if arr:
+        return """".join(arr)
+    else:
+        return ""0""",removeTrailingZeros(num = '51230100'),'512301',536,[ 7 15  0]
+34,sample_34,removeTrailingZeros,"def removeTrailingZeros(a: str) -> str:
+    n = len(a)
+    while n - 1 >= 0 and a[n-1]=='0':
+        n -= 1
+    return a[:n]",removeTrailingZeros(a = '51230100'),'512301',552,[7 9 0]
+35,sample_35,removeTrailingZeros,"def removeTrailingZeros(num: str) -> str:
+    if num.count(""0"") == len(num):
+        return """"
+    return num.rstrip(""0"")",removeTrailingZeros(num = '51230100'),'512301',499,[ 7 18  0]
+36,sample_36,minimumCost,"def minimumCost(s: str) -> int:
+    ans = 0
+    for i in range(1, len(s)):
+        if s[i - 1] != s[i]:
+            ans += min(i, len(s) - i)
+    
+    return ans",minimumCost(s = '0011'),2,553,[8 0 0]
+37,sample_37,minimumCost,"def solve(s):
+    n = len(s)
+    dp = [0] * n
+    for i in range(1, n):
+        if s[i] == s[i - 1]:
+            dp[i] = dp[i - 1]
+        else:
+            dp[i] = dp[i - 1] + i
+    return dp
+    
+
+def minimumCost(s: str) -> int:
+    l = solve(s)
+    r = solve(s[::-1])
+    n = len(s)
+    ans = min(l[i] + r[n - 1 - i] for i in range(n))
+    return ans",minimumCost(s = '0011'),2,804,[ 8 12  0]
+38,sample_38,minimumCost,"def minimumCost(s: str) -> int:
+    n = len(s)
+    left = [0] * (n)
+    tmp = 0
+    for i in range(1, len(s)):
+        if s[i] != s[i-1]:
+            tmp += i
+        left[i] = tmp
+    s = s[::-1]
+    right = [0] * (n)
+    tmp = 0
+    for i in range(1, len(s)):
+        if s[i] != s[i-1]:
+            tmp += i
+        right[i] = tmp
+    right.reverse()
+    return min(x + y for x, y in zip(left, right))",minimumCost(s = '0011'),2,739,[8 5 0]
+39,sample_39,minimumCost,"def minimumCost(s: str) -> int:
+    ans = 0
+    for i in range(1, len(s)):
+        if s[i] != s[i - 1]:
+            ans += min(i, len(s) - i)
+    return ans",minimumCost(s = '0011'),2,553,[8 3 0]
+40,sample_40,minimumCost,"def minimumCost(s: str) -> int:
+    ans = 0
+    n = len(s)
+    for i in range(1, n):
+        if s[i - 1] != s[i]:
+            ans += min(i, n - i)
+    return ans",minimumCost(s = '0011'),2,554,[ 8 10  0]
+41,sample_41,minimumCost,"def minimumCost(s: str) -> int:
+    n = len(s)
+    r = 0
+    for i in range(n-1):
+        if s[i] != s[i+1]:
+            r += min(i+1, n-1-i)
+    return r",minimumCost(s = '0011'),2,559,[ 8 11  0]
+42,sample_42,minimizedStringLength,"def minimizedStringLength(s: str) -> int:
+    ss = set()
+    for c in s:
+        ss.add(c)
+    return len(ss)",minimizedStringLength(s = 'cbbd'),3,536,[9 8 1]
+43,sample_43,minimizedStringLength,"def minimizedStringLength(s: str) -> int:
+    graph = collections.defaultdict(int)
+    
+    for char in s:
+        graph[char] += 1
+    
+    return len(graph)",minimizedStringLength(s = 'aaabc'),3,563,[ 9 12  0]
+44,sample_44,semiOrderedPermutation,"def semiOrderedPermutation(nums: List[int]) -> int:
+    n = len(nums)
+    a, b = -1, -1
+    for i, v in enumerate(nums):
+        if v == 1: a = i 
+        if v == n: b = i
+    delta = 0
+    if a > b:
+        delta = 1
+    return a+n-1-b-delta","semiOrderedPermutation(nums = [2, 4, 1, 3])",3,603,[10  5  1]
+45,sample_45,semiOrderedPermutation,"def semiOrderedPermutation(nums: List[int]) -> int:
+    n = len(nums)
+    a,b = nums.index(1),nums.index(len(nums))
+    if a<b:return a+(n-b-1)
+    else:return a+(n-b-1)-1","semiOrderedPermutation(nums = [2, 4, 1, 3])",3,535,[10 10  1]
+46,sample_46,semiOrderedPermutation,"def semiOrderedPermutation(nums: List[int]) -> int:
+    n = len(nums)
+    a = nums.index(1)
+    b = nums.index(n)
+    
+    if a < b:
+        return a + n - 1 - b
+    else:
+        return a + n - 1 - b - 1","semiOrderedPermutation(nums = [2, 4, 1, 3])",3,533,[10  8  1]
+47,sample_47,semiOrderedPermutation,"def semiOrderedPermutation(nums: List[int]) -> int:
+    a, b = nums.index(1), nums.index(len(nums))
+    if a < b:
+        return a + len(nums) - b - 1
+    else:
+        return a + len(nums) - b - 2","semiOrderedPermutation(nums = [2, 4, 1, 3])",3,530,[10  1  1]
+48,sample_48,semiOrderedPermutation,"def semiOrderedPermutation(nums: List[int]) -> int:
+    n = len(nums)
+    ans = 0
+    i = 0
+    while nums[i] != 1:
+        i += 1
+    while i > 0:
+        nums[i - 1], nums[i] = nums[i], nums[i - 1]
+        i -= 1
+        ans += 1
+    assert nums[0] == 1
+    i = 0
+    while nums[i] != n:
+        i += 1
+    while i + 1 < n:
+        nums[i + 1], nums[i] = nums[i], nums[i + 1]
+        i += 1
+        ans += 1
+    assert nums[n - 1] == n
+    return ans","semiOrderedPermutation(nums = [2, 1, 4, 3])",2,668,[10  9  0]
+49,sample_49,semiOrderedPermutation,"def semiOrderedPermutation(nums: List[int]) -> int:
+    n=len(nums)
+    l=nums.index(1)
+    r=nums.index(n)
+    ans=l+n-1-r
+    if l>r:
+        ans-=1
+    return ans","semiOrderedPermutation(nums = [2, 1, 4, 3])",2,534,[10  7  0]
+50,sample_50,smallestString,"def smallestString(s: str) -> str:
+    if s == ""a""*len(s):
+        return ""a""*(len(s)-1)+""z""
+    r = """"
+    p = 0
+    for i in s:
+        if p == 1:
+            if i == ""a"":
+                p = 2
+                r += i
+            else:
+                r += chr(ord(i)-1)
+        elif p == 0:
+            if i == ""a"":
+                r += i
+            else:
+                p = 1
+                r += chr(ord(i)-1)
+        else:
+            r += i
+    return r",smallestString(s = 'acbbc'),'abaab',638,[12  9  1]
+51,sample_51,smallestString,"def smallestString(s: str) -> str:
+    if s == 'a': return 'z'
+    t = list(s)
+    l = r = -1
+    for i, c in enumerate(s):
+        if c != 'a':
+            if l == -1:
+                l = i
+            r = i
+        elif l != -1:
+            break
+    if l != -1:
+        for i in range(l, r + 1):
+            t[i] = chr(ord(t[i]) - 1)
+    else:
+        t[-1] = 'z'
+    return ''.join(t)",smallestString(s = 'leetcode'),'kddsbncd',816,[12 10  2]
+52,sample_52,smallestString,"def smallestString(s: str) -> str:
+    l = len(s)
+    i = 0
+    while i < l and s[i] == 'a': i += 1
+    if i == l: return s[:-1] + 'z'
+    s = list(s)
+    for j in range(i, l):
+        if s[j] == 'a': break
+        s[j] = chr(ord(s[j]) - 1)
+    return ''.join(s)",smallestString(s = 'leetcode'),'kddsbncd',717,[12  8  2]
+53,sample_53,smallestString,"def smallestString(s: str) -> str:
+    s = list(s)
+    for i in range(len(s)):
+        if s[i] != 'a':
+            while i < len(s) and s[i] != 'a':
+                s[i] = chr(ord(s[i]) - 1)
+                i += 1
+            break
+    else:
+        s[-1] = 'z'
+    return ''.join(s)",smallestString(s = 'cbabc'),'baabc',590,[12  1  0]
+54,sample_54,smallestString,"def smallestString(s: str) -> str:
+    n = len(s) 
+    s = list(s)
+    i = 0 
+    while i < n and s[i] == 'a':
+        i += 1 
+    if i == n: 
+        s[-1] = 'z'
+        return ''.join(s) 
+    for i in range(i,n):
+        if s[i] != 'a':
+            s[i] = chr(ord(s[i])-1) 
+        else : break 
+    return ''.join(s)",smallestString(s = 'leetcode'),'kddsbncd',717,[12 11  2]
+55,sample_55,smallestString,"def smallestString(s: str) -> str:
+    s = list(s)
+    c = 0
+    for i in range(len(s)):
+        if s[i] != 'a':
+            s[i] = chr(ord(s[i]) - 1)
+            c = 1
+        else:
+            if c:
+                break
+    if not c:
+        s[-1] = 'z'
+    return """".join(s)",smallestString(s = 'leetcode'),'kddsbncd',724,[12  0  2]
+56,sample_56,minCost,"def minCost(A: List[int], x: int) -> int:
+    n = len(A)
+    mns = list(range(0, n * x, x))
+    for i in range(n):
+        mn = A[i]
+        for j in range(n):
+            mn = min(mn, A[(i+j)%n])
+            mns[j] += mn
+    return min(mns)","minCost(A = [1, 2, 3], x = 4)",6,799,[13 10  1]
+57,sample_57,distanceTraveled,"def distanceTraveled(a: int, b: int) -> int:
+    res = 0
+    while a:
+        if a >= 5:
+            res += 5 * 10
+            a -= 5
+            if b:
+                b -= 1
+                a += 1
+        else:
+            res += a * 10
+            a = 0
+    return res","distanceTraveled(a = 1, b = 2)",10,513,[15 10  1]
+58,sample_58,distanceTraveled,"def distanceTraveled(mainTank: int, additionalTank: int) -> int:
+    m, a = mainTank, additionalTank
+    res = 0
+    while m > 0:
+        if m < 5:
+            res += m
+            break
+        else:
+            m -= 5
+            if a > 0:
+                a -= 1
+                m += 1
+            res += 5
+    return res * 10","distanceTraveled(mainTank = 1, additionalTank = 2)",10,516,[15  3  1]
+59,sample_59,distanceTraveled,"def distanceTraveled(mainTank: int, additionalTank: int) -> int:
+    res = 0
+    while mainTank > 0:
+        if mainTank >= 5:
+            mainTank -= 5
+            res += 50
+            if additionalTank:
+                additionalTank -= 1
+                mainTank += 1            
+        else:
+            res += mainTank * 10
+            mainTank = 0
+    return res","distanceTraveled(mainTank = 1, additionalTank = 2)",10,517,[15 12  1]
+60,sample_60,distanceTraveled,"def distanceTraveled(mainTank: int, additionalTank: int) -> int:
+    ex = min ((mainTank - 1) // 4, additionalTank)
+    
+    return (ex + mainTank) * 10","distanceTraveled(mainTank = 1, additionalTank = 2)",10,502,[15  6  1]
+61,sample_61,distanceTraveled,"def distanceTraveled(mainTank: int, additionalTank: int) -> int:
+    ans = 0 
+    
+    while mainTank >= 5:
+        mainTank -= 5 
+        if additionalTank:
+            additionalTank -=1 
+            mainTank += 1
+        ans += 5 
+    ans += mainTank
+    return 10 * ans","distanceTraveled(mainTank = 1, additionalTank = 2)",10,503,[15  2  1]
+62,sample_62,distanceTraveled,"def distanceTraveled(mainTank: int, additionalTank: int) -> int:
+    
+    res=0
+    
+    while mainTank:
+        if mainTank<5:
+            res+=mainTank*10
+            mainTank=0
+        
+        else:
+            res+=5*10
+            if additionalTank:
+                mainTank+=1
+                additionalTank-=1
+            mainTank-=5
+    return res","distanceTraveled(mainTank = 1, additionalTank = 2)",10,513,[15 14  1]
+63,sample_63,findValueOfPartition,"def findValueOfPartition(nums: List[int]) -> int:
+    nums.sort()
+    
+    return min(y - x for x, y in zip(nums, nums[1:]))","findValueOfPartition(nums = [1, 3, 2, 4])",1,568,[16  9  0]
+64,sample_64,findValueOfPartition,"def findValueOfPartition(nums: List[int]) -> int:
+    
+    nums.sort()
+    n = len(nums)
+    
+    ans = float('inf')
+    
+    for i in range(1,n):
+        gap = nums[i] - nums[i-1]
+        
+        ans = min(ans, gap)
+    
+    return ans","findValueOfPartition(nums = [1, 3, 2, 4])",1,588,[16  8  0]
+65,sample_65,findValueOfPartition,"def findValueOfPartition(a: List[int]) -> int:
+    a.sort()
+    ans = a[-1] - a[0]
+    for i in range(len(a) - 1):
+        ans = min(ans, a[i + 1] - a[i])
+    return ans","findValueOfPartition(a = [1, 3, 2, 4])",1,581,[16 16  0]
+66,sample_66,findValueOfPartition,"def findValueOfPartition(nums: List[int]) -> int:
+    nums.sort()
+    res = 10 ** 10
+    # 枚举最大的
+    for i in range(len(nums) - 1, 0, -1):
+        # 最大的是 nums[i]
+        # 最小的是 nums[i-1]
+        res = min(res, nums[i] - nums[i - 1])
+    return res","findValueOfPartition(nums = [1, 3, 2, 4])",1,577,[16 11  0]
+67,sample_67,findValueOfPartition,"def findValueOfPartition(nums: List[int]) -> int:
+    nums = sorted(nums)
+    to_ret = 1e99
+    for i in range(len(nums)-1) :
+        to_ret = min(to_ret, nums[i+1]-nums[i])
+    return to_ret","findValueOfPartition(nums = [1, 3, 2, 4])",1,575,[16  0  0]
+68,sample_68,findValueOfPartition,"def findValueOfPartition(nums: List[int]) -> int:
+    res = float('inf')
+    nums.sort()
+    for i in range(0, len(nums) - 1):
+        res = min(res, nums[i + 1] - nums[i])
+    return res","findValueOfPartition(nums = [1, 3, 2, 4])",1,578,[16 13  0]
+69,sample_69,countBeautifulPairs,"from math import gcd
+
+def countBeautifulPairs(nums: List[int]) -> int:
+
+    n = len(nums)
+    
+    ct = 0
+    for i in range(n):
+        for j in range(i + 1, n):
+            f = int(str(nums[i])[0])
+            s = int(str(nums[j])[-1])
+            
+            #print(f,s)
+            
+            if gcd(s, f) == 1:
+                ct += 1
+    return ct","countBeautifulPairs(nums = [11, 21, 12])",2,674,[19  0  1]
+70,sample_70,countBeautifulPairs,"def countBeautifulPairs(nums: List[int]) -> int:
+    n = len(nums)
+    ans = 0
+    for i in range(n):
+        for j in range(i):
+            ans += chk(nums[j], nums[i])
+    return ans
+
+def chk(n1, n2):
+    return int(gcd(int(str(n1)[0]), int(str(n2)[-1])) == 1)
+
+def gcd(x, y):
+    if x % y == 0:
+        return y
+    return gcd(y, x % y)","countBeautifulPairs(nums = [11, 21, 12])",2,730,[19  5  1]
+71,sample_71,countBeautifulPairs,"def countBeautifulPairs(nums: List[int]) -> int:
+    ans = 0
+    n = len(nums)
+    for i in range(n):
+        for j in range(i+1, n):
+            a = int(str(nums[i])[0])
+            b = int(str(nums[j])[-1])
+            if gcd(a, b) == 1:
+                ans += 1
+    return ans","countBeautifulPairs(nums = [11, 21, 12])",2,667,[19 16  1]
+72,sample_72,countBeautifulPairs,"def countBeautifulPairs(nums: List[int]) -> int:
+    res=0
+    n=len(nums)
+    for i in range(n):
+        for j in range(i+1,n):
+            a=int(str(nums[i])[0])
+            b=int(str(nums[j])[-1])
+            if gcd(a,b)==1:
+                res+=1
+    return res","countBeautifulPairs(nums = [11, 21, 12])",2,667,[19 13  1]
+73,sample_73,countBeautifulPairs,"def countBeautifulPairs(nums: List[int]) -> int:
+    a = []
+    b = []
+    for x in nums:
+        s = str(x)
+        a.append(int(s[0]))
+        b.append(int(s[-1]))
+    n = len(a)
+    return sum(gcd(a[i], b[j]) == 1 for i in range(n) for j in range(i+1, n))","countBeautifulPairs(nums = [2, 5, 1, 4])",5,810,[19 11  0]
+74,sample_74,countBeautifulPairs,"def countBeautifulPairs(nums: List[int]) -> int:
+    n = len(nums)
+    ans = 0
+    for i in range(n):
+        for j in range(i+1, n):
+            if gcd(int(str(nums[i])[0]), int(str(nums[j])[-1])) == 1:
+                ans += 1
+    return ans","countBeautifulPairs(nums = [11, 21, 12])",2,649,[19  1  1]
+75,sample_75,makeTheIntegerZero,"from typing import *
+
+from math import *
+
+
+def makeTheIntegerZero(a: int, b: int) -> int:
+    for i in range(1, 1000):
+        a -= b
+        if a >= i and bin(a)[2:].count('1') <= i:
+            return i
+    return -1","makeTheIntegerZero(a = 3, b = -2)",3,583,[20  7  0]
+76,sample_76,makeTheIntegerZero,"def makeTheIntegerZero(num1: int, num2: int) -> int:
+    a = 0
+    x, y = num1, num2
+    while x > y:
+        x -= y
+        a += 1
+        b = x
+        c = 0
+        cc = 0
+        z = 1
+        while b:
+            c += (b%2 == 1)
+            cc += (b%2 == 1)*z
+            z *= 2
+            b //= 2
+        if c <= a and cc >= a:
+            return a
+    return -1","makeTheIntegerZero(num1 = 5, num2 = 7)",-1,502,[20 13  1]
+77,sample_77,makeTheIntegerZero,"def makeTheIntegerZero(num1: int, num2: int) -> int:
+    for x in range(1, 1000):
+        k = num1 - x * num2
+        if k <= 0:
+            break
+        if bin(k).count('1') <= x and k >= x:
+            return x
+    return -1","makeTheIntegerZero(num1 = 3, num2 = -2)",3,574,[20  4  0]
+78,sample_78,makeTheIntegerZero,"def makeTheIntegerZero(num1: int, num2: int) -> int:
+    def check(x):
+        num = num1 - x * num2
+        if num <= 0:
+            return False
+        k = 0
+        while num:
+            if num & 1:
+                k += 1
+            num >>= 1
+        # print(num, x, k)
+        return x >= k and num1 - x * num2 >= x
+    
+    for i in range(1, 100):
+        if check(i):
+            return i
+    return -1","makeTheIntegerZero(num1 = 3, num2 = -2)",3,787,[20 17  0]
+79,sample_79,makeTheIntegerZero,"def makeTheIntegerZero(num1: int, num2: int) -> int:
+    ops = 0
+    while num1 >= 0:
+        num_ones = bin(num1).count('1')
+        if num_ones <= ops and num1 >= ops:
+            return ops
+        num1 -= num2
+        ops += 1
+    return -1","makeTheIntegerZero(num1 = 3, num2 = -2)",3,600,[20 15  0]
+80,sample_80,makeTheIntegerZero,"def makeTheIntegerZero(num1: int, num2: int) -> int:
+    for to_ret in range(1, 100) :
+        num1 -= num2
+        if num1 < to_ret :
+            return -1
+        s1 = len([c for c in bin(num1)[2:] if c == '1'])
+        # print(num1, s1)
+        if to_ret >= s1 :
+            return to_ret
+    return -1","makeTheIntegerZero(num1 = 3, num2 = -2)",3,709,[20  9  0]
+81,sample_81,numberOfGoodSubarraySplits,"def numberOfGoodSubarraySplits(nums: List[int]) -> int:
+    tmp = []
+    for idx,v in enumerate(nums):
+        if v==1:
+            tmp.append(idx)
+    # print(tmp)
+    if len(tmp)==0:return 0
+    if len(tmp)==1:return 1
+    res = 1
+    mod = 10**9+7
+    for a,b in pairwise(tmp):
+        res = res*(b-a)% mod
+    return res","numberOfGoodSubarraySplits(nums = [0, 1, 0])",1,562,[21 12  1]
+82,sample_82,numberOfGoodSubarraySplits,"def numberOfGoodSubarraySplits(nums: List[int]) -> int:
+    indexs = []
+    Mod = 10**9 + 7
+    for i in range(len(nums)):
+        if nums[i] == 1:
+            indexs.append(i)
+    if len(indexs) == 0:
+        return 0
+    ans = 1
+    for i in range(1,len(indexs)):
+        ans *= (indexs[i] - indexs[i-1])
+        ans %= Mod
+    return ans","numberOfGoodSubarraySplits(nums = [0, 1, 0, 0, 1])",3,622,[21  6  0]
+83,sample_83,numberOfGoodSubarraySplits,"def numberOfGoodSubarraySplits(nums: List[int]) -> int:
+    base = 10 ** 9 + 7
+    l = 0
+    while l < len(nums) and nums[l] == 0:
+        l += 1
+    if l == len(nums):
+        return 0
+    ans = 1
+    for i in range(l + 1, len(nums)):
+        if nums[i] == 1:
+            ans = (ans * (i - l)) % base
+            l = i
+    return ans","numberOfGoodSubarraySplits(nums = [0, 1, 0, 0, 1])",3,605,[21  5  0]
+84,sample_84,numberOfGoodSubarraySplits,"def numberOfGoodSubarraySplits(nums: List[int]) -> int:
+    if all([t==0 for t in nums]) :
+        return 0
+    ttt = 10**9+7
+    base = 1
+    tmp = -1
+    for c in nums :
+        if c == 1 :
+            if tmp > 0 :
+                base = (base * tmp) % ttt
+            tmp = 1
+        elif tmp >= 0 :
+            tmp += 1
+    return base","numberOfGoodSubarraySplits(nums = [0, 1, 0])",1,606,[21  8  1]
+85,sample_85,numberOfGoodSubarraySplits,"def numberOfGoodSubarraySplits(nums: List[int]) -> int:
+    if 1 not in nums:
+        return 0
+    
+    MOD = 10 ** 9 + 7
+    ans = 1
+    ones = [i for i in range(len(nums)) if nums[i] == 1]
+    
+    for i in range(1, len(ones)):
+        ans = (ans * (ones[i] - ones[i - 1])) % MOD
+    
+    return ans","numberOfGoodSubarraySplits(nums = [0, 1, 0, 0, 1])",3,614,[21  2  0]
+86,sample_86,numberOfGoodSubarraySplits,"def numberOfGoodSubarraySplits(nums: List[int]) -> int:
+    mod = 1000000007
+    n = len(nums)
+    last = -1
+    ans = 1
+    for i in range(n):
+        if nums[i]:
+            if last != -1:
+                ans = ans * (i - last) % mod
+            last = i
+    return ans if last != -1 else 0","numberOfGoodSubarraySplits(nums = [0, 1, 0])",1,560,[21  3  1]
+87,sample_87,longestAlternatingSubarray,"def longestAlternatingSubarray(nums: List[int], t: int) -> int:
+    n=len(nums)
+    d=0
+    for i in range(n):
+        if nums[i]%2!=0 or nums[i]>t: continue
+        d=max(d,1)
+        for j in range(i+1,n):
+            if nums[j]>t: break
+            if nums[j]%2==nums[j-1]%2: break
+            d=max(d,j-i+1)
+    return d","longestAlternatingSubarray(nums = [1, 2], t = 2)",1,565,[22  9  1]
+88,sample_88,longestAlternatingSubarray,"def longestAlternatingSubarray(nums: List[int], threshold: int) -> int:
+    n = len(nums)
+    ans = 0
+    for i in range(n):
+        for j in range(i, n):
+            li = nums[i:j + 1]
+            if li[0]%2 == 0 and all(li[k]%2 != li[k - 1]%2 for k in range(1,len(li))) and all(li[k] <= threshold for k in range(len(li))):
+                ans = max(ans, len(li))
+    return ans","longestAlternatingSubarray(nums = [1, 2], threshold = 2)",1,672,[22  2  1]
+89,sample_89,longestAlternatingSubarray,"def longestAlternatingSubarray(nums: List[int], threshold: int) -> int:
+    maxx = 0
+    n = len(nums)
+    for i in range(n):
+        if nums[i] % 2 != 0:
+            continue
+        for j in range(i, n):
+            if nums[j] > threshold:
+                break
+            if j > i and nums[j] % 2 == nums[j - 1] % 2:
+                break
+            maxx = max(maxx, j - i + 1)
+    return maxx","longestAlternatingSubarray(nums = [3, 2, 5, 4], threshold = 5)",3,719,[22 17  0]
+90,sample_90,longestAlternatingSubarray,"def longestAlternatingSubarray(nums: List[int], threshold: int) -> int:
+    n = len(nums)
+    for L in range(n, 0, -1):
+        for i in range(n - L + 1):
+            tmp = nums[i:i+L]
+            if tmp[0] % 2 == 0 and all(tmp[j] % 2 != tmp[j+1] % 2 for j in range(len(tmp)-1)) and all(j <= threshold for j in tmp):
+                return L
+    return 0","longestAlternatingSubarray(nums = [1, 2], threshold = 2)",1,661,[22 10  1]
+91,sample_91,longestAlternatingSubarray,"def longestAlternatingSubarray(nums: List[int], threshold: int) -> int:
+    n = len(nums)
+    ans = 0
+    for l in range(n):
+        if nums[l]%2 != 0:
+            continue
+        
+        if nums[l] > threshold:
+            continue
+        
+        good = True
+        r = l+1
+        while r<n and nums[r]<=threshold and nums[r]%2 != nums[r-1]%2:
+            r += 1
+        
+        case = r-l
+        ans = max(ans, case)
+    
+    return ans","longestAlternatingSubarray(nums = [3, 2, 5, 4], threshold = 5)",3,697,[22  5  0]
+92,sample_92,longestAlternatingSubarray,"def longestAlternatingSubarray(nums: List[int], t: int) -> int:
+    ans = 0 
+    n = len(nums)
+    f = [0]*n 
+    if nums[0]%2==0 and nums[0] <= t:
+        f[0] = 1
+    for i in range(1,n):
+        if nums[i] > t:continue
+        v = nums[i]%2
+        if v == 0:
+            f[i] = 1
+        if v!= nums[i-1]%2 and f[i-1]:
+            f[i] = 1+f[i-1]
+    return max(f)","longestAlternatingSubarray(nums = [3, 2, 5, 4], t = 5)",3,688,[22  6  0]
+93,sample_93,continuousSubarrays,"def continuousSubarrays(A: List[int]) -> int:
+    res = i = 0
+    n = len(A)
+    count = Counter()
+    for j in range(n):
+        count[A[j]] += 1
+        while max(count) - min(count) > 2:
+            count[A[i]] -= 1
+            if count[A[i]] == 0:
+                del count[A[i]]
+            i += 1
+        res += j - i + 1
+    return res","continuousSubarrays(A = [1, 2, 3])",6,675,[24 15  1]
+94,sample_94,continuousSubarrays,"def continuousSubarrays(a: List[int]) -> int:
+    h = Counter()
+    mo = deque([])
+    ans = 0
+    for i in a:
+        mo.append(i)
+        h[i] += 1
+        while h[i-2]+h[i-1]+h[i]+h[i+1]+h[i+2] != len(mo):
+            h[mo.popleft()] -= 1
+        ans += len(mo)
+    return ans","continuousSubarrays(a = [1, 2, 3])",6,788,[24  7  1]
+95,sample_95,continuousSubarrays,"def continuousSubarrays(nums: List[int]) -> int:
+    l, r = 0, 0
+    n = len(nums)
+    cnt = Counter()
+    ans = 0
+    while l < n:
+        while r < n and (len(cnt) == 0 or (nums[r] - min(cnt) <= 2 and max(cnt) - nums[r] <= 2)):
+            cnt[nums[r]] += 1
+            r += 1
+        ans += r - l
+        cnt[nums[l]] -= 1
+        if cnt[nums[l]] == 0: del cnt[nums[l]]
+        l += 1
+    return ans","continuousSubarrays(nums = [1, 2, 3])",6,888,[24  0  1]
+96,sample_96,continuousSubarrays,"def continuousSubarrays(A: List[int]) -> int:
+    count = Counter()
+    ans = i = 0
+    for j, x in enumerate(A):
+        count[x] += 1
+        while len(count) > 3 or max(count) - min(count) > 2:
+            y = A[i]
+            count[y] -= 1
+            if count[y] == 0:
+                del count[y]
+            i += 1
+        ans += j - i +1
+    return ans","continuousSubarrays(A = [1, 2, 3])",6,688,[24  1  1]
+97,sample_97,maximumJumps,"def maximumJumps(nums: List[int], target: int) -> int:
+    dp = [-1]*len(nums)
+    dp[0] = 0
+    for i in range(1,len(nums)):
+        for j in range(i):
+            if dp[j] > -1 and -target <= nums[j]-nums[i] <= target:
+                dp[i] = dp[i] if dp[i] >= dp[j]+1 else dp[j]+1
+    return dp[-1]","maximumJumps(nums = [1, 3, 6, 4, 1, 2], target = 0)",-1,841,[27  5  2]
+98,sample_98,maximumJumps,"def maximumJumps(nums: List[int], target: int) -> int:
+    n = len(nums)
+    dp = [-1]*n
+    dp[0] = 0
+    for i in range(n):
+        if dp[i] == -1:
+            continue
+        for j in range(i+1, n):
+            if abs(nums[i] - nums[j]) <= target:
+                dp[j] = max(dp[j], dp[i]+1)
+    return dp[-1]","maximumJumps(nums = [1, 3, 6, 4, 1, 2], target = 0)",-1,728,[27 14  2]
+99,sample_99,maximumJumps,"def maximumJumps(nums: List[int], target: int) -> int:
+    @cache
+    def dfs(i):
+        if i == len(nums) - 1:
+            return 0
+        r = -1
+        for j in range(i + 1, len(nums)):
+            if abs(nums[j] - nums[i]) <= target:
+                if dfs(j) > -1:
+                    r = max(r, 1 + dfs(j))
+        return r
+    res = dfs(0)
+    dfs.cache_clear()
+    return res","maximumJumps(nums = [1, 3, 6, 4, 1, 2], target = 0)",-1,889,[27  7  2]
+100,sample_100,maximumJumps,"def maximumJumps(nums: List[int], target: int) -> int:
+    n = len(nums)
+    dp = [-1] * n
+    dp[0] = 0
+    for i in range(1, n):
+        for j in range(i):
+            if dp[j] != -1 and abs(nums[j] - nums[i]) <= target:
+                dp[i] = max(dp[i], dp[j] + 1)
+    return dp[n - 1]","maximumJumps(nums = [1, 3, 6, 4, 1, 2], target = 2)",3,996,[27  6  0]
+101,sample_101,maximumJumps,"def maximumJumps(nums: List[int], target: int) -> int:
+    n = len(nums)
+    @cache
+    def dp(idx):
+        if idx == n - 1:
+            return 0
+        res = -1
+        for i in range(idx + 1, n):
+            if abs(nums[i] - nums[idx]) <= target and dp(i) != -1:
+                res = max(res, 1 + dp(i))
+        return res
+    return dp(0)","maximumJumps(nums = [1, 3, 6, 4, 1, 2], target = 0)",-1,878,[27 11  2]
+102,sample_102,maximumJumps,"def maximumJumps(nums: List[int], target: int) -> int:
+    n = len(nums)
+    f = [-1] * n
+    f[0] = 0
+    for i in range(n):
+        if f[i] >= 0:
+            for j in range(i + 1, n):
+                if abs(nums[i] - nums[j]) <= target:
+                    f[j] = max(f[i] + 1, f[j])
+    return f[-1]","maximumJumps(nums = [1, 3, 6, 4, 1, 2], target = 0)",-1,720,[27  0  2]
+103,sample_103,maxNonDecreasingLength,"def maxNonDecreasingLength(nums1: List[int], nums2: List[int]) -> int:
+    a = b = y = 1
+    for i in range(1, len(nums1)):
+        a, b = (
+            max(a + 1 if nums1[i] >= nums1[i - 1] else 1,
+                b + 1 if nums1[i] >= nums2[i - 1] else 1),
+            max(a + 1 if nums2[i] >= nums1[i - 1] else 1,
+                b + 1 if nums2[i] >= nums2[i - 1] else 1),
+        )
+        y = max(y, a, b)
+    return y","maxNonDecreasingLength(nums1 = [2, 3, 1], nums2 = [1, 2, 1])",2,688,[28 16  0]
+104,sample_104,maxNonDecreasingLength,"def maxNonDecreasingLength(a: List[int], b: List[int]) -> int:
+    p1 = p2 = 0
+    l1 = l2 = ans = 0
+    for x, y in zip(a, b):
+        t1 = t2 = 1
+        if x >= p1:
+            t1 = max(t1, l1 + 1)
+        if x >= p2:
+            t1 = max(t1, l2 + 1)
+        if y >= p1:
+            t2 = max(t2, l1 + 1)
+        if y >= p2:
+            t2 = max(t2, l2 + 1)
+        ans = max(ans, t1, t2)
+        p1, p2, l1, l2 = x, y, t1, t2
+    return ans","maxNonDecreasingLength(a = [1, 3, 2, 1], b = [2, 2, 3, 4])",4,841,[28  3  1]
+105,sample_105,checkArray,"def checkArray(nums: List[int], k: int) -> bool:
+    kq = deque()
+    S = 0
+    while nums:
+        while kq and kq[0][0] - k + 1 >= len(nums):
+            r, t = kq.popleft()
+            S -= t
+        nums[-1] -= S
+        if nums[-1] < 0:
+            return False
+        elif nums[-1] > 0:
+            if len(nums) < k:
+                return False
+            kq.append((len(nums) - 1, nums[-1]))
+            S += kq[-1][1]
+        nums.pop()
+    return True","checkArray(nums = [2, 2, 3, 1, 1, 0], k = 3)",True,871,[29  7  0]
+106,sample_106,checkArray,"def checkArray(nums: List[int], k: int) -> bool:
+    n = len(nums)
+    tag = [0] * (n + 1)
+    sh = 0
+    for i in range(n):
+        sh += tag[i]
+        if nums[i] - sh < 0:
+            return False
+        x = nums[i] - sh
+        if x:
+            if i + k > n:
+                return False
+            sh += x
+            tag[i + k] -= x
+    return True","checkArray(nums = [2, 2, 3, 1, 1, 0], k = 3)",True,749,[29  0  0]
+107,sample_107,checkArray,"def checkArray(nums: List[int], k: int) -> bool:
+    queue = deque()
+    for i in range(k):
+        queue.append(nums[i])
+        
+    curr = 0
+    for i in range(k, len(nums)):
+        if curr > queue[0]:
+            return False
+        
+        curr = queue.popleft()
+        queue.append(curr + nums[i])
+    
+    n = len(set(queue))
+    return n == 1","checkArray(nums = [1, 3, 1, 1], k = 2)",False,612,[29  1  1]
+108,sample_108,checkArray,"def checkArray(nums: List[int], k: int) -> bool:
+    a = [0] * (len(nums) + 1)
+    s = 0
+    for i in range(len(nums)):
+        s += a[i]
+        nums[i] -= s
+        if nums[i] < 0:
+            return False
+        if i <= len(nums) - k:
+            s += nums[i]
+            a[i + k] -= nums[i]
+            nums[i] = 0
+    return not any(nums)","checkArray(nums = [2, 2, 3, 1, 1, 0], k = 3)",True,843,[29 15  0]
+109,sample_109,checkArray,"def checkArray(nums: List[int], k: int) -> bool:
+    diff = [0]*(len(nums)+1)
+    curr = 0
+    for i in range(len(nums)):
+        curr += diff[i]
+        if curr > nums[i]:
+            return False
+        if nums[i] > curr:
+            if i+k >= len(nums)+1:
+                return False
+            diff[i+k] -= nums[i]-curr
+            curr = nums[i]
+    return True","checkArray(nums = [2, 2, 3, 1, 1, 0], k = 3)",True,734,[29  5  0]
+110,sample_110,checkArray,"def checkArray(nums: List[int], k: int) -> bool:
+    n = len(nums)
+    
+    end = [0] * (n * 2)
+    cr = 0
+    for i in range(n):
+        cr -= end[i]
+        
+        nums[i] -= cr
+        if nums[i] < 0:
+            return False
+        
+        if i + k <= n:
+            cr += nums[i]
+            end[i + k] = nums[i]
+            nums[i] = 0
+            
+    return max(nums) == 0","checkArray(nums = [2, 2, 3, 1, 1, 0], k = 3)",True,817,[29  4  0]
+111,sample_111,maximumBeauty,"def maximumBeauty(nums: List[int], k: int) -> int:
+    nums.sort()
+    ans = 1
+    n = len(nums)
+    l = 0
+    for r in range(n):
+        while nums[r] - nums[l] > 2 * k:
+            l += 1
+        ans = max(ans, r - l + 1)
+    return ans","maximumBeauty(nums = [4, 6, 1, 2], k = 2)",3,654,[31  3  0]
+112,sample_112,maximumBeauty,"def maximumBeauty(nums: List[int], k: int) -> int:
+    nums.sort()
+    j = 0
+    ans = 0
+    for i in range(len(nums)):
+        while j < len(nums) and nums[j] - nums[i] <= 2 * k:
+            j += 1
+        ans = max(ans, j - i)
+    return ans","maximumBeauty(nums = [4, 6, 1, 2], k = 2)",3,712,[31  7  0]
+113,sample_113,maximumBeauty,"def maximumBeauty(nums: List[int], k: int) -> int:
+    nums.sort()
+    res = 0
+    deq = deque()
+    for n in nums:
+        deq.append(n)
+        while deq[0] < n - 2 * k:
+            deq.popleft()
+        res = max(res, len(deq))
+    return res","maximumBeauty(nums = [1, 1, 1, 1], k = 10)",4,637,[31  6  1]
+114,sample_114,maximumBeauty,"def maximumBeauty(nums: List[int], k: int) -> int:
+    nums.sort()
+    n = len(nums)
+    i0 = 0
+    answer = 1
+    for i in range(1, n):
+        while nums[i]-nums[i0] > 2*k:
+            i0+=1
+        answer = max(answer, i-i0+1)
+    return answer","maximumBeauty(nums = [1, 1, 1, 1], k = 10)",4,609,[31  4  1]
+115,sample_115,maximumBeauty,"def maximumBeauty(nums: List[int], k: int) -> int:
+    nums.sort()
+    q = deque()
+    ans = 0
+    for x in nums:
+        q.append(x)
+        while q[0] < x - k - k:
+            q.popleft()
+        ans = max(ans, len(q))
+    return ans","maximumBeauty(nums = [4, 6, 1, 2], k = 2)",3,654,[31 15  0]
+116,sample_116,maximumBeauty,"def maximumBeauty(nums: List[int], k: int) -> int:
+    nums.sort()
+    n = len(nums)
+    
+    maxres = 0
+    right = 0
+    for left in range(n):
+        while right < n and nums[right] <= nums[left] + 2*k:
+            right += 1
+            maxres = max(maxres, right - left)
+    return maxres","maximumBeauty(nums = [1, 1, 1, 1], k = 10)",4,683,[31 10  1]
+117,sample_117,minimumIndex,"def minimumIndex(nums: List[int]) -> int:
+    counts = Counter(nums)
+    x = max(counts.keys(), key = lambda y: counts[y])
+    
+    curr = 0
+    for i in range(len(nums)):
+        if nums[i] == x:
+            curr += 1
+            counts[x] -= 1
+        
+        left = i + 1
+        right = len(nums) - i - 1
+        
+        if curr * 2 > left and counts[x] * 2 > right:
+            return i
+        
+    return -1","minimumIndex(nums = [1, 2, 2, 2])",2,728,[32  8  0]
+118,sample_118,minimumIndex,"def minimumIndex(nums: List[int]) -> int:
+    x, c = 0, 0
+    for i in nums:
+        if i == x:
+            c += 1
+        else:
+            c -= 1
+            if c < 0:
+                x = i
+                c = 1
+    m = nums.count(x)
+    p = 0
+    for i in range(len(nums)):
+        p += nums[i] == x
+        if p * 2 > i + 1 and (m - p) * 2 > len(nums) - i - 1:
+            return i
+    return -1","minimumIndex(nums = [1, 2, 2, 2])",2,688,[32  7  0]
+119,sample_119,minimumIndex,"def minimumIndex(nums: List[int]) -> int:
+    n = len(nums)
+    cnt = {}
+    for num in nums:
+        cnt[num] = cnt.get(num, 0) + 1
+    mx = 0
+    for num in cnt:
+        if cnt[num] > mx:
+            mx = cnt[num]
+            x = num
+    cx = 0
+    for i in range(n):
+        cx += int(nums[i] == x)
+        if cx * 2 > i + 1 and (cnt[x] - cx) * 2 > (n - i - 1):
+            return i
+    return -1","minimumIndex(nums = [1, 2, 2, 2])",2,712,[32 13  0]
+120,sample_120,minimumIndex,"def minimumIndex(nums: List[int]) -> int:
+    c = Counter(nums)
+    d = max((v, k) for k, v in c.items())[1]
+    n = len(nums)
+    l = 0
+    r = c[d] - (n - c[d])
+    
+    for i, num in enumerate(nums):
+        if num == d:
+            l += 1
+            r -= 1
+        else:
+            l -= 1
+            r += 1
+        if l > 0 and r > 0: return i
+    return -1","minimumIndex(nums = [1, 2, 2, 2])",2,713,[32  5  0]
+121,sample_121,minimumIndex,"from collections import defaultdict
+def minimumIndex(nums: List[int]) -> int:
+    dct = defaultdict(int)
+    for i in nums:
+        dct[i] += 1
+        if dct[i]*2>len(nums):dom = i
+    other = defaultdict(int)
+    upto = 0
+    for i in nums[:-1]:
+        other[i] += 1
+        dct[i] -= 1
+        upto += 1
+        la = len(nums)-upto
+        if other[dom]*2>upto and dct[dom]*2>la:return upto-1
+    return -1","minimumIndex(nums = [1, 2, 2, 2])",2,794,[32 15  0]
+122,sample_122,minimumIndex,"def minimumIndex(nums: List[int]) -> int:
+    n = len(nums) 
+    C = Counter(nums)
+    m = max(C.values()) 
+
+    if n >= m * 2: return -1
+    x = 0
+    for t in C: 
+        if C[t] == m: x = t 
+    print(n,m,x)
+    c = 0 
+    for i,y in enumerate(nums):
+        c += y == x 
+        if c * 2 > i + 1:
+            if (C[x]-c) * 2 > n - (i+1):
+                return i 
+    return -1","minimumIndex(nums = [1, 2, 2, 2])",2,704,[32 11  0]
+123,sample_123,splitWordsBySeparator,"def splitWordsBySeparator(words: List[str], separator: str) -> List[str]:
+    answer = []
+    
+    for w in words:
+        answer.extend([c for c in w.split(separator) if c != ''])
+        
+    return answer","splitWordsBySeparator(words = ['one.two.three', 'four.five', 'six'], separator = '.')","['one', 'two', 'three', 'four', 'five', 'six']",664,[34  2  0]
+124,sample_124,splitWordsBySeparator,"def splitWordsBySeparator(words: List[str], separator: str) -> List[str]:
+    ans = []
+    for i in words:
+        for j in i.split(separator):
+            if j:
+                ans.append(j)
+    return ans","splitWordsBySeparator(words = ['|||'], separator = '|')",[],561,[34 16  2]
+125,sample_125,splitWordsBySeparator,"def splitWordsBySeparator(words: List[str], separator: str) -> List[str]:
+    ans = []
+    for w in words:
+        ans.extend(w.split(separator))
+        
+    return [s for s in ans if s]","splitWordsBySeparator(words = ['|||'], separator = '|')",[],571,[34  1  2]
+126,sample_126,splitWordsBySeparator,"def splitWordsBySeparator(words: List[str], separator: str) -> List[str]:
+    A = separator.join(words).split(separator)
+    return [w for w in A if w]","splitWordsBySeparator(words = ['one.two.three', 'four.five', 'six'], separator = '.')","['one', 'two', 'three', 'four', 'five', 'six']",591,[34 24  0]
+127,sample_127,splitWordsBySeparator,"def splitWordsBySeparator(words: List[str], separator: str) -> List[str]:
+    ans = []
+    for w in words:
+        ans.extend([x for x in w.split(separator) if x])
+    return ans","splitWordsBySeparator(words = ['$easy$', '$problem$'], separator = '$')","['easy', 'problem']",615,[34  7  1]
+128,sample_128,splitWordsBySeparator,"def splitWordsBySeparator(a: List[str], b: str) -> List[str]:
+    res = []
+    for x in a:
+        res.extend(w for w in x.split(b) if w)
+    return res","splitWordsBySeparator(a = ['|||'], b = '|')",[],571,[34  4  2]
+129,sample_129,maxIncreasingGroups,"def maxIncreasingGroups(u: List[int]) -> int:
+    u.sort()
+    n = len(u)
+    j, x = 0, 0
+    for i in range(1, n + 1):
+        while j < n and x + u[j] < i:
+            x += u[j]
+            j += 1
+        if j < n and x + u[j] >= i:
+            x = x + u[j] - i
+            j += 1
+        else:
+            return i - 1
+    return n","maxIncreasingGroups(u = [2, 1, 2])",2,656,[36  3  1]
+130,sample_130,maxIncreasingGroups,"def maxIncreasingGroups(A: List[int]) -> int:
+    A.sort()
+    n = len(A)
+
+    ii = 0
+    pre = 0
+    ceil = inf
+    k = 1
+    while k <= ceil:
+        while ii < n and A[ii] <= k:
+            pre += A[ii]
+            ii += 1
+        total = pre + k * (n - ii)
+
+        a = (total * 2 // k - k - 1) // 2
+        while ((a + 1) + (a + k)) * k // 2 <= total:
+            a += 1
+        ceil = min(ceil, a + k - 1)
+        if k <= ceil:
+            res = k
+        k += 1
+    return res","maxIncreasingGroups(A = [1, 1])",1,759,[36 15  2]
+131,sample_131,maxIncreasingGroups,"def maxIncreasingGroups(x: List[int]) -> int:
+    x.sort()
+    n = len(x)
+    vals = list(accumulate(x))
+    ans = 0
+    for v in vals:
+        if (ans + 1) * (ans + 2) // 2 <= v:
+            ans += 1
+    return ans","maxIncreasingGroups(x = [1, 2, 5])",3,593,[36  5  0]
+132,sample_132,maxIncreasingGroups,"def maxIncreasingGroups(usageLimits: List[int]) -> int:
+    usageLimits.sort(reverse=True)
+    left, right = 1, len(usageLimits)
+    while left < right:
+        m = (left + right + 1) // 2
+        if test(usageLimits, m):
+            left = m
+        else:
+            right = m - 1
+    return left
+
+def test(count: List[int], group: int) -> bool:
+    d = 0
+    for i, x in enumerate(count):
+        y = max(group - i, 0)
+        d = min(d + x - y, 0)
+    return d == 0","maxIncreasingGroups(usageLimits = [2, 1, 2])",2,774,[36 13  1]
+133,sample_133,maxIncreasingGroups,"def maxIncreasingGroups(usageLimits: List[int]) -> int:
+    def f(x):
+        return (x + 1) * (x + 2) // 2
+    
+    usageLimits.sort()
+    prefix = [usageLimits[0]]
+    for i in range(1, len(usageLimits)):
+        prefix.append(prefix[-1] + usageLimits[i])
+        
+    ans = 0
+    
+    for num in prefix:
+        if f(ans) <= num:
+            ans += 1
+            
+    return ans","maxIncreasingGroups(usageLimits = [1, 2, 5])",3,654,[36  1  0]
+134,sample_134,numberOfEmployeesWhoMetTarget,"def numberOfEmployeesWhoMetTarget(hours: List[int], target: int) -> int:
+    
+    return sum(i>=target for i in hours )","numberOfEmployeesWhoMetTarget(hours = [5, 1, 4, 2, 2], target = 6)",0,576,[37  8  1]
+135,sample_135,numberOfEmployeesWhoMetTarget,"def numberOfEmployeesWhoMetTarget(hours: List[int], target: int) -> int:
+    return len([t for t in hours if t >= target])","numberOfEmployeesWhoMetTarget(hours = [5, 1, 4, 2, 2], target = 6)",0,556,[37 10  1]
+136,sample_136,numberOfEmployeesWhoMetTarget,"def numberOfEmployeesWhoMetTarget(hours: List[int], target: int) -> int:
+    
+    return sum(h>=target for h in hours)","numberOfEmployeesWhoMetTarget(hours = [5, 1, 4, 2, 2], target = 6)",0,576,[37  4  1]
+137,sample_137,numberOfEmployeesWhoMetTarget,"def numberOfEmployeesWhoMetTarget(hours: List[int], target: int) -> int:
+    ans = 0
+    for i in hours:
+        if i >= target:
+            ans += 1
+    return ans","numberOfEmployeesWhoMetTarget(hours = [0, 1, 2, 3, 4], target = 2)",3,570,[37  5  0]
+138,sample_138,numberOfEmployeesWhoMetTarget,"def numberOfEmployeesWhoMetTarget(hours: List[int], target: int) -> int:
+    return len([x for x in hours if x >= target])","numberOfEmployeesWhoMetTarget(hours = [0, 1, 2, 3, 4], target = 2)",3,565,[37  1  0]
+139,sample_139,numberOfEmployeesWhoMetTarget,"from typing import *
+
+from math import *
+
+
+
+def numberOfEmployeesWhoMetTarget(hours: List[int], target: int) -> int:
+    return len([i for i in hours if i >= target])","numberOfEmployeesWhoMetTarget(hours = [5, 1, 4, 2, 2], target = 6)",0,566,[37  7  1]
+140,sample_140,countCompleteSubarrays,"def countCompleteSubarrays(nums: List[int]) -> int:
+    m = len(set(nums))
+    n = len(nums)
+    ans = 0
+    for i in range(n):
+        s = set()
+        for j in range(i, n):
+            s.add(nums[j])
+            ans += len(s) == m
+    return ans","countCompleteSubarrays(nums = [5, 5, 5, 5])",10,794,[38  1  1]
+141,sample_141,countCompleteSubarrays,"def countCompleteSubarrays(nums: List[int]) -> int:
+    d = len(set(nums))
+    n = len(nums)
+    ans = 0
+    for i in range(n):
+        s = set()
+        for j in range(i, n):
+            s.add(nums[j])
+            ans += len(s) == d
+    return ans","countCompleteSubarrays(nums = [1, 3, 1, 2, 2])",4,914,[38 10  0]
+142,sample_142,countCompleteSubarrays,"def countCompleteSubarrays(nums: List[int]) -> int:
+    setn = len(set(nums))
+    to_ret = 0
+    for i in range(len(nums)) :
+        set_t = set()
+        for j in range(i, len(nums)) :
+            set_t.add(nums[j])
+            if len(set_t) == setn :
+                to_ret += 1
+    return to_ret","countCompleteSubarrays(nums = [1, 3, 1, 2, 2])",4,900,[38  9  0]
+143,sample_143,countCompleteSubarrays,"def countCompleteSubarrays(nums: List[int]) -> int:
+    n = len(nums)
+    le = len(set(nums))
+    ans = 0
+    for i in range(n):
+        s = set()
+        for j in range(i,n):
+            s.add(nums[j])
+            if len(s) == le:
+                ans += n - j
+                break
+    return ans","countCompleteSubarrays(nums = [5, 5, 5, 5])",10,684,[38  3  1]
+144,sample_144,countCompleteSubarrays,"def countCompleteSubarrays(nums: List[int]) -> int:
+    s = len(set(nums))
+    n = len(nums)
+    ret = 0
+    for i in range(n):
+        a = set()
+        for j in range(i, n):
+            a.add(nums[j])
+            if len(a) == s:
+                ret += n - j
+                break
+    return ret","countCompleteSubarrays(nums = [5, 5, 5, 5])",10,684,[38 14  1]
+145,sample_145,countCompleteSubarrays,"def countCompleteSubarrays(nums: List[int]) -> int:
+    n = len(nums)
+    tot = len(set(nums))
+    ans = 0
+    for i in range(n):
+        s = set()
+        for x in nums[i:]:
+            s.add(x)
+            ans += int(len(s) == tot)
+    return ans","countCompleteSubarrays(nums = [5, 5, 5, 5])",10,798,[38 12  1]
+146,sample_146,finalString,"def finalString(s: str) -> str:
+    stk = []
+    for i in s:
+        if i =='i':
+            stk.reverse()
+        else:
+            stk.append(i)
+    return """".join(stk)",finalString(s = 'poiinter'),'ponter',614,[41  7  1]
+147,sample_147,finalString,"def finalString(s: str) -> str:
+    res = []
+    for x in s: 
+        if x == 'i': 
+            res = res[::-1]
+        else: 
+            res.append(x)
+    return ''.join(res)",finalString(s = 'string'),'rtsng',588,[41 13  0]
+148,sample_148,finalString,"def finalString(s: str) -> str:
+    res = []
+    for c in s:
+        if c == 'i':
+            res = res[::-1]
+        else:
+            res.append(c)
+    return ''.join(res)",finalString(s = 'poiinter'),'ponter',620,[41 16  1]
+149,sample_149,finalString,"from typing import *
+
+from math import *
+
+def finalString(s: str) -> str:
+    a = """"
+    for i in s:
+        if i == 'i':
+            a = a[::-1]
+        else:
+            a += i
+    return a",finalString(s = 'string'),'rtsng',590,[41  2  0]
+150,sample_150,finalString,"def finalString(s: str) -> str:
+    ans = """"
+    for i in s:
+        if i != 'i':
+            ans += i
+        else:
+            ans = ans[::-1]
+    return ans",finalString(s = 'string'),'rtsng',580,[41  1  0]
+151,sample_151,finalString,"def finalString(s: str) -> str:
+    ans = ''
+    for c in s:
+        if c == 'i':
+            ans = ans[::-1]
+        else:
+            ans += c
+    return ans",finalString(s = 'string'),'rtsng',580,[41 10  0]
+152,sample_152,canSplitArray,"def canSplitArray(nums: List[int], m: int) -> bool:
+    n = len(nums)
+    if n <= 2:
+        return True
+    for i in range(1, n):
+        if nums[i - 1] + nums[i] >= m:
+            return True
+    return False","canSplitArray(nums = [2, 1, 3], m = 5)",False,554,[42 17  1]
+153,sample_153,canSplitArray,"def canSplitArray(nums: List[int], m: int) -> bool:
+    sums = [0]
+    for i in nums:
+        sums.append(sums[-1]+i)
+    @lru_cache(None)
+    def dp(i,j):
+        if j-i==1:
+            return True
+        for k in range(i+1,j):
+            if k!=j-1 and sums[j]-sums[k]<m:
+                continue
+            if k!=i+1 and sums[k]-sums[i]<m:
+                continue
+            if dp(i,k) and dp(k,j):return True
+        return False
+    return dp(0,len(nums))","canSplitArray(nums = [2, 1, 3], m = 5)",False,839,[42  7  1]
+154,sample_154,canSplitArray,"def canSplitArray(nums: List[int], m: int) -> bool:
+    if len(nums) <3:
+        return True
+    for i,v in enumerate(nums):
+        if i+1 >= len(nums):
+            continue
+        if v + nums[i+1] >= m:
+            return True
+    return False","canSplitArray(nums = [2, 1, 3], m = 5)",False,584,[42 15  1]
+155,sample_155,canSplitArray,"from typing import *
+
+from math import *
+
+def canSplitArray(nums: List[int], m: int) -> bool:
+    if len(nums) <=2:
+        return True
+    for i in range(len(nums)-1):
+        if sum(nums[i:i+2]) >= m:
+            return True
+    return False","canSplitArray(nums = [2, 1, 3], m = 5)",False,564,[42  2  1]
+156,sample_156,canSplitArray,"def canSplitArray(nums: List[int], m: int) -> bool:
+    n = len(nums)
+    if n <= 2:
+        return True
+    for i in range(n - 1):
+        if nums[i] + nums[i + 1] >= m:
+            return True
+    return False","canSplitArray(nums = [2, 3, 3, 2, 3], m = 6)",True,554,[42 12  2]
+157,sample_157,canSplitArray,"def canSplitArray(nums: List[int], m: int) -> bool:
+    n = len(nums)
+    if n <= 2:
+        return True
+    for i in range(n - 1):
+        if nums[i] + nums[i + 1] >= m:
+            return True
+    return False","canSplitArray(nums = [2, 3, 3, 2, 3], m = 6)",True,554,[42  6  2]
+158,sample_158,maxSum,"def maxSum(nums: List[int]) -> int:
+    n = len(nums)
+    res = -1
+    for i in range(n):
+        for j in range(i + 1, n):
+            if max(list(str(nums[i]))) == max(list(str(nums[j]))):
+                res = max(res, nums[i] + nums[j])
+    return res","maxSum(nums = [1, 2, 3, 4])",-1,713,[43  5  1]
+159,sample_159,maxSum,"def maxSum(nums: List[int]) -> int:
+    
+    ans = -1
+    for i in range(len(nums)):
+        for j in range(i+1,len(nums)):
+            if max(str(nums[i]))==max(str(nums[j])):
+                ans = max(ans,nums[i]+nums[j])
+    return ans","maxSum(nums = [1, 2, 3, 4])",-1,694,[43 15  1]
+160,sample_160,maxSum,"def maxSum(nums: List[int]) -> int:
+    ans = -1
+    d = defaultdict(list)
+    for x in nums:
+        d[max(map(int,str(x)))].append(x)
+    for i in range(10):
+        if len(d[i]) < 2:
+            continue
+        d[i].sort()
+        ans = max(ans, d[i][-1] + d[i][-2])
+    return ans","maxSum(nums = [1, 2, 3, 4])",-1,737,[43 21  1]
+161,sample_161,maxSum,"def maxSum(nums: List[int]) -> int:
+    n = len(nums)
+    ans = -1
+    for i in range(n):
+        for j in range(i + 1, n):
+            if max(str(nums[i])) == max(str(nums[j])):
+                ans = max(ans, nums[i] + nums[j])
+    return ans","maxSum(nums = [1, 2, 3, 4])",-1,689,[43  3  1]
+162,sample_162,maxSum,"def maxSum(nums: List[int]) -> int:
+    dc = defaultdict(list)
+    for v in nums:
+        dc[max([int(c) for c in str(v)])].append(v)
+    res = -1
+    for d in range(10):
+        lst = dc[d]
+        if len(lst) >= 2:
+            res = max(res, sum(sorted(lst)[-2:]))
+    return res","maxSum(nums = [51, 71, 17, 24, 42])",88,921,[43 16  0]
+163,sample_163,maxSum,"def maxSum(nums: List[int]) -> int:
+    ans = -1
+    n = len(nums)
+    for i in range(n):
+        for j in range(i+1, n):
+            if max(w for w in str(nums[i])) == max(w for w in str(nums[j])):
+                cur = nums[i]+nums[j]
+                if cur > ans:
+                    ans = cur
+    return ans","maxSum(nums = [1, 2, 3, 4])",-1,941,[43  2  1]
+164,sample_164,minAbsoluteDifference,"def minAbsoluteDifference(nums: List[int], x: int) -> int:
+    st = []
+    ans = float('inf')
+    for i,c in enumerate(nums):
+        if i>=x:
+            bisect.insort(st,nums[i-x])
+            p = bisect.bisect_left(st,c) 
+            if p>0:
+                ans = min(ans,c-st[p-1])
+            if p<len(st):
+                ans = min(ans,st[p]-c)
+    return ans","minAbsoluteDifference(nums = [1, 2, 3, 4], x = 3)",3,601,[44 11  2]
+165,sample_165,isAcronym,"def isAcronym(words: List[str], s: str) -> bool:
+    t = ''
+    for w in words:
+        t += w[0]
+    return t == s","isAcronym(words = ['alice', 'bob', 'charlie'], s = 'abc')",True,547,[45  7  0]
+166,sample_166,isAcronym,"def isAcronym(words: List[str], s: str) -> bool:
+    
+    return s == """".join([w[0] for w in words])","isAcronym(words = ['an', 'apple'], s = 'a')",False,538,[45  3  1]
+167,sample_167,isAcronym,"def isAcronym(words: List[str], s: str) -> bool:
+    ss = """"
+    for w in words:
+        ss+=w[0]
+    return s == ss","isAcronym(words = ['an', 'apple'], s = 'a')",False,536,[45  9  1]
+168,sample_168,isAcronym,"def isAcronym(words: List[str], s: str) -> bool:
+    res = ''
+    for w in words:
+        res += w[0]
+    
+    return res == s","isAcronym(words = ['an', 'apple'], s = 'a')",False,536,[45 17  1]
+169,sample_169,isAcronym,"def isAcronym(words: List[str], s: str) -> bool:
+    ans = []
+    for w in words:
+        ans.append(w[:1])
+    return s == ''.join(ans)","isAcronym(words = ['alice', 'bob', 'charlie'], s = 'abc')",True,559,[45 15  0]
+170,sample_170,isAcronym,"def isAcronym(words: List[str], s: str) -> bool:
+    t = """"
+    for c in words:
+        t += c[0]
+    return t == s","isAcronym(words = ['an', 'apple'], s = 'a')",False,536,[45 16  1]
+171,sample_171,minimumSum,"def minimumSum(n: int, k: int) -> int:
+    arr = []
+    st = set()
+    now = 1
+    while len(arr) < n:
+        if (k - now) not in st:
+            st.add(now)
+            arr.append(now)
+        
+        now += 1
+    return sum(arr)","minimumSum(n = 2, k = 6)",3,571,[46  7  1]
+172,sample_172,minimumSum,"def minimumSum(n: int, k: int) -> int:
+    ans = []
+    s = 0
+    cur = 1
+    st = set()
+    while len(ans)<n:
+        while k-cur in st:
+            cur+=1
+        ans.append(cur)
+        st.add(cur)
+        s+=cur
+        cur+=1
+    return s","minimumSum(n = 2, k = 6)",3,582,[46  4  1]
+173,sample_173,minimumSum,"def minimumSum(n: int, k: int) -> int:
+    seen = set()
+    x = 0
+    while len(seen) < n:
+        x += 1
+        if k-x not in seen:
+            seen.add(x)
+    
+    return sum(seen)","minimumSum(n = 2, k = 6)",3,556,[46  2  1]
+174,sample_174,minimumSum,"def minimumSum(n: int, k: int) -> int:
+    s = set()
+    current = 1
+    
+    while len(s) < n:
+        if k - current not in s:
+            s.add(current)
+        current += 1
+    return sum(list(s))","minimumSum(n = 2, k = 6)",3,558,[46 16  1]
+175,sample_175,minimumSum,"def minimumSum(n: int, k: int) -> int:
+    a = []
+    i = 1
+    while len(a) < n:
+        ok = True
+        for ai in a:
+            if i + ai == k:
+                ok = False
+        if ok:
+            a.append(i)
+        i += 1
+    return sum(a)","minimumSum(n = 2, k = 6)",3,571,[46  1  1]
+176,sample_176,minimumSum,"def minimumSum(n: int, k: int) -> int:
+    ans = set()
+    i = 1
+    while len(ans) < n:
+        if k - i not in ans:
+            ans.add(i)
+        i += 1
+    return sum(ans)","minimumSum(n = 2, k = 6)",3,556,[46 13  1]
+177,sample_177,maximizeTheProfit,"def maximizeTheProfit(n: int, offers: List[List[int]]) -> int:
+    f = [0] * (n + 1)
+    t = 0
+    for x, y, z in sorted(offers, key=lambda it: it[1]):
+        x += 1
+        y += 1
+        while t < y:
+            f[t + 1] = f[t]
+            t += 1
+        f[y] = max(f[x - 1] + z, f[y])
+
+    return max(f)","maximizeTheProfit(n = 5, offers = [[0, 0, 1], [0, 2, 10], [1, 3, 2]])",10,776,[47 11  1]
+178,sample_178,maximizeTheProfit,"def maximizeTheProfit(n: int, offers: List[List[int]]) -> int:
+    p = [[] for _ in range(n)]
+    for l, r, w in offers:
+        p[r].append((l, w))
+    dp = [0] * n
+    for i in range(n):
+        if i:
+            dp[i] = max(dp[i], dp[i - 1])
+        for l, w in p[i]:
+            dp[i] = max(dp[i], (dp[l - 1] if l else 0) + w)
+    return dp[-1]","maximizeTheProfit(n = 5, offers = [[0, 0, 1], [0, 2, 10], [1, 3, 2]])",10,840,[47  1  1]
+179,sample_179,maximizeTheProfit,"import heapq
+def maximizeTheProfit(n: int, offers: List[List[int]]) -> int:
+    offers.sort()
+    q = []
+    ans = 0
+    for s, e, g in offers:
+        while len(q) > 0 and q[0][0] < s:
+            ans = max(ans, q[0][1])
+            heapq.heappop(q)
+        heapq.heappush(q, (e, ans + g))
+    while len(q) > 0:
+        _, v = heapq.heappop(q)
+        ans = max(ans, v)
+    return ans","maximizeTheProfit(n = 5, offers = [[0, 0, 1], [0, 2, 10], [1, 3, 2]])",10,732,[47 13  1]
+180,sample_180,maximizeTheProfit,"def maximizeTheProfit(n: int, offers: List[List[int]]) -> int:
+    dp = [0] * (n + 1)
+    offers.sort()
+    i = 0
+    for r in range(n + 1):
+        dp[r] = max(dp[r], dp[r - 1])
+        while i < len(offers) and offers[i][0] <= r:
+            dp[offers[i][1] + 1] = max(dp[offers[i][1] + 1], dp[offers[i][0]] + offers[i][2])
+            i += 1
+    return dp[-1]","maximizeTheProfit(n = 5, offers = [[0, 0, 1], [0, 2, 10], [1, 3, 2]])",10,881,[47  9  1]
+181,sample_181,maximizeTheProfit,"def maximizeTheProfit(n: int, offers: List[List[int]]) -> int:
+    
+    dp = [0]*(n+1)
+    offers.sort(key=lambda x:x[1])
+    m = len(offers)
+    po = 0
+    
+    for j in range(n):
+        dp[j]=max(dp[j],dp[j-1])
+        while po<m and offers[po][1]==j:
+            dp[j]=max(dp[j],dp[offers[po][0]-1]+offers[po][2])
+            po+=1
+    return dp[n-1]","maximizeTheProfit(n = 5, offers = [[0, 0, 1], [0, 2, 2], [1, 3, 2]])",3,857,[47  5  0]
+182,sample_182,maximizeTheProfit,"def maximizeTheProfit(N: int, offers: List[List[int]]) -> int:
+    best = [0] * (N + 1)
+    
+    prev = collections.defaultdict(list)
+    
+    for a, b, w in offers:
+        prev[b].append((a - 1, w))
+        
+    for i in range(N):
+        best[i + 1] = max(best[i], best[i + 1])
+        for p, w in prev[i]:
+            best[i + 1] = max(best[i + 1], best[p + 1] + w)
+    # print(best)
+    return best[N]","maximizeTheProfit(N = 5, offers = [[0, 0, 1], [0, 2, 2], [1, 3, 2]])",3,829,[47 15  0]
+183,sample_183,longestEqualSubarray,"def longestEqualSubarray(nums: List[int], k: int) -> int:
+    ans = 0
+    mp = defaultdict(list)
+    for i, x in enumerate(nums):
+        mp[x].append(i)
+    for a in mp.values():
+        m = len(a)
+        j = 0
+        for i in range(m):
+            while a[i] - a[j] - (i - j) > k:
+                j += 1
+            ans = max(ans, i - j + 1)
+    return ans","longestEqualSubarray(nums = [1, 1, 2, 2, 1, 1], k = 2)",4,819,[48 11  1]
+184,sample_184,longestEqualSubarray,"def longestEqualSubarray(nums: List[int], k: int) -> int:
+    n = len(nums)
+    cs = [[] for _ in range(n+1)]
+    for i, c in enumerate(nums):
+        cs[c].append(i)
+    ans = 0
+    for i in range(1, n+1):
+        st = 0
+        m = len(cs[i])
+        for ed in range(m):
+            while st < ed and cs[i][ed]-cs[i][st]+1-(ed-st+1) > k:
+                st += 1
+            ans = max(ans, ed-st+1)
+    return ans","longestEqualSubarray(nums = [1, 3, 2, 3, 1, 3], k = 3)",3,973,[48  4  0]
+185,sample_185,longestEqualSubarray,"def longestEqualSubarray(A: List[int], K: int) -> int:
+    locs = defaultdict(list)
+    for i,x in enumerate(A):
+        locs[x].append(i)
+    
+    ans = 0
+    for row in locs.values():
+        i = 0
+        for j, jx in enumerate(row):
+            while row[j] - row[i] - (j - i) > K:
+                i += 1
+            ans = max(ans, j-i + 1)
+    return ans","longestEqualSubarray(A = [1, 1, 2, 2, 1, 1], K = 2)",4,821,[48  2  1]
+186,sample_186,longestEqualSubarray,"def longestEqualSubarray(nums: List[int], k: int) -> int:
+    
+    n = len(nums)
+    can = n-k
+    
+    table = defaultdict(list)        
+    for j in range(len(nums)):
+        table[nums[j]].append(j)
+    ans = 0    
+    
+    for ke in table:
+        lst = table[ke]
+        n1 = len(lst)
+        l = 0
+        for r in range(n1):
+            while lst[r]-lst[l]>=(r-l+1)+k:
+                l+=1
+            ans = max(ans,r-l+1)
+    return ans","longestEqualSubarray(nums = [1, 3, 2, 3, 1, 3], k = 3)",3,874,[48  5  0]
+187,sample_187,longestEqualSubarray,"def longestEqualSubarray(nums: List[int], k: int) -> int:
+    ans = 0
+    d = defaultdict(list)
+    for i, a in enumerate(nums):
+        d[a].append(i)
+    for l in d.values():
+        cnt = 0
+        j = 0
+        for i in range(len(l)):
+            if i:
+                cnt += l[i] - l[i-1] - 1
+            while cnt > k:
+                cnt -= l[j+1] - l[j] - 1
+                j += 1
+            ans = max(ans, i - j + 1)
+    return ans","longestEqualSubarray(nums = [1, 3, 2, 3, 1, 3], k = 3)",3,840,[48  6  0]
+188,sample_188,furthestDistanceFromOrigin,"def furthestDistanceFromOrigin(moves: str) -> int:
+    left = 0
+    right = 0
+    a = 0
+    ret = 0
+    for c in moves:
+        if c == 'L':
+            left += 1
+        elif c == 'R':
+            right += 1
+        else:
+            a += 1
+    ret = max(ret, abs(left-right)+a)
+    return ret",furthestDistanceFromOrigin(moves = 'L_RL__R'),3,637,[49  7  0]
+189,sample_189,furthestDistanceFromOrigin,"def furthestDistanceFromOrigin(moves: str) -> int:
+    p=0
+    cnt=0
+    for c in moves:
+        if c==""L"":
+            p-=1
+        elif c==""R"":
+            p+=1
+        else:
+            cnt+=1
+    return abs(p)+cnt",furthestDistanceFromOrigin(moves = 'L_RL__R'),3,623,[49 12  0]
+190,sample_190,furthestDistanceFromOrigin,"def furthestDistanceFromOrigin(moves: str) -> int:
+    s = 0
+    bal = 0
+    for i in moves:
+        if i == 'L':
+            bal -= 1
+        if i == 'R':
+            bal += 1
+        if i == '_':
+            s += 1
+        
+    return abs(bal) + s",furthestDistanceFromOrigin(moves = '_______'),7,668,[49  2  2]
+191,sample_191,furthestDistanceFromOrigin,"from collections import Counter
+
+def furthestDistanceFromOrigin(moves: str) -> int:
+    ctr = Counter(moves)
+    return abs(ctr['L'] - ctr['R']) + ctr['_']",furthestDistanceFromOrigin(moves = '_______'),7,602,[49 10  2]
+192,sample_192,furthestDistanceFromOrigin,"def furthestDistanceFromOrigin(moves: str) -> int:
+    a, b, c = 0, 0, 0
+    a = moves.count('L')
+    b = moves.count('R')
+    c = moves.count('_')
+    return max([a + c - b, b + c - a])",furthestDistanceFromOrigin(moves = '_______'),7,522,[49 16  2]
+193,sample_193,furthestDistanceFromOrigin,"def furthestDistanceFromOrigin(moves: str) -> int:
+    ret = moves.count('_')
+    diff = abs(moves.count('L') - moves.count('R'))
+    return ret + diff",furthestDistanceFromOrigin(moves = 'L_RL__R'),3,507,[49  5  0]
+194,sample_194,minimumPossibleSum,"def minimumPossibleSum(n: int, target: int) -> int:
+    k = target // 2
+    m = min(k, n)
+    ans = (1 + m) * m // 2
+    t = n - m
+    ans += (target + target + t - 1) * t // 2
+    return ans","minimumPossibleSum(n = 1, target = 1)",1,528,[50  6  2]
+195,sample_195,minimumPossibleSum,"def minimumPossibleSum(n: int, target: int) -> int:
+    a = []
+    i = 1
+    while len(a) < n and i <= target//2:
+        a.append(i)
+        i += 1
+    i = target
+    while len(a) < n:
+        a.append(i)
+        i += 1
+    return sum(a)","minimumPossibleSum(n = 1, target = 1)",1,538,[50  8  2]
+196,sample_196,minimumPossibleSum,"def minimumPossibleSum(n: int, target: int) -> int:
+    if target in [1, 2] :
+        return (1+n) * n // 2
+    if n - 1 + n < target : 
+        return (1+n) * n // 2
+    
+    not_used = list(range(target//2+1, target))
+    l = n + len(not_used)
+    to_ret = (1+l) * l // 2
+    to_ret -= (not_used[0] + not_used[-1]) * len(not_used) // 2
+    return to_ret","minimumPossibleSum(n = 2, target = 3)",4,547,[50  3  0]
+197,sample_197,minimumPossibleSum,"def minimumPossibleSum(n: int, target: int) -> int:
+    i = 1
+    arr = {1}
+    while len(arr) < n:
+        i += 1
+        if target - i not in arr:
+            arr.add(i)
+    return sum(arr)","minimumPossibleSum(n = 1, target = 1)",1,504,[50 16  2]
+198,sample_198,minimumPossibleSum,"def minimumPossibleSum(n: int, target: int) -> int:
+    arr = []
+    for i in range(1, target // 2 + 1):
+        arr.append(i)
+        if len(arr) == n:
+            return sum(arr)
+    
+    counter = target
+    while len(arr) < n:
+        arr.append(counter)
+        counter += 1
+    
+    return sum(arr)","minimumPossibleSum(n = 3, target = 3)",8,568,[50  4  1]
+199,sample_199,minimumPossibleSum,"def minimumPossibleSum(n: int, target: int) -> int:
+    curr_sum = 0
+    banned = set()
+    for x in range(1,2*10**5 + 10):
+        if x not in banned:
+            curr_sum += x
+            n -= 1
+            banned.add(target-x)
+        if n == 0:
+            break
+    return curr_sum","minimumPossibleSum(n = 1, target = 1)",1,534,[50 15  2]
+200,sample_200,minOperations,"def minOperations(nums: List[int], target: int) -> int:
+    if sum(nums) < target:
+        return -1
+    ans = 0
+    while True:
+        mn = None
+        y = target
+        nums.sort(reverse=True)
+        for x in nums:
+            if y >= x:
+                y -= x
+            elif mn is None or mn > x:
+                mn = x
+        if y == 0:
+            return ans
+        ans += 1
+        nums.remove(mn)
+        nums.append(mn // 2)
+        nums.append(mn // 2)","minOperations(nums = [1, 32, 1], target = 35)",-1,512,[51  0  2]
+201,sample_201,minOperations,"def minOperations(nums: List[int], target: int) -> int:
+    if sum(nums)<target:return -1
+    cnt=[0]*32
+    for a in nums:
+        l=a.bit_length()-1
+        cnt[l]+=1
+    ans=0
+    for k in range(31):
+        if target>>k&1:
+            i=k
+            while cnt[i]==0:i+=1
+            while i>k:
+                cnt[i]-=1
+                cnt[i-1]+=2
+                ans+=1
+                i-=1
+            cnt[k]-=1
+        cnt[k+1]+=cnt[k]//2
+    return ans","minOperations(nums = [1, 32, 1], target = 35)",-1,511,[51 11  2]
+202,sample_202,minimumOperations,"def minimumOperations(num: str) -> int:
+    n = len(num)
+    ans = n - num.count(""0"")
+    
+    a = [""00"", ""25"", ""75"", ""50""]
+    
+    for x in a:
+        
+        i = 1
+        j = n-1
+        while j >= 0 and i >= 0:
+            if j >= 0 and num[j] == x[i]:
+                i -= 1
+                j -= 1
+            else:
+                j -= 1
+        if i >= 0: continue
+        ans = min(ans, n - (j+3))
+    return ans",minimumOperations(num = '10'),1,830,[54 15  2]
+203,sample_203,minimumOperations,"def minimumOperations(num: str) -> int:
+    ends = ['00', '25', '50', '75']
+    
+    num = '00'+num
+    
+    ans = len(num)-2
+    n = len(num)
+    
+    for e in ends:
+        u, v = e[0], e[1]
+        
+        idx1 = n-1
+        while idx1 > 0 and num[idx1] != v:
+            idx1 -= 1
+        idx2 = idx1-1
+        while idx2 > 0 and num[idx2] != u:
+            idx2 -= 1
+        if idx1 > 0 and idx2 > 0:
+            ans = min(ans, n-2-idx2)
+        
+    return ans",minimumOperations(num = '10'),1,854,[54 12  2]
+204,sample_204,minimumOperations,"def minimumOperations(s: str) -> int:
+    # 删空
+    ans = len(s)
+    # 留 1
+    if s.count('0'):
+        ans = len(s) - 1
+    st = {'00', '25', '50', '75'}
+    for i, x in enumerate(s):
+        for y in s[i + 1:]:
+            # 00 25 50 75
+            if x + y in st:
+                ans = min(ans, len(s) - i - 2)
+    return ans",minimumOperations(s = '10'),1,557,[54  6  2]
+205,sample_205,minimumOperations,"def minimumOperations(num: str) -> int:
+    ans = len(num) - 1 if ""0"" in num else len(num)
+    modes = [""00"", ""25"", ""50"", ""75""]
+    for mode in modes:
+        i, j = len(num) - 1, len(mode) - 1
+        cur = 0
+        while i >= 0:
+            if num[i] == mode[j]:
+                i -= 1
+                j -= 1
+                if j == -1:
+                    ans = min(ans, cur)
+                    break
+            else:
+                i -= 1
+                cur += 1
+    return ans",minimumOperations(num = '10'),1,817,[54 19  2]
+206,sample_206,minimumOperations,"def minimumOperations(num: str) -> int:
+    l = [list(x) for x in ['00', '25', '50', '75']]
+    
+    for i, c in enumerate(('00'+num)[::-1]):
+        for x in l:
+            if c == x[-1]:
+                x.pop()
+            if not x:
+                return i-1",minimumOperations(num = '2908305'),3,843,[54 10  1]
+207,sample_207,minimumOperations,"def minimumOperations(num: str) -> int:
+    min_ops = len(num)
+    for rem in map(list, ('00', '25', '50', '75')):
+        copy = list(num)
+        ops = 0
+        while copy and copy[-1] != rem[-1]:
+            copy.pop(-1)
+            ops += 1
+        while len(copy) >= 2 and copy[-2] != rem[-2]:
+            copy.pop(-2)
+            ops += 1
+        if copy[-2:] == rem:
+            min_ops = min(min_ops, ops)
+    if '0' in num:
+        min_ops = min(min_ops, len(num) - 1)
+    return min_ops",minimumOperations(num = '10'),1,795,[54  2  2]
+208,sample_208,countInterestingSubarrays,"def countInterestingSubarrays(nums: List[int], modulo: int, k: int) -> int:
+    n = len(nums)
+    h = []
+    for i in nums:
+        if i % modulo == k:
+            h.append(1)
+        else:
+            h.append(0)
+    d = defaultdict(int)
+    d[0] = 1
+    s = 0
+    ans = 0
+    for i in h:
+        s += i
+        s %= modulo
+        ans += d[(s - k) % modulo]
+        d[s] += 1
+    return ans","countInterestingSubarrays(nums = [3, 1, 9, 6], modulo = 3, k = 0)",2,743,[55  9  1]
+209,sample_209,countInterestingSubarrays,"from collections import Counter
+
+def countInterestingSubarrays(nums: List[int], modulo: int, k: int) -> int:
+    n = len(nums)
+    cnt = Counter()
+    cnt[0] = 1
+    ans = 0
+    s = 0
+    for a in nums:
+        s += a%modulo == k
+        s %= modulo
+        ans += cnt[(s-k)%modulo]
+        cnt[s] += 1
+    return ans","countInterestingSubarrays(nums = [3, 1, 9, 6], modulo = 3, k = 0)",2,771,[55  0  1]
+210,sample_210,countInterestingSubarrays,"def countInterestingSubarrays(nums: List[int], m: int, k: int) -> int:
+    n = len(nums)
+    for i in range(n):
+        nums[i] = 1 if (nums[i] % m) == k else 0
+    res = 0
+    h = Counter()
+    h[0] = 1
+    s = 0
+    # (s - x + m) % m = k
+    for i in nums:
+        s = (s + i) % m
+        x = (s - k + m) % m
+        if x < 0:
+            x += m
+        res += h[x]
+        h[s] += 1
+    return res","countInterestingSubarrays(nums = [3, 2, 4], m = 2, k = 1)",3,749,[55  3  0]
+211,sample_211,countInterestingSubarrays,"def countInterestingSubarrays(nums: List[int], modulo: int, k: int) -> int:
+    cnt = {}
+    s = 0
+    cnt[0]=1
+    ans = 0
+    for c in nums:
+        if c%modulo==k:
+            s+=1
+            s%=modulo
+        ns = s-k
+        if ns<0:
+            ns+=modulo
+        if ns in cnt:
+            ans+=cnt[ns]
+        if s not in cnt:
+            cnt[s]=0
+        cnt[s]+=1
+    return ans","countInterestingSubarrays(nums = [3, 1, 9, 6], modulo = 3, k = 0)",2,739,[55  4  1]
+212,sample_212,countInterestingSubarrays,"def countInterestingSubarrays(nums: List[int], m: int, k: int) -> int:
+    n = len(nums)
+    a = [0 for _ in range(n + 1)]
+    def zero():
+        return 0
+    
+    for i in range(n):
+        if nums[i] % m == k:
+            a[i + 1] = 1
+    
+    for i in range(1, n + 1):
+        a[i] += a[i - 1] 
+        
+    cnt_m = collections.defaultdict(zero)
+    ans = 0
+    for i in range(n + 1):
+        ans += cnt_m[(a[i] - k + m) % m]
+        cnt_m[a[i] % m] += 1
+    return ans","countInterestingSubarrays(nums = [3, 1, 9, 6], m = 3, k = 0)",2,913,[55 13  1]
+213,sample_213,countInterestingSubarrays,"def countInterestingSubarrays(nums: List[int], m: int, k: int) -> int:
+    cnt=0
+    ans=0
+    last=-1
+    c=Counter([0])
+    for x in nums:
+        if x%m==k:
+            cnt+=1
+        ans+=c[(cnt-k)%m]
+
+        
+        c[cnt%m]+=1
+
+        
+            # last=i
+        
+        
+    return ans","countInterestingSubarrays(nums = [3, 2, 4], m = 2, k = 1)",3,688,[55 22  0]
+214,sample_214,numberOfPoints,"def numberOfPoints(nums: List[List[int]]) -> int:
+    mark = [0] * 200
+    for s,t in nums:
+        for i in range(s, t+1):
+            mark[i] = 1
+    return sum(mark)","numberOfPoints(nums = [[3, 6], [1, 5], [4, 7]])",7,710,[56 17  0]
+215,sample_215,numberOfPoints,"def numberOfPoints(nums: List[List[int]]) -> int:
+    cnt = [0] * (101)
+    for l,r in nums:
+        for j in range(l, r + 1):
+            cnt[j] = 1
+    return sum(cnt)","numberOfPoints(nums = [[1, 3], [5, 8]])",7,638,[56  7  1]
+216,sample_216,numberOfPoints,"def numberOfPoints(nums: List[List[int]]) -> int:
+    s = set()
+    for l, r in nums:
+        s |= set(range(l, r + 1))
+        
+    return (len(s))","numberOfPoints(nums = [[3, 6], [1, 5], [4, 7]])",7,600,[56  0  0]
+217,sample_217,numberOfPoints,"def numberOfPoints(nums: List[List[int]]) -> int:
+    dp=[0]*105
+    for l,r in nums:
+        for i in range(l,r+1):dp[i]=1
+    return sum(dp)","numberOfPoints(nums = [[1, 3], [5, 8]])",7,631,[56 14  1]
+218,sample_218,numberOfPoints,"def numberOfPoints(nums: List[List[int]]) -> int:
+    c = set()
+    for start, end in nums:
+        for i in range(start, end + 1):
+            c.add(i)
+    return len(c)","numberOfPoints(nums = [[1, 3], [5, 8]])",7,643,[56  8  1]
+219,sample_219,numberOfPoints,"def numberOfPoints(nums: List[List[int]]) -> int:
+    s = set()
+    for u, v in nums:
+        for i in range(u, v + 1):
+            s.add(i)
+    return len(s)","numberOfPoints(nums = [[3, 6], [1, 5], [4, 7]])",7,721,[56 11  0]
+220,sample_220,sumIndicesWithKSetBits,"def sumIndicesWithKSetBits(nums: List[int], k: int) -> int:
+    s = 0
+    for i, v in enumerate(nums):
+        if bin(i).count('1') == k: s += v
+    return s","sumIndicesWithKSetBits(nums = [4, 3, 2, 1], k = 2)",1,579,[58  9  1]
+221,sample_221,sumIndicesWithKSetBits,"def sumIndicesWithKSetBits(nums: List[int], k: int) -> int:
+    ret = 0
+    for i, x in enumerate(nums):
+        if bin(i).count('1') == k:
+            ret += x
+    return ret","sumIndicesWithKSetBits(nums = [5, 10, 1, 5, 2], k = 1)",13,607,[58 12  0]
+222,sample_222,sumIndicesWithKSetBits,"def sumIndicesWithKSetBits(nums: List[int], k: int) -> int:
+    return sum(nums[i] for i in range(len(nums)) if bin(i).count('1') == k)","sumIndicesWithKSetBits(nums = [5, 10, 1, 5, 2], k = 1)",13,610,[58 15  0]
+223,sample_223,sumIndicesWithKSetBits,"def sumIndicesWithKSetBits(nums: List[int], k: int) -> int:
+    return sum(x for i, x in enumerate(nums) if bin(i).count('1') == k)","sumIndicesWithKSetBits(nums = [5, 10, 1, 5, 2], k = 1)",13,611,[58  7  0]
+224,sample_224,sumIndicesWithKSetBits,"def sumIndicesWithKSetBits(nums: List[int], k: int) -> int:
+    r = 0
+    for i, n in enumerate(nums):
+        s = bin(i)[2:]
+        if s.count('1') == k:
+            r += n
+    return r","sumIndicesWithKSetBits(nums = [5, 10, 1, 5, 2], k = 1)",13,642,[58  4  0]
+225,sample_225,sumIndicesWithKSetBits,"def sumIndicesWithKSetBits(nums: List[int], k: int) -> int:
+    ans = 0
+    n = len(nums)
+    for i in  range(n):
+        if bin(i).count(""1"") == k:
+            ans += nums[i]
+    return ans","sumIndicesWithKSetBits(nums = [5, 10, 1, 5, 2], k = 1)",13,608,[58  5  0]
+226,sample_226,countWays,"def countWays(nums: List[int]) -> int:
+    n = len(nums)
+    nums.sort()
+    c = 0
+    for g in range(n+1):
+        l = (g == 0) or g > nums[g-1]
+        r = (g == n) or g < nums[g]
+        c += l and r
+    return int(c)","countWays(nums = [6, 0, 3, 3, 6, 7, 2, 7])",3,824,[59 11  1]
+227,sample_227,countWays,"def countWays(nums: List[int]) -> int:
+    nums.append(-0x3f3f3f3f)
+    nums.append(0x3f3f3f3f)
+    nums.sort()
+    ans = 0
+    for i in range(len(nums) - 1):
+        if i > nums[i] and i < nums[i + 1]:
+            ans += 1
+    return ans","countWays(nums = [6, 0, 3, 3, 6, 7, 2, 7])",3,673,[59  7  1]
+228,sample_228,countWays,"def countWays(nums: List[int]) -> int:
+    nums.sort()
+    
+    res = 1  # select all
+    
+    if nums.count(0) == 0:  # select none
+        res += 1
+    
+    for i,(x,y) in enumerate(zip(nums, nums[1:]), start=1):
+        if x < i < y:
+            # print(x,i,y)
+            res += 1
+            
+    # print()
+    
+    return res","countWays(nums = [6, 0, 3, 3, 6, 7, 2, 7])",3,662,[59 16  1]
+229,sample_229,countWays,"def countWays(nums: List[int]) -> int:
+    nums.sort()
+    n = len(nums)
+    ans = 0
+    for i in range(n + 1):
+        if i and nums[i-1] >= i: continue
+        if i < n and nums[i] <= i: continue
+        ans += 1
+    return ans","countWays(nums = [6, 0, 3, 3, 6, 7, 2, 7])",3,704,[59  0  1]
+230,sample_230,countWays,"def countWays(nums: List[int]) -> int:
+    nums.sort(reverse=True)
+    n = len(nums)
+    ans = 0
+    # 都选
+    ans += n > nums[0]
+    
+    # 都不选
+    ans += 0 < nums[-1]
+    
+    for i in range(n - 1):
+        # 前面都不选，后面都选
+        v = n - 1 - i
+        ans += v < nums[i] and v > nums[i + 1]
+    
+    return ans","countWays(nums = [1, 1])",2,565,[59 15  0]
+231,sample_231,countWays,"def countWays(nums: List[int]) -> int:
+    nums.sort()
+    ans = 1
+    if nums[0] != 0:
+        ans += 1
+    for i in range(1, len(nums)):
+        if nums[i-1] < i and nums[i] > i:
+            ans += 1
+    return ans","countWays(nums = [1, 1])",2,544,[59  4  0]
+232,sample_232,maximumOddBinaryNumber,"def maximumOddBinaryNumber(s: str) -> str:
+    a = s.count('1')
+    b = s.count('0')
+    
+    res = '1'*(a-1) + '0'*(b) + '1'
+    return res",maximumOddBinaryNumber(s = '010'),'001',511,[61  8  0]
+233,sample_233,maximumOddBinaryNumber,"def maximumOddBinaryNumber(s: str) -> str:
+    c = 0
+    for x in s:
+        if x == '1':
+            c += 1
+    n = len(s)
+    return (c-1)*'1'+(n-c)*'0'+'1'",maximumOddBinaryNumber(s = '010'),'001',540,[61  9  0]
+234,sample_234,maximumOddBinaryNumber,"def maximumOddBinaryNumber(s: str) -> str:
+    n = len(s)
+    num_1s = s.count('1')
+    st = '1' * (num_1s - 1)
+    st += '0' * (n - num_1s)
+    st += '1'
+    return st",maximumOddBinaryNumber(s = '0101'),'1001',518,[61 11  1]
+235,sample_235,maximumOddBinaryNumber,"def maximumOddBinaryNumber(s: str) -> str:
+    return '1' * (s.count('1') - 1) + '0' * s.count('0') + '1'",maximumOddBinaryNumber(s = '010'),'001',502,[61  3  0]
+236,sample_236,maximumOddBinaryNumber,"def maximumOddBinaryNumber(s: str) -> str:
+    o = -1
+    m = 0
+    for c in s:
+        if c == '1':
+            o += 1
+        else:
+            m += 1
+    
+    return '1' * o + '0' * m + '1'",maximumOddBinaryNumber(s = '010'),'001',546,[61  2  0]
+237,sample_237,maximumOddBinaryNumber,"def maximumOddBinaryNumber(s: str) -> str:
+    o = s.count('1')
+    z = len(s)-o
+    return '1'*(o-1)+'0'*z+'1'",maximumOddBinaryNumber(s = '010'),'001',509,[61 15  0]
+238,sample_238,maximumTripletValue,"def maximumTripletValue(nums: List[int]) -> int:
+    n =len(nums)
+    ans = 0
+    for i in range(n):
+        for j in range(i + 1, n):
+            for k in range(j + 1, n):
+                ans = max(ans, (nums[i] - nums[j]) * nums[k])
+
+    return ans","maximumTripletValue(nums = [1, 2, 3])",0,615,[63  8  2]
+239,sample_239,maximumTripletValue,"def maximumTripletValue(nums: List[int]) -> int:
+    ans = 0
+    n = len(nums)
+    for i in range(n):
+        for j in range(i + 1, n):
+            for k in range(j + 1, n):
+                ans = max(ans, (nums[i] - nums[j]) * nums[k])
+    return ans","maximumTripletValue(nums = [1, 2, 3])",0,615,[63  3  2]
+240,sample_240,maximumTripletValue,"def maximumTripletValue(nums: List[int]) -> int:
+  maxNum = max(nums[0], nums[1])
+  maxDiff = nums[0] - nums[1]
+  maxTriplet = 0
+  
+  for num in islice(nums, 2, len(nums)):
+    maxTriplet = max(maxTriplet, maxDiff * num)
+    
+    maxDiff = max(maxDiff, maxNum - num)
+    
+    maxNum = max(maxNum, num)
+  
+  return maxTriplet","maximumTripletValue(nums = [1, 2, 3])",0,561,[63  9  2]
+241,sample_241,maximumTripletValue,"def maximumTripletValue(nums: List[int]) -> int:
+    ans = 0
+    x = 0 # max(ai - aj)
+    mx = 0
+    for y in nums:
+        ans = max(ans, x * y)
+        x = max(x, mx - y)
+        mx = max(mx, y)
+    return ans","maximumTripletValue(nums = [1, 2, 3])",0,594,[63  6  2]
+242,sample_242,maximumTripletValue,"def maximumTripletValue(nums: List[int]) -> int:
+    maxres = 0
+    for i,x in enumerate(nums):
+        for j,y in enumerate(nums[i+1:], start=i+1):
+            for k,z in enumerate(nums[j+1:], start=j+1):
+                val = (nums[i] - nums[j]) * nums[k]
+                maxres = max(maxres, val)
+    return maxres","maximumTripletValue(nums = [1, 2, 3])",0,669,[63 13  2]
+243,sample_243,maximumTripletValue,"def maximumTripletValue(nums: List[int]) -> int:
+    res = 0
+    m = max(nums[0], nums[1])
+    c = max(0, nums[0] - nums[1])
+    for i in range(2, len(nums)):
+        res = max(res, nums[i] * c)
+        c = max(c, m - nums[i])
+        m = max(m, nums[i])
+    return res","maximumTripletValue(nums = [1, 2, 3])",0,569,[63  2  2]
+244,sample_244,differenceOfSums,"def differenceOfSums(n: int, m: int) -> int:
+    return sum(x for x in range(1, n + 1) if x % m) - sum(x for x in range(1, n + 1) if x % m == 0)","differenceOfSums(n = 5, m = 1)",-15,642,[65 10  2]
+245,sample_245,differenceOfSums,"def differenceOfSums(n: int, m: int) -> int:
+    return sum(i for i in range(1, n + 1) if i % m != 0) - sum(i for i in range(1, n + 1) if i % m == 0)","differenceOfSums(n = 5, m = 1)",-15,652,[65 15  2]
+246,sample_246,differenceOfSums,"def differenceOfSums(n: int, m: int) -> int:
+    return sum(i for i in range(1, n+1) if i % m != 0) - sum(i for i in range(1, n+1) if i % m == 0)","differenceOfSums(n = 5, m = 1)",-15,652,[65  2  2]
+247,sample_247,minOperations,"def minOperations(s1: str, s2: str, x: int) -> int:
+    n = len(s1)
+    idx = [i for i in range(n) if s1[i] != s2[i]]
+    if len(idx) % 2 != 0: return -1
+    dp0, dp1 = 0, 0
+    for i in range(1, len(idx)):
+        dp0, dp1 = dp1, min(dp1, dp0 + (idx[i] - idx[i-1] - x))
+    return len(idx) // 2 * x + dp1","minOperations(s1 = '10110', s2 = '00011', x = 4)",-1,587,[67  2  1]
+248,sample_248,minOperations,"def minOperations(s1: str, s2: str, x: int) -> int:
+    if (s1.count('1') + s2.count('1')) % 2 == 1:
+        return -1
+    
+    mask = [i for i, (x, y) in enumerate(zip(s1, s2)) if x != y]
+    
+    @lru_cache
+    def dp(down):
+        if not down:
+            return 0
+        if len(down) == 1:
+            return x
+        
+        return min(2 * (down[1] - down[0]) + dp(tuple(down[2:])), x + dp(tuple(down[1:])))
+        
+    # print(mask, dp(tuple(mask)))
+    return dp(tuple(mask)) // 2","minOperations(s1 = '10110', s2 = '00011', x = 4)",-1,505,[67 10  1]
+249,sample_249,shortestBeautifulSubstring,"def shortestBeautifulSubstring(s: str, k: int) -> str:
+    ans = None
+    n = len(s)
+    for i in range(n):
+        for j in range(i, n):
+            t = s[i:j+1]
+            if t.count('1') == k and (ans is None or len(t) < len(ans) or (len(t) == len(ans) and t < ans)):
+                ans = t
+    return """" if ans is None else ans","shortestBeautifulSubstring(s = '1011', k = 2)",'11',802,[69 14  1]
+250,sample_250,shortestBeautifulSubstring,"def shortestBeautifulSubstring(s: str, k: int) -> str:
+    n = len(s)
+    ans = []
+    for i in range(n):
+        cnt = 0
+        min_j = -1
+        for j in range(i, n):
+            if s[j] == '1':
+                cnt += 1
+            if cnt == k:
+                min_j = j
+                break
+        if min_j > -1:
+            ans.append((min_j - i + 1, s[i:min_j + 1]))
+    ans.sort()
+    if ans:
+        return ans[0][1]
+    else:
+        return ''","shortestBeautifulSubstring(s = '1011', k = 2)",'11',837,[69  5  1]
+251,sample_251,shortestBeautifulSubstring,"def shortestBeautifulSubstring(s: str, k: int) -> str:
+    N = len(s)
+    min_len = inf
+    ans = 'z' * 101
+
+    for right in range(N + 1):
+        for left in range(right):
+            ss = s[left:right]
+            if ss.count('1') == k:
+                if len(ss) < min_len or (len(ss) == min_len and ss < ans):
+                    min_len = len(ss)
+                    ans = ss
+
+    return """" if min_len == inf else ans","shortestBeautifulSubstring(s = '1011', k = 2)",'11',799,[69  2  1]
+252,sample_252,shortestBeautifulSubstring,"def shortestBeautifulSubstring(s: str, k: int) -> str:
+    beauty = """"
+    n = len(s)
+    min_len = None
+    for ln in range(k, n+1):
+        for i in range(n-ln+1):
+            ss = s[i:i+ln]
+            if len([c for c in ss if c == '1']) == k:
+                min_len = ln
+                if not beauty or ss < beauty:
+                    beauty = ss
+        if min_len:
+            break
+    return beauty","shortestBeautifulSubstring(s = '1011', k = 2)",'11',682,[69 16  1]
+253,sample_253,shortestBeautifulSubstring,"def shortestBeautifulSubstring(s: str, k: int) -> str:
+    n = len(s)
+    res = (float('inf'), """")
+    for i in range(n):
+        ctr = 0
+        for j in range(i, n):
+            ctr += int(s[j])
+            if ctr == k:
+                res = min(res, (j - i + 1, s[i : j + 1]))
+    return res[1]","shortestBeautifulSubstring(s = '1011', k = 2)",'11',791,[69  8  1]
+254,sample_254,shortestBeautifulSubstring,"def shortestBeautifulSubstring(s: str, k: int) -> str:
+    n = len(s)
+    ones = []
+    for i in range(n):
+        if s[i]=='1':
+            ones.append(i)
+    if len(ones) < k:
+        return ''
+    answer = [float('inf'), ''.join(['1' for i in range(n+1)])]
+    for i in range(k-1, len(ones)):
+        i1 = ones[i-k+1]
+        i2 = ones[i]
+        answer =  min(answer, [i2-i1, s[i1:i2+1]])
+    return answer[1]","shortestBeautifulSubstring(s = '000', k = 1)",'',539,[69  3  2]
+255,sample_255,minimumSum,"def minimumSum(nums: List[int]) -> int:
+    n = len(nums)
+    ans = math.inf
+    for i in range(n):
+        for j in range(i+1,n):
+            for k in range(j+1,n):
+                if nums[i] < nums[j] and nums[k] < nums[j]:
+                    ans = min(ans,nums[i]+nums[j]+nums[k])
+    return ans if ans!=math.inf else -1","minimumSum(nums = [8, 6, 1, 5, 3])",9,863,[71  6  0]
+256,sample_256,minimumSum,"def minimumSum(nums: List[int]) -> int:
+    p = list(accumulate(nums, min))
+    s = list(accumulate(nums[::-1], min))[::-1]
+    m = inf
+    for i in range(1, len(nums)-1):
+        if p[i-1] < nums[i] and s[i+1] < nums[i]:
+            m = min(m, p[i-1] + nums[i] + s[i+1])
+    return -1 if m == inf else m","minimumSum(nums = [8, 6, 1, 5, 3])",9,620,[71  5  0]
+257,sample_257,minimumSum,"def minimumSum(nums: List[int]) -> int:
+    left, right, ans = [inf], [inf], inf
+    for num in nums:
+        left.append(min(left[-1], num))
+    for num in nums[::-1]:
+        right.append(min(right[-1], num))
+    right.reverse()
+    for i, num in enumerate(nums):
+        if left[i] < num and right[i + 1] < num:
+            ans = min(ans, num + left[i] + right[i + 1])
+    return ans if ans < inf else -1","minimumSum(nums = [6, 5, 4, 3, 4, 5])",-1,810,[71 13  2]
+258,sample_258,minimumSum,"def minimumSum(nums: List[int]) -> int:
+    n = len(nums)
+    ans = inf
+    for i in range(n):
+        for j in range(i + 1, n):
+            for k in range(j + 1, n):
+                if nums[j] > max(nums[i], nums[k]):
+                    ans = min(ans, nums[i] + nums[j] + nums[k])
+    return ans if ans < inf else -1","minimumSum(nums = [8, 6, 1, 5, 3])",9,903,[71  1  0]
+259,sample_259,minimumSum,"def minimumSum(nums: List[int]) -> int:
+    
+    n = len(nums)
+    A = deque()
+    rmin = math.inf
+    for i in range(n-1,-1,-1):
+        A.appendleft(rmin)
+        rmin = min(rmin,nums[i])
+    lmin = nums[0]
+    ans = math.inf
+    for i in range(1,n-1):
+        if lmin < nums[i] > A[i]:
+            ans = min(ans, lmin + nums[i] + A[i])
+        lmin = min(lmin, nums[i])
+    return ans if ans < math.inf else -1","minimumSum(nums = [6, 5, 4, 3, 4, 5])",-1,752,[71  9  2]
+260,sample_260,minimumSum,"def minimumSum(nums: list[int]) -> int:
+    n = len(nums)
+    ans = inf
+    for i in range(n):
+        for j in range(i+1, n):
+            for k in range(j+1, n):
+                if nums[i] < nums[j] and nums[j] > nums[k]:
+                    ans = min(ans, nums[i] + nums[j] + nums[k])
+    return ans if ans != inf else -1","minimumSum(nums = [8, 6, 1, 5, 3])",9,848,[71 14  0]
+261,sample_261,minGroupsForValidAssignment,"def minGroupsForValidAssignment(nums: List[int]) -> int:
+    cnt = Counter(nums)
+    freq = Counter(cnt.values())
+    k = min(freq)
+    ans = inf
+    for i in range(1, k + 2):
+        res = 0
+        for x in freq:
+            v = (x + i - 1) // i
+            k1 = x - v * (i - 1)
+            k2 = v - k1
+            if k1 < 0 or k2 < 0: break
+            res += freq[x] * v
+        else: ans = min(ans, res)
+    return ans","minGroupsForValidAssignment(nums = [3, 2, 3, 2, 3])",2,959,[72  1  0]
+262,sample_262,minGroupsForValidAssignment,"def minGroupsForValidAssignment(nums: List[int]) -> int:
+    d = collections.Counter(nums)
+    s = [d[i] for i in  d]
+    s.sort()
+
+    def f(x,n):
+        b = x//(n-1)
+        if x%(n-1)==0: return True
+        a = x - (n-1) * b
+        if a <= b:return True
+    for i in range(s[0]+1,1,-1):
+
+        if all(f(j,i) for j in s):
+
+            return  sum([j//i+(j%i !=0)  for j in s])","minGroupsForValidAssignment(nums = [10, 10, 10, 3, 1, 1])",4,802,[72  6  1]
+263,sample_263,minGroupsForValidAssignment,"def minGroupsForValidAssignment(nums: List[int]) -> int:
+    c = Counter(nums)
+    a = list(sorted([v for _,v in c.items()]))
+    lim = a[0]
+    for sz in range(a[0]+1,1,-1):
+        good = True
+        cnt = 0
+        for n in a:
+            q,r = divmod(n,sz)
+            if r!=0:
+                q+=1
+                r=sz-r
+            if r>q:
+                good=False
+                break
+            cnt += q
+        if good:
+            return cnt
+    print(""bad"")
+    return len(nums)","minGroupsForValidAssignment(nums = [10, 10, 10, 3, 1, 1])",4,740,[72  4  1]
+264,sample_264,minGroupsForValidAssignment,"def minGroupsForValidAssignment(nums: List[int]) -> int:
+    x = Counter(nums).values()
+    m = inf
+    for n in range(1, min(x) + 1):
+        y = 0
+        for v in x:
+            if v // n < (v + n) // (n + 1):
+                break
+            y += (v + n) // (n + 1)
+        else:
+            m = min(m, y)
+            
+    return m","minGroupsForValidAssignment(nums = [3, 2, 3, 2, 3])",2,723,[72  5  0]
+265,sample_265,minGroupsForValidAssignment,"def minGroupsForValidAssignment(nums: List[int]) -> int:
+    n = len(nums)
+    A = sorted(list(Counter(nums).values()))
+    
+    x = A[0]
+    @lru_cache(None)
+    def dp(y,x):
+        if y == 0:
+            return 0
+        if y < x:
+            return math.inf
+        if y==x or y == x+1:
+            return 1
+        return 1+min(dp(y-x,x),dp(y-x-1,x))
+    
+    while x:
+        ans = sum(dp(y,x) for y in A)
+        if ans < math.inf:
+            return ans
+        x=x-1","minGroupsForValidAssignment(nums = [3, 2, 3, 2, 3])",2,881,[72  9  0]
+266,sample_266,minGroupsForValidAssignment,"def minGroupsForValidAssignment(nums: List[int]) -> int:
+    def count(unit):
+        res = 0
+        for value in counter.values():
+            d, r = divmod(value, unit)
+            if r > d:
+                return -1
+            res += -(-value // (unit + 1))
+        return res
+        
+    counter, n = Counter(nums), len(nums)
+    for unit in range(min(counter.values()), 0, -1):
+        res = count(unit)
+        if res != -1:
+            return res","minGroupsForValidAssignment(nums = [3, 2, 3, 2, 3])",2,668,[72 13  0]
+267,sample_267,minSum,"def minSum(nums1: List[int], nums2: List[int]) -> int:
+    def f(nums):
+        return sum(max(1, x) for x in nums)
+    a = f(nums1)
+    b = f(nums2)
+    if a > b:
+        a, b = b, a
+        nums1, nums2 = nums2, nums1
+    if a != b and 0 not in nums1:
+        return -1
+    return max(a, b)","minSum(nums1 = [2, 0, 2, 0], nums2 = [1, 4])",-1,673,[75  7  1]
+268,sample_268,minSum,"def minSum(nums1: List[int], nums2: List[int]) -> int:
+    if nums1.count(0) == 0 and nums2.count(0) == 0:
+        return -1 if sum(nums1) != sum(nums2) else sum(nums1)
+    if nums1.count(0) == 0:
+        ot = sum(nums2) + nums2.count(0)
+        if ot > sum(nums1):
+            return -1
+        
+        return sum(nums1)
+                    
+    if nums2.count(0) == 0:
+        return Solution().minSum(nums2, nums1)
+    
+    return max(nums1.count(0) + sum(nums1), nums2.count(0) + sum(nums2))","minSum(nums1 = [3, 2, 0, 1, 0], nums2 = [6, 5, 0])",12,563,[75  1  0]
+269,sample_269,minSum,"def minSum(nums1: List[int], nums2: List[int]) -> int:
+    sa = sum(nums1)
+    sb = sum(nums2)
+    a = nums1.count(0)
+    b = nums2.count(0)
+    if sa + a > sb and b == 0:
+        return -1
+    if sb + b > sa and a == 0:
+        return -1
+    return max(sa + a, sb + b)","minSum(nums1 = [3, 2, 0, 1, 0], nums2 = [6, 5, 0])",12,569,[75  5  0]
+270,sample_270,minSum,"def minSum(nums1: List[int], nums2: List[int]) -> int:
+    has0_1 = has0_2 = False
+    s1 = s2 = 0
+    for n in nums1:
+        if n == 0:
+            s1 += 1
+            has0_1 = True
+        else:
+            s1 += n
+    for n in nums2:
+        if n == 0:
+            s2 += 1
+            has0_2 = True
+        else:
+            s2 += n
+    
+    if s1 > s2 and (not has0_2):
+        return -1
+    if s1 < s2 and (not has0_1):
+        return -1
+    return max(s1, s2)","minSum(nums1 = [2, 0, 2, 0], nums2 = [1, 4])",-1,637,[75 10  1]
+271,sample_271,minSum,"def minSum(nums1: List[int], nums2: List[int]) -> int:
+    
+    s1 = sum(nums1)
+    s2 = sum(nums2)
+    n1z = 0
+    n2z = 0
+    for num in nums1:
+        n1z += num == 0
+    for num in nums2:
+        n2z += num == 0
+    
+    if n2z == 0 and s1 + n1z > s2:
+        return -1
+    if n1z == 0 and s2 + n2z > s1:
+        return -1
+    
+    
+    return max(s1+n1z,s2+n2z)","minSum(nums1 = [3, 2, 0, 1, 0], nums2 = [6, 5, 0])",12,651,[75 15  0]
+272,sample_272,minSum,"def minSum(nums1: List[int], nums2: List[int]) -> int:
+    s1 = sum(nums1)
+    s2 = sum(nums2)
+    empty1 = sum((x == 0) for x in nums1)
+    empty2 = sum((x == 0) for x in nums2)
+    mins1 = s1 + empty1
+    mins2 = s2 + empty2
+    if empty1 == 0 and s1 < mins2:
+        return -1
+    if empty2 == 0 and s2 < mins1:
+        return -1
+    return max(mins1, mins2)","minSum(nums1 = [3, 2, 0, 1, 0], nums2 = [6, 5, 0])",12,677,[75 13  0]
+273,sample_273,findChampion,"def findChampion(grid: List[List[int]]) -> int:
+  n = len(grid)
+  for j in range(n):
+    if all(grid[i][j] == 0 for i in range(n)):
+      return j","findChampion(grid = [[0, 1], [0, 0]])",0,599,[76 13  0]
+274,sample_274,findChampion,"def findChampion(grid: List[List[int]]) -> int:
+    n = len(grid)
+    for i in range(n):
+        curr = sum(grid[x][i] for x in range(n))
+        if curr == 0:
+            return i
+    return -1","findChampion(grid = [[0, 0, 1], [1, 0, 1], [0, 0, 0]])",1,685,[76 15  1]
+275,sample_275,findChampion,"def findChampion(grid: List[List[int]]) -> int:
+    n = len(grid)
+
+    def is_champ(i):
+        for j in range(n):
+            if j == i:
+                continue
+            if grid[i][j] == 0:
+                return False
+        return True
+
+    for i in range(n):
+        if is_champ(i):
+            return i
+    return -1","findChampion(grid = [[0, 0, 1], [1, 0, 1], [0, 0, 0]])",1,663,[76  7  1]
+276,sample_276,findChampion,"def findChampion(grid: List[List[int]]) -> int:
+    n = len(grid)
+    for i, row in enumerate(grid):
+        if sum(row[j] for j in range(n) if j != i) == n - 1:
+            return i
+    return -1","findChampion(grid = [[0, 0, 1], [1, 0, 1], [0, 0, 0]])",1,683,[76 14  1]
+277,sample_277,findChampion,"def findChampion(grid: List[List[int]]) -> int:
+    n = len(grid)
+    for i in range(n):
+        ct = 0
+        for j in range(n):
+            ct += grid[j][i]
+        if ct == 0:
+            return i","findChampion(grid = [[0, 0, 1], [1, 0, 1], [0, 0, 0]])",1,659,[76  1  1]
+278,sample_278,findChampion,"def findChampion(grid: List[List[int]]) -> int:
+    n = len(grid)
+    for i in range(n):
+        t = 0
+        for j in range(n):
+            t += grid[i][j]
+        if t == n - 1:
+            return i","findChampion(grid = [[0, 1], [0, 0]])",0,589,[76 12  0]
+279,sample_279,minOperations,"# output should be -1..
+
+def min_swaps(nums1, nums2, max1, max2):
+    total = 0
+    for a, b in zip(nums1, nums2):
+        if max1 >= a and max2 >= b:
+            pass
+        elif max2 >= a and max1 >= b:
+            total += 1
+        else:
+            return -1
+    return total
+
+def minOperations(nums1: List[int], nums2: List[int]) -> int:
+    return min(min_swaps(nums1, nums2, nums1[-1], nums2[-1]),
+        min_swaps(nums1, nums2, nums2[-1], nums1[-1]))","minOperations(nums1 = [1, 2, 7], nums2 = [4, 5, 3])",1,711,[79 17  0]
+280,sample_280,minOperations,"def minOperations(nums1: List[int], nums2: List[int]) -> int:
+    n = len(nums1)
+    @cache
+    def f(idx, a, b):
+        if idx == n-1:
+            return 0
+        if nums1[idx] <= a and nums2[idx] <= b:
+            return f(idx+1, a, b)
+        elif nums2[idx] <= a and nums1[idx] <= b:
+            return 1 + f(idx+1, a, b)
+        else:
+            return inf
+    ans = min(f(0, nums1[-1], nums2[-1]), 1 + f(0, nums2[-1], nums1[-1]))
+    return ans if ans < 10**9 else -1","minOperations(nums1 = [1, 2, 7], nums2 = [4, 5, 3])",1,949,[79  3  0]
+281,sample_281,minOperations,"def minOperations(a: List[int], b: List[int]) -> int:
+    def f():
+        ret = 0
+        aa, bb = a[:], b[:]
+        for i in range(len(a)):
+            if a[i] > a[-1] or b[i] > b[-1]:
+                a[i], b[i] = b[i], a[i]
+                ret += 1
+            if a[i] > a[-1] or b[i] > b[-1]:
+                return inf
+        a[:] = aa
+        b[:] = bb
+        return ret
+    
+    ans = f()
+    a[-1], b[-1] = b[-1], a[-1]
+    ans = min(ans, f() + 1)
+    return -1 if ans > len(a) else ans","minOperations(a = [1, 2, 7], b = [4, 5, 3])",1,911,[79  4  0]
+282,sample_282,minOperations,"def minOperations(nums1: List[int], nums2: List[int]) -> int:
+    def check(m1, m2):
+        ans = 0
+        for x1, x2 in zip(nums1, nums2):
+            if x1 > m1 or x2 > m2:
+                if x2 > m1 or x1 > m2:
+                    return inf
+                ans += 1
+        return ans
+    m1 = nums1[-1]
+    m2 = nums2[-1]
+    ans = min(check(m1, m2), check(m2, m1))
+    return -1 if ans == inf else ans","minOperations(nums1 = [1, 2, 7], nums2 = [4, 5, 3])",1,711,[79 14  0]
+283,sample_283,findMinimumOperations,"def findMinimumOperations(s1: str, s2: str, s3: str) -> int:
+    l = min(len(s1), len(s2), len(s3))
+    for i in range(l, 0, -1):
+        if s1[:i] == s2[:i] and s2[:i] == s3[:i]:
+            return len(s1) - i + len(s2) - i + len(s3) - i
+        
+    return -1","findMinimumOperations(s1 = 'dac', s2 = 'bac', s3 = 'cac')",-1,559,[80  8  1]
+284,sample_284,findMinimumOperations,"def findMinimumOperations(s1: str, s2: str, s3: str) -> int:
+    ans = len(s1 + s2 + s3)
+    for i in range(len(s1), 0, -1):
+        if s1[:i] == s2[:i] == s3[:i]:
+            return ans - i * 3
+    return -1","findMinimumOperations(s1 = 'dac', s2 = 'bac', s3 = 'cac')",-1,569,[80  7  1]
+285,sample_285,findMinimumOperations,"def findMinimumOperations(s1: str, s2: str, s3: str) -> int:
+    n = len(s1)
+    m = len(s2)
+    k = len(s3)
+    ans = inf
+    for i in range(1, n+1):
+        if s1[:i] == s2[:i] == s3[:i]:
+            x1 = n-i
+            x2 = m-i
+            x3 = k-i
+            cur = x1+x2+x3
+            if cur < ans:
+                ans = cur
+    return ans if ans < inf else -1","findMinimumOperations(s1 = 'dac', s2 = 'bac', s3 = 'cac')",-1,581,[80  0  1]
+286,sample_286,findMinimumOperations,"def findMinimumOperations(s1: str, s2: str, s3: str) -> int:
+    if len(set([s1[0], s2[0], s3[0]])) != 1:
+        return -1
+    ans = 0
+    for i in range(min(len(s1), len(s2), len(s3))):
+        if s1[i]==s2[i]==s3[i]:
+            ans += 1
+        else:
+            break
+    return len(s1)+len(s2)+len(s3)-ans*3","findMinimumOperations(s1 = 'dac', s2 = 'bac', s3 = 'cac')",-1,508,[80  3  1]
+287,sample_287,findMinimumOperations,"def findMinimumOperations(s1: str, s2: str, s3: str) -> int:
+    if s1 == s2 == s3:
+        return 0
+    for i in range(min(len(s1), len(s2), len(s3))):
+        if s1[i] != s2[i] or s1[i] != s3[i]:
+            break
+    else:
+        i += 1
+    if i < 1:
+        return -1
+    else:
+        return len(s1) - i + (len(s2) - i) + (len(s3) - i)","findMinimumOperations(s1 = 'dac', s2 = 'bac', s3 = 'cac')",-1,533,[80  9  1]
+288,sample_288,findMinimumOperations,"def findMinimumOperations(s1: str, s2: str, s3: str) -> int:
+    for n in range(min(min(len(s1),len(s2)),len(s3)),0,-1):
+        if s1[:n] == s2[:n] and s1[:n] == s3[:n]:
+            return len(s1)+len(s2)+len(s3)-n*3
+    return -1","findMinimumOperations(s1 = 'dac', s2 = 'bac', s3 = 'cac')",-1,558,[80 12  1]
+289,sample_289,minimumSteps,"def minimumSteps(s: str) -> int:
+    r = len(s) - 1
+    ret = 0
+    for i in range(len(s) - 1, -1, -1):
+        if s[i] == '1':
+            ret += r - i
+            r -= 1
+    
+    return ret",minimumSteps(s = '0111'),0,587,[81  8  2]
+290,sample_290,minimumSteps,"def minimumSteps(s: str) -> int:
+    a = []
+    for i in range(len(s)):
+        if s[i]=='0':
+            a.append(i)
+    ans = 0
+    for i in range(len(a)):
+        ans += abs(i-a[i])
+    return ans",minimumSteps(s = '0111'),0,570,[81  3  2]
+291,sample_291,minimumSteps,"def minimumSteps(s: str) -> int:
+    cnt = 0
+    res = 0
+    for c in s:
+        if c == '1':
+            cnt += 1
+        else:
+            res += cnt
+    return res",minimumSteps(s = '0111'),0,552,[81 11  2]
+292,sample_292,minimumSteps,"def minimumSteps(s: str) -> int:
+    ans = c1 = 0
+    for x in s:
+        if x == '1':
+            c1 += 1
+        else:
+            ans += c1
+    return ans",minimumSteps(s = '100'),2,537,[81  7  1]
+293,sample_293,minimumSteps,"def minimumSteps(s: str) -> int:
+    n = len(s)
+    idx = [i for i, c in enumerate(s) if c == '0']
+    m = len(idx)
+    
+    return sum(idx) - m * (m - 1) // 2",minimumSteps(s = '101'),1,553,[81 10  0]
+294,sample_294,minimumSteps,"def minimumSteps(s: str) -> int:
+    b = 0
+    re = 0
+    for i in s:
+        if i == '1': b += 1
+        else: re += b;
+    return re",minimumSteps(s = '101'),1,536,[81 16  0]
+295,sample_295,beautifulSubstrings,"def beautifulSubstrings(s: str, k: int) -> int:
+    n = len(s)
+    tmp = set('aeiou')
+    s = [1 if c in tmp else 0 for c in s]
+    ans = 0
+    for i in range(n):
+        c1, c2 = 0, 0
+        for j in range(i, n):
+            c1 += s[j]
+            c2 += 1 - s[j]
+            if c1 == c2 and c1 * c2 % k == 0:
+                ans += 1
+    return ans","beautifulSubstrings(s = 'abba', k = 1)",3,912,[83  5  1]
+296,sample_296,beautifulSubstrings,"def beautifulSubstrings(s: str, k: int) -> int:
+    for i in range(1, k + 1):
+        if i * i % k == 0:
+            k = i * 2
+            break
+    cc = [Counter() for _ in range(k)]
+    cc[0][0] = 1
+    ans = cur = 0
+    for i, x in enumerate(s, 1):
+        cur += 1 if x in 'aeiou' else -1
+        ans += cc[i % k][cur]
+        cc[i % k][cur] += 1
+    return ans","beautifulSubstrings(s = 'bcdf', k = 1)",0,825,[83  4  2]
+297,sample_297,beautifulSubstrings,"def beautifulSubstrings(s: str, k: int) -> int:
+    res = 0
+    vowels = ""aeiou""
+    n = len(s)
+    for i in range(n):
+        numVowels, numCons = 0, 0
+        for j in range(i, n):
+            if s[j] in vowels:
+                numVowels += 1
+            else:
+                numCons += 1
+            if numVowels == numCons and (numVowels * numCons) % k == 0:
+                res += 1
+    return res","beautifulSubstrings(s = 'baeyh', k = 2)",2,934,[83 10  0]
+298,sample_298,beautifulSubstrings,"def beautifulSubstrings(s: str, k: int) -> int:
+    
+    vowels = set('aeiou')
+    
+    n = len(s)
+    output = 0
+    for i in range(n):
+        diff = 0
+        count = 0
+        for j in range(i, n):
+            if s[j] in vowels:
+                diff += 1
+                count += 1
+            else:
+                diff -= 1
+                
+            output += (diff == 0) and (count ** 2 % k == 0)
+            
+    return output","beautifulSubstrings(s = 'bcdf', k = 1)",0,815,[83 15  2]
+299,sample_299,beautifulSubstrings,"from collections import defaultdict
+
+def beautifulSubstrings(s: str, k: int) -> int:
+    aa=[]
+    for c in s:
+        if c in ""aiueo"":
+            aa.append(1)
+        else:
+            aa.append(-1)
+    a2i=defaultdict(list)
+    a2i[0].append(0)
+    ans=s=0
+    for i,a in enumerate(aa):
+        s+=a
+        for j in a2i[s]:
+            if (((i+1-j)//2)**2)%k==0:
+                ans+=1
+        a2i[s].append(i+1)
+    return ans","beautifulSubstrings(s = 'bcdf', k = 1)",0,723,[83 14  2]
+300,sample_300,beautifulSubstrings,"def beautifulSubstrings(s: str, k: int) -> int:
+    p = defaultdict(int)
+    for i in range(2, k+1):
+        while k % i == 0:
+            p[i] += 1
+            k //= i
+    k = 2 * prod(x ** ((v + 1) // 2) for x, v in p.items())
+    a = [2 * (x in 'aeiou') - 1 for x in s]
+    m = defaultdict(int)
+    for i, x in enumerate((0, *accumulate(a))):
+        m[(x, i%k)] += 1
+    return sum(v * (v-1) // 2 for v in m.values())","beautifulSubstrings(s = 'abba', k = 1)",3,759,[83  6  1]
+301,sample_301,lexicographicallySmallestArray,"def lexicographicallySmallestArray(nums: List[int], limit: int) -> List[int]:
+    n = len(nums)
+    
+    order = sorted(range(n), key = lambda x: nums[x])
+    
+    out = [-1] * n
+    
+    l = 0
+    for i in range(n):
+        if i == n - 1 or nums[order[i]] + limit < nums[order[i + 1]]:
+            ind = sorted(order[l: i + 1])
+            for j in range(i - l + 1):
+                out[ind[j]] = nums[order[l + j]]
+            l = i + 1
+    return out","lexicographicallySmallestArray(nums = [1, 5, 3, 9, 8], limit = 2)","[1, 3, 5, 8, 9]",843,[84  0  0]
+302,sample_302,countSeniors,"def countSeniors(details: List[str]) -> int:
+    ans = 0
+    for s in details:
+        if int(s[11:13]) > 60:
+            ans += 1
+    return ans","countSeniors(details = ['7868190130M7522', '5303914400F9211', '9273338290F4010'])",2,564,[85 16  0]
+303,sample_303,countSeniors,"def countSeniors(details: List[str]) -> int:
+    answer = 0
+    for x in details:
+        age = x[-4:][:2]
+        age = int(age)
+        if age > 60:
+            answer+=1
+    return answer","countSeniors(details = ['7868190130M7522', '5303914400F9211', '9273338290F4010'])",2,594,[85  3  0]
+304,sample_304,countSeniors,"def countSeniors(details: List[str]) -> int:
+    out = 0
+    for s in details:
+        if int(int(s[11:13]) > 60):
+            out += 1
+    return out","countSeniors(details = ['7868190130M7522', '5303914400F9211', '9273338290F4010'])",2,570,[85  0  0]
+305,sample_305,countSeniors,"def countSeniors(details: List[str]) -> int:
+    ans=0
+    for s in details:
+        if int(s[11:13])>60:
+            ans+=1
+    return ans","countSeniors(details = ['1313579440F2036', '2921522980M5644'])",0,538,[85 11  1]
+306,sample_306,countSeniors,"def countSeniors(details: List[str]) -> int:
+    res = 0
+    for s in details:
+        age = int(s[11:13])
+        if age > 60:
+            res += 1
+    return res","countSeniors(details = ['7868190130M7522', '5303914400F9211', '9273338290F4010'])",2,573,[85  7  0]
+307,sample_307,countSeniors,"def countSeniors(details: List[str]) -> int:
+    ans = 0
+    for s in details:
+        if int(s[-4:-2]) > 60:
+            ans += 1
+    return ans","countSeniors(details = ['7868190130M7522', '5303914400F9211', '9273338290F4010'])",2,564,[85 15  0]
+308,sample_308,matrixSum,"def matrixSum(nums: List[List[int]]) -> int:
+    n, m = len(nums), len(nums[0])
+    for i in range(n):
+        nums[i].sort(reverse=1)
+    res = 0
+    for k in range(m):
+        maxi = 0
+        for i in range(n):
+            maxi = max(maxi, nums[i][k])
+        res += maxi
+    return res",matrixSum(nums = [[1]]),1,601,[86  6  1]
+309,sample_309,matrixSum,"def matrixSum(nums: List[List[int]]) -> int:
+    for l in nums:
+        l.sort()
+        
+    out = 0
+    while nums[0]:
+        top = 0
+        for l in nums:
+            top = max(top, l.pop())
+        out += top
+    return out",matrixSum(nums = [[1]]),1,580,[86  0  1]
+310,sample_310,matrixSum,"def matrixSum(a: List[List[int]]) -> int:
+    for i in range(len(a)):
+        a[i].sort()
+    ans = 0
+    for j in range(len(a[0])):
+        x = 0
+        for i in range(len(a)):
+            x = max(x, a[i][j])
+        ans += x
+    return ans",matrixSum(a = [[1]]),1,595,[86  5  1]
+311,sample_311,matrixSum,"def matrixSum(nums: List[List[int]]) -> int:
+    ans = 0
+    m, n = len(nums), len(nums[0])
+    for _ in range(n):
+        cur = 0
+        for i in range(m):
+            val = max(nums[i])
+            j = nums[i].index(val)
+            nums[i][j] = 0
+            cur = max(cur, val)
+        ans += cur
+    return ans",matrixSum(nums = [[1]]),1,600,[86 11  1]
+312,sample_312,matrixSum,"def matrixSum(nums: List[List[int]]) -> int:
+    matrix = [sorted(l) for l in nums]
+    mat = list(list(l) for l in zip(*matrix))
+    return sum(map(max,mat))",matrixSum(nums = [[1]]),1,587,[86 13  1]
+313,sample_313,matrixSum,"def matrixSum(a: List[List[int]]) -> int:
+    n, m = len(a), len(a[0])
+    for i in range(n):
+        a[i] = sorted(a[i])
+    ans = 0
+    for j in range(m):
+        tmp = 0
+        for i in range(n):
+            tmp = max(tmp, a[i][j])
+        ans += tmp
+    return ans",matrixSum(a = [[1]]),1,601,[86  3  1]
+314,sample_314,buyChoco,"from typing import List
+
+def buyChoco(prices: List[int], money: int) -> int:
+    prices.sort()
+    if sum(prices[:2]) <= money:
+        return money - sum(prices[:2])
+    else:
+        return money","buyChoco(prices = [1, 2, 2], money = 3)",0,536,[89  8  0]
+315,sample_315,buyChoco,"def buyChoco(prices: List[int], money: int) -> int:
+    prices.sort()
+    tot = sum(prices[:2])
+    if tot > money: return money
+    return money - tot","buyChoco(prices = [1, 2, 2], money = 3)",0,526,[89 11  0]
+316,sample_316,buyChoco,"def buyChoco(a: List[int], money: int) -> int:
+    a.sort()
+    if a[0] + a[1] > money:
+        return money
+    return money - a[0] - a[1]","buyChoco(a = [1, 2, 2], money = 3)",0,529,[89  3  0]
+317,sample_317,buyChoco,"def buyChoco(prices: List[int], money: int) -> int:
+    s = sum(sorted(prices)[:2])
+    return money-s if s<=money else money","buyChoco(prices = [3, 2, 3], money = 3)",3,520,[89  2  1]
+318,sample_318,buyChoco,"def buyChoco(prices: List[int], money: int) -> int:
+  x = -1
+  n = len(prices)
+  for i in range(n):
+    for j in range(i + 1, n):
+      x = max(x, money - prices[i] - prices[j])
+  return money if x < 0 else x","buyChoco(prices = [1, 2, 2], money = 3)",0,616,[89  6  0]
+319,sample_319,buyChoco,"def buyChoco(prices: List[int], money: int) -> int:
+    prices.sort()
+    t = prices[0] + prices[1]
+    if t > money:
+        return money
+    else:
+        return money - t","buyChoco(prices = [1, 2, 2], money = 3)",0,526,[89 18  0]
+320,sample_320,maxStrength,"from typing import List
+from itertools import combinations
+from functools import reduce
+import operator
+
+def maxStrength(nums: List[int]) -> int:
+    n = len(nums)
+    max_strength = float('-inf')
+    
+    for r in range(1, n + 1):
+        for combination in combinations(nums, r):
+            product = reduce(operator.mul, combination, 1)
+            max_strength = max(max_strength, product)
+
+    return max_strength","maxStrength(nums = [-4, -5, -4])",20,707,[91  7  1]
+321,sample_321,maxStrength,"def maxStrength(nums: List[int]) -> int:
+    ans = max(nums)
+    p = [num for num in nums if num > 0]
+    pmax = 1
+    if len(p) > 0:
+        pmax *= prod(p)
+    n = [num for num in nums if num < 0]
+    n.sort()
+    nmax = 1
+    if len(n) > 0:
+        m = len(n) - len(n) % 2
+        nmax *= prod(n[:m])
+    if len(p) == 0 and len(n) < 2:
+        return ans
+    return pmax * nmax","maxStrength(nums = [-4, -5, -4])",20,651,[91 12  1]
+322,sample_322,isFascinating,"from typing import *
+
+from math import *
+
+
+def isFascinating(n: int) -> bool:
+    x = str(n) + str(2 * n) + str(3 * n)
+    return len(set(x)) == 9 and len(x) == 9 and '0' not in x",isFascinating(n = 100),False,520,[93  2  1]
+323,sample_323,isFascinating,"def isFascinating(n: int) -> bool:
+    t = """"
+    for i in range(1, 4):
+        t += str(i * n)
+    c = collections.Counter(t)
+    return c[""0""] == 0 and len(c) == 9 and len(t) == 9",isFascinating(n = 100),False,599,[93 11  1]
+324,sample_324,isFascinating,"def isFascinating(n: int) -> bool:
+    s = str(n) + str(2 * n) + str(3 * n)
+    if len(s) != 9:
+        return False
+    tmp = set(s)
+    if len(tmp) != 9 or '0' in tmp:
+        return False
+    return True",isFascinating(n = 100),False,522,[93  7  1]
+325,sample_325,isFascinating,"def isFascinating(n: int) -> bool:
+    s = str(n) + str(2*n) + str(3 * n)
+    s = [ch for ch in s]
+    s.sort()
+    return ''.join(s) == ""123456789""",isFascinating(n = 100),False,582,[93  5  1]
+326,sample_326,isFascinating,"def isFascinating(n: int) -> bool:
+    s = str(n) + str(n * 2) + str(n * 3)
+    st = set(str(n) + str(n * 2) + str(n * 3))
+    if len(s) == 9 and len(st) == 9 and '0' not in st:
+        return True
+    return False",isFascinating(n = 192),True,539,[93 18  0]
+327,sample_327,isFascinating,"def isFascinating(n: int) -> bool:
+    s = str(n)+str(2*n)+str(3*n)
+    return set(s) == set(""123456789"") and len(s) == 9",isFascinating(n = 100),False,510,[93  0  1]
+328,sample_328,longestSemiRepetitiveSubstring,"def longestSemiRepetitiveSubstring(s: str) -> int:
+    n = len(s)
+    ii = [0]
+    for i in range(n-1):
+        if s[i] == s[i+1]: ii.append(i+1)
+    if len(ii) < 3: return n
+    ii.append(n)
+    ans = 0
+    for l, r in zip(ii, ii[2:]): ans = max(ans, r-l)
+    return ans",longestSemiRepetitiveSubstring(s = '52233'),4,628,[94 10  0]
+329,sample_329,longestSemiRepetitiveSubstring,"def longestSemiRepetitiveSubstring(s: str) -> int:
+    N = len(s)
+    
+    left = 0
+    best = 1
+    count = 0
+    
+    for right in range(1, N):
+        if s[right] == s[right - 1]:
+            count += 1
+        while count > 1:
+            if s[left] == s[left + 1]:
+                count -= 1
+            left += 1
+            
+        best = max(best, right - left + 1)
+    return best",longestSemiRepetitiveSubstring(s = '52233'),4,686,[94  8  0]
+330,sample_330,longestSemiRepetitiveSubstring,"def longestSemiRepetitiveSubstring(s: str) -> int:
+    ans = [-1]
+    for i in range(len(s)-1):
+        if s[i+1] == s[i]: ans.append(i)
+    ans.append(len(s)-1)
+    if len(ans) == 2: return len(s)
+    return max(ans[i+2]-ans[i] for i in range(len(ans)-2))",longestSemiRepetitiveSubstring(s = '5494'),4,560,[94 11  1]
+331,sample_331,longestSemiRepetitiveSubstring,"def longestSemiRepetitiveSubstring(s: str) -> int:
+    n = len(s)
+    i = 0
+    t = 0
+    res = 0
+    for j in range(n):
+        if j and s[j - 1] == s[j]: t += 1
+        while t > 1:
+            i += 1
+            if s[i - 1] == s[i]: t -= 1
+        res = max(res, j - i + 1)
+    return res",longestSemiRepetitiveSubstring(s = '5494'),4,624,[94  9  1]
+332,sample_332,longestSemiRepetitiveSubstring,"def longestSemiRepetitiveSubstring(s: str) -> int:
+    bak = [0]
+    for i in range(1, len(s)):
+        if s[i] == s[i-1]:
+            bak.append(i)
+    bak.append(len(s))
+    if len(bak) <= 3:
+        return len(s)
+    mx = 0
+    for i in range(2, len(bak)):
+        mx = max(mx, bak[i]-bak[i-2])
+    return mx",longestSemiRepetitiveSubstring(s = '52233'),4,632,[94  4  0]
+333,sample_333,longestSemiRepetitiveSubstring,"def longestSemiRepetitiveSubstring(s: str) -> int:
+    l, r = 0, 0
+    cnt = 0
+    ans = 0
+    n = len(s)
+    while l < n:
+        while r < n and cnt + (s[r] == s[r-1] and r > 0) < 2:
+            cnt += (s[r] == s[r-1] and r > 0)
+            r += 1
+        ans = max(ans, r - l)
+        if l == n-1: break
+        cnt -= s[l] == s[l+1]
+        l += 1
+    return ans",longestSemiRepetitiveSubstring(s = '5494'),4,820,[94 12  1]
+334,sample_334,maximumNumberOfStringPairs,"from typing import *
+
+from math import *
+
+def maximumNumberOfStringPairs(words: List[str]) -> int:
+    a = 0
+    for i in words:
+        if i[::-1] in words and i != i[::-1]:
+            a+=1
+    return a//2","maximumNumberOfStringPairs(words = ['aa', 'ab'])",0,557,[95 12  2]
+335,sample_335,maximumNumberOfStringPairs,"def maximumNumberOfStringPairs(words: List[str]) -> int:
+    cnt = collections.Counter(words)
+    ans = 0
+    keys = list(cnt.keys())
+    vis = set()
+    for key in keys:
+        if key == key[::-1]:
+            ans += cnt[key] // 2
+        elif key not in vis:
+            vis.add(key)
+            vis.add(key[::-1])
+            ans += min(cnt[key], cnt[key[::-1]])
+    return ans","maximumNumberOfStringPairs(words = ['cd', 'ac', 'dc', 'ca', 'zz'])",2,745,[95  0  0]
+336,sample_336,maximumNumberOfStringPairs,"def maximumNumberOfStringPairs(words: List[str]) -> int:
+    c = Counter()
+    res = 0
+    for i in words:
+        si = """".join(i[::-1])
+        if c[si]:
+            c[si] -= 1
+            res += 1
+        else:
+            c[i] += 1
+    return res","maximumNumberOfStringPairs(words = ['ab', 'ba', 'cc'])",1,658,[95  4  1]
+337,sample_337,maximumNumberOfStringPairs,"def maximumNumberOfStringPairs(words: List[str]) -> int:
+    s = set(words)
+    ans = 0
+    for word in words:
+        if word != word[::-1] and word[::-1] in s:
+            ans += 1
+    return ans // 2","maximumNumberOfStringPairs(words = ['cd', 'ac', 'dc', 'ca', 'zz'])",2,642,[95  8  0]
+338,sample_338,maximumNumberOfStringPairs,"def maximumNumberOfStringPairs(words: List[str]) -> int:
+    s = set()
+    ans = 0
+    for w in words:
+        if w[::-1] in s:
+            ans += 1
+            s.remove(w[::-1])
+        else:
+            s.add(w)
+    return ans","maximumNumberOfStringPairs(words = ['ab', 'ba', 'cc'])",1,584,[95 14  1]
+339,sample_339,maximumNumberOfStringPairs,"def maximumNumberOfStringPairs(words: List[str]) -> int:
+    seen = set()
+    ans = 0 
+    for w in words:
+        if w in seen:
+            ans += 1
+        else:
+            seen.add(w[::-1])
+            
+    return ans","maximumNumberOfStringPairs(words = ['ab', 'ba', 'cc'])",1,568,[95 13  1]
+340,sample_340,longestString,"def longestString(x: int, y: int, z: int) -> int:
+    return z * 2 + (min(x, y + 1) + min(y, x + 1)) * 2","longestString(x = 2, y = 5, z = 1)",12,508,[96  9  0]
+341,sample_341,longestString,"def longestString(x: int, y: int, z: int) -> int:
+    if x > y:
+        return 2 * (y + min(y + 1, x) + z)
+    else:
+        return 2 * (x + min(x + 1, y) + z)","longestString(x = 3, y = 2, z = 2)",14,506,[96  0  1]
+342,sample_342,longestString,"def longestString(x: int, y: int, z: int) -> int:
+    ans = min(x, y) * 2
+    if x != y:
+        ans += 1
+    return (ans  + z) * 2","longestString(x = 2, y = 5, z = 1)",12,512,[96  5  0]
+343,sample_343,minimizeConcatenatedLength,"def minimizeConcatenatedLength(words: List[str]) -> int:
+    A = defaultdict(lambda:inf)
+    A[words[0][0]+words[0][-1]] = len(words[0]) 
+    for w in words[1:]:
+        B = defaultdict(lambda:inf) 
+        for a,x in A.items():
+            B[a[0]+w[-1]] = min(B[a[0]+w[-1]],x+len(w) - (a[-1]==w[0]) )
+            B[w[0]+a[-1]] = min(B[w[0]+a[-1]],x+len(w) - (w[-1]==a[0]) ) 
+        A,B = B ,A 
+    return min(A.values())","minimizeConcatenatedLength(words = ['aaa', 'c', 'aba'])",6,834,[97  7  2]
+344,sample_344,minimizeConcatenatedLength,"def minimizeConcatenatedLength(words: List[str]) -> int:
+    n = len(words)
+    @cache
+    def dp(i, first, last):
+        if i == n:
+            return 0
+        ans1 = dp(i + 1, first, words[i][-1]) - int(last == words[i][0])
+        ans2 = dp(i + 1, words[i][0], last) - int(words[i][-1] == first)
+        if ans1 > ans2:
+            return ans2 + len(words[i])
+        return ans1 + len(words[i])
+    return dp(1, words[0][0], words[0][-1]) + len(words[0])","minimizeConcatenatedLength(words = ['aa', 'ab', 'bc'])",4,972,[97 10  0]
+345,sample_345,minimizeConcatenatedLength,"def minimizeConcatenatedLength(words: List[str]) -> int:
+    n = len(words)
+    @cache
+    def dfs(i, l, r):
+        if i == n:
+            return 0
+        s = words[i]
+        nl = s[0]
+        nr = s[-1]
+        return len(s) + min(dfs(i + 1, l, nr) - (r == nl), dfs(i + 1, nl, r) - (l == nr))
+    return dfs(1, words[0][0], words[0][-1]) + len(words[0])","minimizeConcatenatedLength(words = ['ab', 'b'])",2,813,[97  1  1]
+346,sample_346,alternatingSubarray,"def alternatingSubarray(nums: List[int]) -> int:
+    n = len(nums)
+    ans = -1
+    for i in range(n):
+        for j in range(i + 1, n):
+            
+            if nums[j] != nums[i] + ((j - i) & 1):
+                break
+            
+            ans = max(ans, j - i + 1)
+    return ans","alternatingSubarray(nums = [4, 5, 6])",2,632,[99 15  1]
+347,sample_347,alternatingSubarray,"def alternatingSubarray(nums: List[int]) -> int:
+    ans = -1
+    n = len(nums)
+    for i in range(n):
+        delta = 1
+        for j in range(i + 1, n):
+            if nums[j] - nums[j - 1] == delta:
+                ans = max(ans, j - i + 1)
+                delta = -delta
+            else:
+                break
+    return ans","alternatingSubarray(nums = [2, 3, 4, 3, 4])",4,784,[99  4  0]
+348,sample_348,alternatingSubarray,"def alternatingSubarray(nums: List[int]) -> int:
+    n = len(nums)
+    ans = -1
+    for i in range(n):
+        for j in range(i + 1, n):
+            if (j - i) & 1:
+                if nums[j] != nums[i] + 1:
+                    break
+            else:
+                if nums[j] != nums[i]:
+                    break
+            ans = max(ans, j - i + 1)
+    return ans","alternatingSubarray(nums = [4, 5, 6])",2,639,[99 12  1]
+349,sample_349,alternatingSubarray,"def alternatingSubarray(nums: List[int]) -> int:
+    
+    n = len(nums)
+    
+    ans = -1
+    
+    for i in range(n-1):
+        if nums[i+1]==nums[i]+1:
+            j = i+1
+            while j+1<n and nums[j+1]==nums[j-1]:
+                j+=1
+            ans=max(ans,j-i+1)
+    
+    return ans","alternatingSubarray(nums = [4, 5, 6])",2,609,[99 11  1]
+350,sample_350,alternatingSubarray,"def alternatingSubarray(nums: List[int]) -> int:
+    n = len(nums)
+    maxres = -1
+    for i,(a,b) in enumerate(zip(nums, nums[1:])):
+        if b-a == 1:
+            i += 2
+            count = 2
+            while i < n and nums[i] == nums[i-2]:
+                i += 1
+                count += 1
+            maxres = max(maxres, count)
+    return maxres","alternatingSubarray(nums = [2, 3, 4, 3, 4])",4,702,[99  6  0]
+351,sample_351,alternatingSubarray,"def alternatingSubarray(nums: List[int]) -> int:
+    res = 0
+    for i in range(len(nums)):
+        r = 1
+        for j in range(i + 1, len(nums)):
+            if nums[j] - nums[j - 1] == -1 + 2 * ((j - i) & 1):
+                r += 1
+                res = max(res, r)
+            else:
+                break
+    return res if res > 0 else -1","alternatingSubarray(nums = [2, 3, 4, 3, 4])",4,836,[99  3  0]
+352,sample_352,relocateMarbles,"def relocateMarbles(nums: List[int], moveFrom: List[int], moveTo: List[int]) -> List[int]:
+    d = defaultdict(int)
+    for x in nums:
+        d[x] += 1
+    for x,y in zip(moveFrom,moveTo):
+        tmp = d[x]
+        d[x]-=tmp
+        d[y]+=tmp
+    return [x for x in sorted(d) if d[x]>0]","relocateMarbles(nums = [1, 1, 3, 3], moveFrom = [1, 3], moveTo = [2, 2])",[2],729,[100   1   1]
+353,sample_353,relocateMarbles,"def relocateMarbles(nums: List[int], moveFrom: List[int], moveTo: List[int]) -> List[int]:
+    loc = set(nums)  # 初始有石块的位置
+    for i, j in zip(moveFrom, moveTo):
+        loc.remove(i)  # i不再是有石块的位置
+        loc.add(j)  # 不管之前有没有石块，j成为有石块的位置
+    return sorted(loc)","relocateMarbles(nums = [1, 1, 3, 3], moveFrom = [1, 3], moveTo = [2, 2])",[2],607,[100   7   1]
+354,sample_354,relocateMarbles,"def relocateMarbles(nums: List[int], moveFrom: List[int], moveTo: List[int]) -> List[int]:
+    s = set()
+    for x in nums:
+        s.add(x)
+    for i in range(len(moveFrom)):
+        s.remove(moveFrom[i])
+        s.add(moveTo[i])
+    return sorted(list(s))","relocateMarbles(nums = [1, 6, 7, 8], moveFrom = [1, 7, 2], moveTo = [2, 9, 5])","[5, 6, 8, 9]",678,[100   2   0]
+355,sample_355,relocateMarbles,"def relocateMarbles(nums: List[int], moveFrom: List[int], moveTo: List[int]) -> List[int]:
+    s = set()
+    for i in nums:
+        s.add(i)
+    for i in range(len(moveFrom)):
+        s.remove(moveFrom[i])
+        s.add(moveTo[i])
+    return sorted(s)","relocateMarbles(nums = [1, 1, 3, 3], moveFrom = [1, 3], moveTo = [2, 2])",[2],655,[100   5   1]
+356,sample_356,relocateMarbles,"def relocateMarbles(nums: List[int], moveFrom: List[int], moveTo: List[int]) -> List[int]:
+    tmp = set(nums)
+    for x, y in zip(moveFrom, moveTo):
+        tmp.remove(x)
+        tmp.add(y)
+    return sorted(tmp)","relocateMarbles(nums = [1, 6, 7, 8], moveFrom = [1, 7, 2], moveTo = [2, 9, 5])","[5, 6, 8, 9]",626,[100   0   0]
+357,sample_357,relocateMarbles,"def relocateMarbles(nums: List[int], moveFrom: List[int], moveTo: List[int]) -> List[int]:
+    
+    nums = sorted(list(set(nums)))
+    dd = {}
+    for item in nums:
+        dd[item] = 1
+    for a,b in zip(moveFrom, moveTo):
+        del dd[a]
+        dd[b] = 1
+    ll = dd.keys()
+    return sorted(ll)","relocateMarbles(nums = [1, 6, 7, 8], moveFrom = [1, 7, 2], moveTo = [2, 9, 5])","[5, 6, 8, 9]",669,[100  14   0]
+358,sample_358,minimumBeautifulSubstrings,"def minimumBeautifulSubstrings(s: str) -> int:
+    good = []
+    num = 1
+    n = len(s)
+    while True:
+        b = bin(num)[2:]
+        if len(b) > n:
+            break
+        good.append(b)
+        num *= 5
+    dp = [int(1e9)] * (n + 1)
+    dp[0] = 0
+    gs = set(good)
+    for i in range(n):
+        for j in range(i + 1):
+            if s[j:i + 1] in gs:
+                dp[i + 1] = min(dp[i + 1], dp[j] + 1)
+    return -1 if dp[n] == int(1e9) else dp[n]",minimumBeautifulSubstrings(s = '0'),-1,603,[101   6   2]
+359,sample_359,minimumBeautifulSubstrings,"def minimumBeautifulSubstrings(s: str) -> int:
+    n = len(s)
+    f = [-1] * (n + 1)
+    f[0] = 0
+    sp = set()
+    p = 1
+    while len(bin(p)[2:]) <= n:
+        sp.add(str(bin(p)[2:]))
+        p *= 5
+    for i in range(n):
+        if f[i] >= 0:
+            for j in range(i + 1, n + 1):
+                if s[i:j] in sp:
+                    if f[j] == -1 or f[j] > f[i] + 1:
+                        f[j] = f[i] + 1
+    return f[-1]",minimumBeautifulSubstrings(s = '0'),-1,599,[101   3   2]
+360,sample_360,minimumBeautifulSubstrings,"tmp = set()
+for i in range(30):
+    x = bin(pow(5, i))[2:]
+    if len(x) > 15: break
+    tmp.add(x)
+
+def minimumBeautifulSubstrings(s: str) -> int:
+    n = len(s)
+    @cache
+    def getRes(idx):
+        if idx == n: return 0
+        ans = inf
+        for j in range(idx+1, n+1):
+            if s[idx:j] in tmp:
+                ans = min(ans, getRes(j) + 1)
+        return ans
+    ans = getRes(0)
+    getRes.cache_clear()
+    return ans if ans < inf else -1",minimumBeautifulSubstrings(s = '0'),-1,991,[101   0   2]
+361,sample_361,isGood,"def isGood(a: List[int]) -> bool:
+    
+    n = len(a) - 1
+    for i in range(1, n):
+        if a.count(i) != 1:
+            return False
+    
+    return a.count(n) == 2","isGood(a = [3, 4, 4, 1, 2, 1])",False,527,[102   6   3]
+362,sample_362,isGood,"def isGood(nums: List[int]) -> bool:
+    nums.sort()
+    n = len(nums) - 1
+    
+    res = True
+    for i in range(n):
+        if nums[i] != i+1: return False
+    
+    return nums[-1] == n","isGood(nums = [3, 4, 4, 1, 2, 1])",False,546,[102  11   3]
+363,sample_363,isGood,"def isGood(nums: List[int]) -> bool:
+    
+    mx = max(nums)
+    
+    c = nums.count(mx)
+    
+    if len(nums) != mx + 1 or c != 2:
+        return False
+    
+    for i in range(1, mx):
+        if nums.count(i) != 1:
+            return False
+    
+    return True","isGood(nums = [1, 1])",True,534,[102  12   2]
+364,sample_364,isGood,"def isGood(nums: List[int]) -> bool:
+    return sorted(nums)==list(range(1,len(nums)))+[len(nums)-1]","isGood(nums = [1, 1])",True,521,[102  15   2]
+365,sample_365,isGood,"def isGood(nums: List[int]) -> bool:
+    if len(nums)==1:
+        return False
+    nums.sort()
+    n = len(nums)
+    if nums[-1] != nums[-2]:
+        return False
+    for i in range(n-1):
+        if nums[i] != i+1:
+            return False
+    return True","isGood(nums = [2, 1, 3])",False,529,[102   2   0]
+366,sample_366,isGood,"def isGood(nums: List[int]) -> bool:
+    return sorted(nums) == ([i + 1 for i in range(len(nums) - 1)] + [len(nums) - 1])","isGood(nums = [1, 3, 3, 2])",True,556,[102   0   1]
+367,sample_367,sortVowels,"def sortVowels(s: str) -> str:
+    ss = ""aeiouAEIOU""
+    ans = []
+    qs = [c for c in s if c in ss]
+    qs.sort()
+    pos = 0
+    for c in s:
+        if c in ss:
+            ans.append(qs[pos])
+            pos += 1
+        else:
+            ans.append(c)
+    return """".join(ans)",sortVowels(s = 'lYmpH'),'lYmpH',634,[103   8   1]
+368,sample_368,sortVowels,"def sortVowels(s: str) -> str:
+    n = len(s)
+    answer = [None for i in range(n)]
+    vowels = []
+    v2 = []
+    for i in range(n):
+        if s[i] not in 'aeiouAEIOU':
+            answer[i] = s[i]
+        else:
+            vowels.append(s[i])
+            v2.append(i)
+    vowels = sorted(vowels, key=lambda a: ord(a))
+    m = len(vowels)
+    for i in range(m):
+        c, j = vowels[i], v2[i]
+        answer[j] = c
+    return ''.join(answer)",sortVowels(s = 'lYmpH'),'lYmpH',663,[103   2   1]
+369,sample_369,sortVowels,"def sortVowels(s: str) -> str:
+    
+    s = list(s)
+    
+    n = len(s)
+    
+    v = []
+    for i in range(n):
+        if s[i].lower() in ['a', 'e', 'i', 'o', 'u']:
+            v.append(i)
+    
+    vs = sorted(v, key=lambda i: s[i])
+    
+    ss = s[:]
+    
+    for i in range(len(v)):
+        s[v[i]] = ss[vs[i]]
+    
+    return ''.join(s)",sortVowels(s = 'lYmpH'),'lYmpH',594,[103  12   1]
+370,sample_370,sortVowels,"def sortVowels(s: str) -> str:
+    
+    s = list(s)
+    
+    a = []
+    n = len(s)
+    
+    for i in range(n):
+        
+        if s[i] in ""aeiouAEIOU"":
+            a.append(s[i])
+    
+    a.sort(reverse=True)
+    
+    for i in range(n):
+        if s[i] in ""aeiouAEIOU"":
+            s[i] = a.pop()
+    
+    return """".join(s)",sortVowels(s = 'lEetcOde'),'lEOtcede',749,[103   6   0]
+371,sample_371,sortVowels,"def sortVowels(s: str) -> str:
+    n = len(s)
+    t = []
+    p = []
+    for i in range(n):
+        if s[i] in ""aeiou"" or s[i] in ""AEIOU"":
+            t.append(s[i])
+            p.append(i)
+    t.sort()
+    res = list(s)
+    for i in range(len(t)):
+        res[p[i]] = t[i]
+    return """".join(res)",sortVowels(s = 'lYmpH'),'lYmpH',604,[103   1   1]
+372,sample_372,sortVowels,"def vowel(ch): return ch.lower() in 'aeiou'
+
+def sortVowels(s: str) -> str:
+    q = deque(sorted((ch for ch in s if vowel(ch))))
+    res = []
+    for ch in s:
+        if vowel(ch):
+            res.append(q.popleft())
+        else:
+            res.append(ch)
+    return ''.join(res)",sortVowels(s = 'lEetcOde'),'lEOtcede',872,[103   9   0]
+373,sample_373,accountBalanceAfterPurchase,"def accountBalanceAfterPurchase(p: int) -> int:
+    a, b = divmod(p, 10)
+    if b < 5:
+        return 100 - a * 10
+    else:
+        return 90 - a * 10",accountBalanceAfterPurchase(p = 9),90,503,[106  72   0]
+374,sample_374,minimumSeconds,"def minimumSeconds(nums: List[int]) -> int:
+    d = defaultdict(list)
+    for i, j in enumerate(nums):
+        d[j].append(i)
+    n = len(nums)
+    ret = n // 2
+    for l in d.values():
+        r = 0
+        q = len(l)
+        for i, j in enumerate(l):
+            if i < q - 1:
+                k = l[i + 1]
+            else:
+                k = l[0] + n
+            r = max(r, (k - j) // 2)
+        ret = min(ret, r)
+    return ret","minimumSeconds(nums = [5, 5, 5, 5])",0,733,[107  32   2]
+375,sample_375,minimumSeconds,"def minimumSeconds(nums: List[int]) -> int:
+    ref = defaultdict(list)
+    for i in range(len(nums)):
+        ref[nums[i]].append(i)
+    ans = inf
+    for i in ref:
+        k = 0
+        for j in range(len(ref[i])):
+            x = ref[i][j]
+            y = ref[i][j - 1]
+            if x > y:
+                k = max(k, x - y - 1)
+            else:
+                k = max(k, len(nums) - y + x - 1)
+        if k % 2== 1:
+            k += 1
+        ans = min(ans, k // 2)
+    return ans","minimumSeconds(nums = [5, 5, 5, 5])",0,755,[107   2   2]
+376,sample_376,minimumSeconds,"def minimumSeconds(nums: List[int]) -> int:
+    n = len(nums)
+    ni = defaultdict(list)
+    for i, v in enumerate(nums):
+        ni[v].append(i)
+    min_steps = n
+    for v, idxs in ni.items():
+        gap = n-idxs[-1] + idxs[0]
+        for i in range(len(idxs)-1):
+            gap = max(gap, idxs[i+1]-idxs[i])
+        min_steps = min(min_steps, gap//2)
+    return min_steps","minimumSeconds(nums = [5, 5, 5, 5])",0,673,[107   6   2]
+377,sample_377,minimumSeconds,"def minimumSeconds(nums: List[int]) -> int:
+    d=defaultdict(list)
+    for i,el in enumerate(nums):
+        d[el].append(i)
+    ans=float(""inf"")
+    def check(el):
+        t=d[el][:]
+        g=[t[0]+len(nums)-1-t[-1]]
+        for a,b in zip(t,t[1:]):
+            g.append(b-a-1)
+        # print(g,el)
+        p=max(g)
+        return (p+1)//2
+    for el in d:
+        ans=min(ans,check(el))
+    return ans","minimumSeconds(nums = [5, 5, 5, 5])",0,697,[107  16   2]
+378,sample_378,minimumSeconds,"def minimumSeconds(A: List[int]) -> int:
+    locs = defaultdict(list)
+    for i,x in enumerate(A):
+        locs[x].append(i)
+    
+    ans = N = len(A)
+    for row in locs.values():
+        gaps = [row[i+1] - row[i] - 1 for i in range(len(row) - 1)]
+        gaps.append(row[0] + N - row[-1] - 1)
+        m = max(gaps)
+        m = (m + 1) // 2
+        ans = min(ans, m)
+    return ans","minimumSeconds(A = [5, 5, 5, 5])",0,692,[107  11   2]
+379,sample_379,minimumSeconds,"def minimumSeconds(nums: List[int]) -> int:
+    idxs, res = defaultdict(list), (len(nums))//2
+    for i, n in enumerate(nums): idxs[n].append(i)
+    for n in idxs:
+        idx = idxs[n]
+        if len(idx) != 1:
+            cur = (idx[0]+(len(nums)-idx[-1]))//2
+            for i in range(len(idx)-1): cur = max(cur, (idx[i+1]-idx[i])//2)
+            res = min(res, cur)
+    return res","minimumSeconds(nums = [1, 2, 1, 2])",1,709,[107  54   0]
+380,sample_380,countPairs,"def countPairs(nums: List[int], target: int) -> int:
+    n = len(nums)
+    ans = 0
+    
+    for i in range(n):
+        for j in range(i+1,n):
+            if nums[i]+nums[j]<target:
+                ans+=1
+    
+    return ans","countPairs(nums = [-1, 1, 2, 3, 1], target = 2)",3,742,[109  16   0]
+381,sample_381,countPairs,"def countPairs(nums: List[int], t: int) -> int:
+    n=len(nums)
+    res=0
+    for i in range(n):
+        for j in range(i+1,n):
+            if nums[i]+nums[j]<t:
+                res+=1
+    return res","countPairs(nums = [-1, 1, 2, 3, 1], t = 2)",3,742,[109  12   0]
+382,sample_382,countPairs,"def countPairs(nums: List[int], target: int) -> int:
+    res = 0
+    for i in range(len(nums) - 1):
+        for j in range(i + 1, len(nums)):
+            if nums[i] + nums[j] < target:
+                res += 1
+    return res","countPairs(nums = [-1, 1, 2, 3, 1], target = 2)",3,736,[109  11   0]
+383,sample_383,countPairs,"def countPairs(nums: List[int], target: int) -> int:
+    ans = 0
+    for i in range(len(nums)):
+        for j in range(i + 1, len(nums)):
+            ans += nums[i] + nums[j] < target
+    return ans","countPairs(nums = [-1, 1, 2, 3, 1], target = 2)",3,761,[109  15   0]
+384,sample_384,countPairs,"def countPairs(nums: List[int], target: int) -> int:
+    n = len(nums)
+    res = 0
+    for i in range(n):
+        for j in range(i + 1, n):
+            if nums[i] + nums[j] < target:
+                res += 1
+    return res","countPairs(nums = [-1, 1, 2, 3, 1], target = 2)",3,742,[109  13   0]
+385,sample_385,countPairs,"def countPairs(nums: List[int], target: int) -> int:
+    n = len(nums)
+    ans = 0
+    for i in range(n):
+        for j in range(i + 1,n):
+            if nums[i] + nums[j] < target:
+                ans += 1
+    return ans","countPairs(nums = [-1, 1, 2, 3, 1], target = 2)",3,742,[109   0   0]
+386,sample_386,canMakeSubsequence,"def canMakeSubsequence(str1: str, str2: str) -> bool:
+    n1, n2 = len(str1), len(str2)
+    j = 0
+    for i in range(n1):
+        if str2[j] == 'a' and str1[i] == 'z':
+            j += 1
+        elif chr(ord(str2[j]) - 1) == str1[i] or str2[j] == str1[i]:
+            j += 1
+        if j == n2:
+            return True
+    return False","canMakeSubsequence(str1 = 'ab', str2 = 'd')",False,583,[110  12   2]
+387,sample_387,canMakeSubsequence,"def canMakeSubsequence(str1: str, str2: str) -> bool:
+    p1 = p2 = 0
+    def nxt(c):
+        if c == 'z':
+            return 'a' 
+        else:
+            return chr(ord(c) + 1)
+    while p1 < len(str1) and p2 < len(str2):
+        if str2[p2] == str1[p1] or str2[p2] == nxt(str1[p1]):
+            p2 += 1
+        p1 += 1
+    return p2 == len(str2)","canMakeSubsequence(str1 = 'ab', str2 = 'd')",False,617,[110  10   2]
+388,sample_388,canMakeSubsequence,"def canMakeSubsequence(str1: str, str2: str) -> bool:
+    
+    def cal(i):
+        if i=='z':
+            return 'a'
+        return chr(ord(i)+1)
+    
+    n1 = len(str1)
+    n2 = len(str2)
+    
+    i = 0
+    j = 0
+    
+    while i<n1 and j<n2:
+        if str1[i]==str2[j] or cal(str1[i])==str2[j]:
+            i+=1
+            j+=1
+        else:
+            i+=1
+    
+    return j>=n2","canMakeSubsequence(str1 = 'ab', str2 = 'd')",False,616,[110  15   2]
+389,sample_389,canMakeSubsequence,"def canMakeSubsequence(str1: str, str2: str) -> bool:
+    l1 = len(str1)
+    l2 = len(str2)
+    idx = 0
+    for c in str1:
+        if c == str2[idx] or ord(c) + 1 == ord(str2[idx]) or (c == 'z' and str2[idx] == 'a'):
+            idx += 1
+            if idx == l2:
+                return True
+    return False","canMakeSubsequence(str1 = 'ab', str2 = 'd')",False,557,[110   9   2]
+390,sample_390,canMakeSubsequence,"def canMakeSubsequence(s1: str, s2: str) -> bool:
+    s1=list(s1)
+    s2=list(s2)
+    while s1 and s2:
+        c1=s1[-1]
+        c2=s2[-1]
+        if c1==c2 or (c1==""z"" and c2==""a"") or chr(ord(c1)+1)==c2:
+            s2.pop()
+            s1.pop()
+        else:
+            s1.pop()
+    return len(s2)==0","canMakeSubsequence(s1 = 'abc', s2 = 'ad')",True,621,[110  11   0]
+391,sample_391,canBeEqual,"def canBeEqual(s1: str, s2: str) -> bool:
+    s3 = s1[0] + s1[3] + s1[2] + s1[1]
+    s4 = s1[2] + s1[3] + s1[0] + s1[1]
+    s5 = s1[2] + s1[1] + s1[0] + s1[3]
+    return s2 == s1 or s2 == s3 or s2 == s4 or s2 == s5","canBeEqual(s1 = 'abcd', s2 = 'cdab')",True,550,[112  15   0]
+392,sample_392,canBeEqual,"def canBeEqual(s1: str, s2: str) -> bool:
+    a = list(s1)
+    b = list(s2)
+    if a[0] > a[2]:
+        a[0], a[2] = a[2], a[0]
+    if a[1] > a[3]:
+        a[1], a[3] = a[3], a[1]
+    if b[0] > b[2]:
+        b[0], b[2] = b[2], b[0]
+    if b[1] > b[3]:
+        b[1], b[3] = b[3], b[1]
+    return ''.join(a) == ''.join(b)","canBeEqual(s1 = 'abcd', s2 = 'dacb')",False,556,[112   1   1]
+393,sample_393,canBeEqual,"def canBeEqual(s1: str, s2: str) -> bool:
+    
+    lst1 = [s1[0], s1[2]]
+    lst2 = [s2[0], s2[2]]
+    if sorted(lst1) != sorted(lst2):
+        return False
+    lst1 = [s1[1], s1[3]]
+    lst2 = [s2[1], s2[3]]
+    if sorted(lst1) != sorted(lst2):
+        return False
+    return True","canBeEqual(s1 = 'abcd', s2 = 'dacb')",False,515,[112   3   1]
+394,sample_394,canBeEqual,"def canBeEqual(s1: str, s2: str) -> bool:
+    a = [s1[0], s1[2]]
+    b = [s2[0], s2[2]]
+    a.sort()
+    b.sort()
+    if a != b:
+        return False
+    a = [s1[1], s1[3]]
+    b = [s2[1], s2[3]]
+    a.sort()
+    b.sort()
+    return a == b","canBeEqual(s1 = 'abcd', s2 = 'cdab')",True,551,[112  10   0]
+395,sample_395,canBeEqual,"def canBeEqual(s1: str, s2: str) -> bool:
+    def sign(s):
+        return sorted(s[::2]), sorted(s[1::2])
+        
+    return sign(s1) == sign(s2)","canBeEqual(s1 = 'abcd', s2 = 'dacb')",False,541,[112   7   1]
+396,sample_396,canBeEqual,"def canBeEqual(s1: str, s2: str) -> bool:
+    def cut(s):
+        return (sorted(s[::2]), sorted(s[1::2]))
+    
+    return cut(s1) == cut(s2)","canBeEqual(s1 = 'abcd', s2 = 'dacb')",False,541,[112   9   1]
+397,sample_397,maxSum,"from typing import List
+
+def maxSum(nums: List[int], m: int, k: int) -> int:
+    max_sum = 0
+    n = len(nums)
+    
+    for i in range(n - k + 1):
+        subarray = nums[i:i+k]
+        if len(set(subarray)) >= m:
+            max_sum = max(max_sum, sum(subarray))
+            
+    return max_sum","maxSum(nums = [1, 2, 1, 2, 1, 2, 1], m = 3, k = 3)",0,637,[113  10   2]
+398,sample_398,maxSum,"def maxSum(nums: List[int], m: int, k: int) -> int:
+    c = Counter()
+    ssum = 0
+    n = len(nums)
+    for i in range(k):
+        c[nums[i]] += 1
+        ssum += nums[i]
+    res = ssum if len(c) >= m else 0
+    for i in range(k, n):
+        c[nums[i]] += 1
+        c[nums[i-k]] -= 1
+        if not c[nums[i-k]]:
+            del c[nums[i-k]]
+        ssum += nums[i] - nums[i-k]
+        if len(c) >= m:
+            res = max(res, ssum)
+    return res","maxSum(nums = [1, 2, 1, 2, 1, 2, 1], m = 3, k = 3)",0,873,[113   1   2]
+399,sample_399,maxSum,"def maxSum(nums: List[int], m: int, k: int) -> int:
+    cnt = defaultdict(int)
+    ans = 0
+    c = 0
+    s = 0
+    for r,x in enumerate(nums):
+        cnt[x] += 1
+        if cnt[x] == 1: c += 1
+        s += x
+        if r >= k:
+            y = nums[r-k]
+            cnt[y] -= 1
+            if cnt[y] == 0: c -= 1
+            s -= y
+        if c >= m: ans = max(ans,s)
+    return ans","maxSum(nums = [1, 2, 1, 2, 1, 2, 1], m = 3, k = 3)",0,899,[113  12   2]
+400,sample_400,maxSum,"def maxSum(A: List[int], m: int, k: int) -> int:
+    count = Counter(A[:k])
+    res = 0
+    total = sum(A[:k])
+    if len(count) >= m:
+        res = total
+    for j in range(k, len(A)):
+        total += A[j] - A[j - k]
+        count[A[j]] += 1
+        count[A[j - k]] -= 1
+        if count[A[j - k]] == 0:
+            del count[A[j - k]]
+        if len(count) >= m:
+            res = max(res, total)
+    return res","maxSum(A = [1, 2, 1, 2, 1, 2, 1], m = 3, k = 3)",0,829,[113  15   2]
+401,sample_401,maxSum,"def maxSum(nums: List[int], m: int, k: int) -> int:
+    ans = 0
+    n = len(nums)
+    cur = 0
+    dic = Counter()
+    for i in range(k):
+        cur += nums[i]
+        dic[nums[i]] += 1
+    if len(dic) >= m:
+        ans = cur
+    for i in range(k, n):
+        cur += nums[i]
+        cur -= nums[i - k]
+        dic[nums[i]] += 1
+        dic[nums[i - k]] -= 1
+        if dic[nums[i - k]] == 0:
+            del dic[nums[i - k]]
+        if len(dic) >= m:
+            ans = max(ans, cur)
+    return ans","maxSum(nums = [1, 2, 1, 2, 1, 2, 1], m = 3, k = 3)",0,894,[113   5   2]
+402,sample_402,maxSum,"def maxSum(nums: List[int], m: int, k: int) -> int:
+    cntr = Counter(nums[:k])
+    cursum = sum(nums[:k])
+    
+    maxres = 0
+    if len(cntr) >= m:
+        maxres += cursum
+                   
+    for out, inp in zip(nums, nums[k:]):
+        cursum -= out
+        cursum += inp
+        cntr[out] -= 1
+        if cntr[out] == 0:
+            del cntr[out]
+        cntr[inp] += 1
+        if len(cntr) >= m:
+            maxres = max(maxres, cursum)
+    
+    return maxres","maxSum(nums = [1, 2, 1, 2, 1, 2, 1], m = 3, k = 3)",0,787,[113   4   2]
+403,sample_403,minimumRightShifts,"def minimumRightShifts(nums: List[int]) -> int:
+    s = sorted(nums)
+    n = len(nums)
+    for i in range(n + 10):
+        t = [nums[-1]] + nums[:-1][:]
+        if s == t:
+            return (i + 1) % n
+        nums = t[:]
+        # print('t', t, nums)
+    else:
+        return -1","minimumRightShifts(nums = [2, 1, 4])",-1,937,[114  11   2]
+404,sample_404,minimumRightShifts,"def minimumRightShifts(nums: List[int]) -> int:
+    m = min(nums)
+    for i in range(len(nums)):
+        if m == nums[i]:
+            nums = nums[i:] + nums[:i]
+            for j in range(len(nums) - 1):
+                if nums[j] > nums[j + 1]:
+                    return -1
+            return len(nums) - i if i > 0 else 0
+    return -1","minimumRightShifts(nums = [3, 4, 5, 1, 2])",2,644,[114  15   0]
+405,sample_405,minimumRightShifts,"def minimumRightShifts(nums: List[int]) -> int:
+    n = len(nums)
+    for i in range(n):
+        check = True
+        for j in range(n - i + 1, n * 2 - i):
+            if nums[j % n] < nums[(j - 1) % n]:
+                check = False
+                break
+        if check: return i
+    return -1","minimumRightShifts(nums = [1, 3, 5])",0,573,[114  10   1]
+406,sample_406,minimumRightShifts,"def minimumRightShifts(nums: List[int]) -> int:
+    b = sorted(nums)
+    ans = inf
+    n = len(nums)
+    for i in range(n):
+        a = nums[i:] + nums[:i]
+        if a == b:
+            ans = min(ans, (n - i) % n)
+    return -1 if ans == inf else ans","minimumRightShifts(nums = [1, 3, 5])",0,600,[114   3   1]
+407,sample_407,minimumRightShifts,"def minimumRightShifts(nums: List[int]) -> int:
+    n = len(nums)
+    t = sorted(nums)
+    if t == nums:
+        return 0
+    for i in range(1, n+1):
+        nums = [nums[-1]] + nums[:-1]
+        if t == nums:
+            return i
+    return -1","minimumRightShifts(nums = [1, 3, 5])",0,518,[114   0   1]
+408,sample_408,minimumRightShifts,"def minimumRightShifts(nums: List[int]) -> int:
+    def f(l):
+        for i in range(1, len(l)):
+            if l[i] < l[i - 1]:
+                return False
+        return True
+    
+    for i in range(len(nums)):
+        if f(nums):
+            return i
+        p = nums.pop()
+        nums = [p] + nums
+    return -1","minimumRightShifts(nums = [1, 3, 5])",0,566,[114   7   1]
+409,sample_409,minLengthAfterRemovals,"def minLengthAfterRemovals(nums: List[int]) -> int:
+    c = Counter(nums)
+    n = len(nums)
+    for k,v in c.items():
+        if v >= n - v:
+            return v - (n - v)
+    return n % 2","minLengthAfterRemovals(nums = [1, 3, 4, 9])",0,622,[115   9   0]
+410,sample_410,minLengthAfterRemovals,"def minLengthAfterRemovals(nums: List[int]) -> int:
+    c = Counter(nums)
+    mx = max(c.values())
+    n = len(nums)
+    
+    if mx > n - mx:
+        return 2 * mx - n
+    else:
+        return n & 1","minLengthAfterRemovals(nums = [1, 3, 4, 9])",0,582,[115  11   0]
+411,sample_411,minLengthAfterRemovals,"def minLengthAfterRemovals(nums: List[int]) -> int:
+    n = len(nums)
+    h = [-v for v in Counter(nums).values()]
+    heapify(h)
+    while len(h) >= 2:
+        x = -heappop(h)
+        y = -heappop(h)
+        x -= 1 
+        y -= 1 
+        if x:heappush(h,-x)
+        if y:heappush(h,-y)
+    return -sum(h)","minLengthAfterRemovals(nums = [2, 3, 6, 9])",0,693,[115   5   1]
+412,sample_412,minLengthAfterRemovals,"def minLengthAfterRemovals(nums: List[int]) -> int:
+    ans = n = len(nums)
+    i, j = n // 2 - 1, n - 1
+    while i >= 0:
+        while i >= 0 and nums[i] == nums[j]:
+            i -= 1
+        if i >= 0:
+            ans -= 2
+            j -= 1
+            i -= 1
+    return ans","minLengthAfterRemovals(nums = [2, 3, 6, 9])",0,605,[115  10   1]
+413,sample_413,minLengthAfterRemovals,"def minLengthAfterRemovals(nums: List[int]) -> int:
+    c = Counter(nums)
+    x = max(c.values())
+    if x > len(nums) // 2:
+        return 2 * x - len(nums)
+    else:
+        return len(nums) % 2","minLengthAfterRemovals(nums = [1, 1, 2])",1,583,[115   8   2]
+414,sample_414,minLengthAfterRemovals,"def minLengthAfterRemovals(nums: List[int]) -> int:
+    C = Counter(nums)
+    m = max(C.values())
+    if 2 * m >= len(nums):
+        return 2 * m - len(nums)
+    else:
+        return len(nums) & 1","minLengthAfterRemovals(nums = [1, 1, 2])",1,583,[115   7   2]
+415,sample_415,countPairs,"def countPairs(coordinates: List[List[int]], k: int) -> int:
+    mp = defaultdict(int)
+    for x, y in coordinates:
+        mp[(x, y)] += 1
+    
+    res = 0
+    for i in range(k + 1):
+        a, b = i, k - i
+        tmp = mp.copy()
+        for x, y in coordinates:
+            tmp[(x, y)] -= 1
+            if (a ^ x, b ^ y) in tmp:
+                res += tmp[(a ^ x, b ^ y)]
+    
+    return res","countPairs(coordinates = [[1, 3], [1, 3], [1, 3], [1, 3], [1, 3]], k = 0)",10,875,[116  11   1]
+416,sample_416,countPairs,"def countPairs(coordinates: List[List[int]], k: int) -> int:
+    c = defaultdict(int)
+    for i, j in coordinates:
+        c[(i, j)] += 1
+    ans = 0
+    for i, j in coordinates:
+        c[(i, j)] -= 1
+        for r in range(k + 1):
+            x = r ^ i
+            y = (k - r) ^ j
+            ans += c[(x, y)]
+    return ans","countPairs(coordinates = [[1, 3], [1, 3], [1, 3], [1, 3], [1, 3]], k = 0)",10,895,[116   8   1]
+417,sample_417,minOperations,"def minOperations(nums: List[int], k: int) -> int:
+    have = set()
+    for i, n in enumerate(reversed(nums)): 
+        if n <= k: have.add(n)
+        if len(have) == k: return i+1","minOperations(nums = [3, 1, 5, 4, 2], k = 5)",5,628,[117  15   1]
+418,sample_418,minOperations,"def minOperations(nums: List[int], k: int) -> int:
+    s = set()
+    for j, n in enumerate(nums[::-1]):
+        s.add(n)
+        flag = True
+        for i in range(1, k + 1):
+            if i not in s:
+                flag = False
+        if flag: return j + 1","minOperations(nums = [3, 2, 5, 3, 1], k = 3)",4,737,[117  17   2]
+419,sample_419,minOperations,"def minOperations(nums: List[int], k: int) -> int:
+    nums = nums[::-1]
+    s = set()
+    for i,c in enumerate(nums):
+        if c>k:
+            continue
+        s.add(c)
+        if len(s)==k:
+            return i+1;","minOperations(nums = [3, 1, 5, 4, 2], k = 2)",4,595,[117   2   0]
+420,sample_420,minOperations,"def minOperations(nums: List[int], k: int) -> int:
+    ct = 0
+    st = set()
+    for v in nums[::-1]:
+        ct += 1
+        if v <= k:
+            st.add(v)
+            if len(st) == k:
+                return ct","minOperations(nums = [3, 2, 5, 3, 1], k = 3)",4,612,[117  13   2]
+421,sample_421,minOperations,"def minOperations(nums: List[int], k: int) -> int:
+    vis = [0] * (k + 1)
+    cnt = 0
+    n = len(nums)
+    for i in range(n - 1, -1, -1):
+        if nums[i] <= k and not vis[nums[i]]:
+            vis[nums[i]] = 1
+            cnt += 1
+            if cnt == k:
+                return n - i","minOperations(nums = [3, 1, 5, 4, 2], k = 2)",4,619,[117   0   0]
+422,sample_422,minOperations,"def minOperations(nums: List[int], k: int) -> int:
+    s = set()
+    for i, num in enumerate(reversed(nums)):
+        
+        if 1 <= num <= k:
+            s.add(num)
+        if len(s) == k:
+            return i + 1","minOperations(nums = [3, 1, 5, 4, 2], k = 2)",4,621,[117   8   0]
+423,sample_423,minOperations,"def minOperations(nums: List[int]) -> int:
+    ans = 0
+    cnt = Counter(nums)
+    for v in cnt.values():
+        if v == 1:
+            return -1
+        if v % 3 == 0:
+            ans += v // 3
+        elif v % 3 == 1:
+            ans += v // 3 + 1
+        else:
+            ans += v // 3 + 1
+    return ans","minOperations(nums = [2, 1, 2, 2, 3, 3])",-1,600,[118   6   1]
+424,sample_424,minOperations,"def minOperations(nums: List[int]) -> int:
+    cs = collections.Counter(nums)
+    ans = 0
+    for k,v in cs.items():
+        if v==1:
+            return -1
+        ans += (v+2)//3
+    return ans","minOperations(nums = [2, 3, 3, 2, 2, 4, 2, 3, 4])",4,631,[118   2   0]
+425,sample_425,minOperations,"def minOperations(nums: List[int]) -> int:
+    ans = 0
+    cnt = Counter(nums)
+    for a, b in cnt.items():
+        if b == 1:
+            return -1
+        if b % 3 == 0:
+            ans += b // 3
+        if b % 3 == 1:
+            ans += (b - 4) // 3 + 2
+        if b % 3 == 2:
+            ans += (b - 2) // 3 + 1
+    return ans","minOperations(nums = [2, 1, 2, 2, 3, 3])",-1,617,[118   9   1]
+426,sample_426,minOperations,"def minOperations(nums: List[int]) -> int:
+  c = {}
+  for x in nums:
+    c[x] = c.get(x, 0) + 1
+  ret = 0
+  for x in c.values():
+    if x < 2:
+      return -1
+    if x % 3 == 0:
+      ret += x // 3
+    elif x % 3 == 1:
+      ret += 2 + (x - 4) // 3
+    else:
+      ret += 1 + (x - 2) // 3
+  return ret","minOperations(nums = [2, 1, 2, 2, 3, 3])",-1,639,[118  12   1]
+427,sample_427,minOperations,"def minOperations(nums: List[int]) -> int:
+    m = {}
+    for i in nums:
+        if i not in m:
+            m[i] = 0
+        m[i] += 1
+    ans = 0
+    for i in m:
+        if m[i] == 1:
+            return -1
+        while m[i] % 3 != 0:
+            m[i] -= 2
+            ans += 1
+        ans += m[i] // 3
+    return ans","minOperations(nums = [2, 3, 3, 2, 2, 4, 2, 3, 4])",4,853,[118  14   0]
+428,sample_428,minOperations,"from collections import Counter
+
+
+def minOperations(nums: List[int]) -> int:
+    ans = 0
+    for k, v in Counter(nums).items():
+        if v == 1:
+            return -1
+        r = v % 3
+        if r == 0:
+            ans += v // 3
+        elif r == 1:
+            ans += v // 3 + 1
+        else:
+            ans += v // 3 + 1
+    return ans","minOperations(nums = [2, 3, 3, 2, 2, 4, 2, 3, 4])",4,701,[118  11   0]
+429,sample_429,maxSubarrays,"def maxSubarrays(nums: List[int]) -> int:
+    r = nums[0]
+    for n in nums:
+        r &= n
+    if r > 0:
+        return 1
+    r = 0
+    c = nums[0]
+    for i in range(len(nums)):
+        c &= nums[i]
+        if c == 0:
+            r += 1
+            if i == len(nums) - 1:
+                break
+            c = nums[i + 1]
+    return r","maxSubarrays(nums = [1, 0, 2, 0, 1, 2])",3,736,[119   5   0]
+430,sample_430,maxSubarrays,"def maxSubarrays(nums: List[int]) -> int:
+    res, target = 0, nums[0]
+    for n in nums[1:]: target &= n
+    if target != 0: return 1
+    cur = -1
+    for n in nums:
+        if cur == -1: cur = n
+        cur &= n
+        if cur == target:
+            cur = -1
+            res += 1
+    return res","maxSubarrays(nums = [1, 0, 2, 0, 1, 2])",3,712,[119  15   0]
+431,sample_431,maxSubarrays,"def maxSubarrays(nums: List[int]) -> int:
+    res = nums[0]
+    for i in range(1, len(nums)):
+        res &= nums[i]
+    if res:
+        return 1
+    ans = 0
+    cur = nums[0]
+    for i in range(len(nums)):
+        cur &= nums[i]
+        if cur == 0:
+            ans += 1
+            if i + 1 < len(nums):
+                cur = nums[i + 1]
+    return ans","maxSubarrays(nums = [1, 0, 2, 0, 1, 2])",3,739,[119   6   0]
+432,sample_432,maxSubarrays,"def maxSubarrays(nums: List[int]) -> int:
+    m = reduce(int.__and__, nums)
+    
+    res = 0
+    running = -1
+    for num in nums:
+        running &= num
+        if running == 0:
+            running = -1
+            res += 1
+    return res + (1 if running == m else 0)","maxSubarrays(nums = [1, 0, 2, 0, 1, 2])",3,631,[119   8   0]
+433,sample_433,maxSubarrays,"def maxSubarrays(nums: List[int]) -> int:
+    
+    n = len(nums)
+    
+    mn = nums[0]
+    for num in nums:
+        mn &= num
+    
+    if mn:
+        return 1
+    
+    res, cur = 0, nums[0]
+    for i in range(1, n):
+        if cur == mn:
+            res += 1
+            cur = nums[i]
+        cur &= nums[i]
+    
+    if cur == mn:
+        res += 1
+    
+    return res","maxSubarrays(nums = [1, 0, 2, 0, 1, 2])",3,699,[119  16   0]
+434,sample_434,maxSubarrays,"def maxSubarrays(nums: List[int]) -> int:
+    n = len(nums)
+    mask = (1 << 20) - 1
+    a = mask
+    for i in range(n):
+        a &= nums[i]
+    if a != 0:
+        return 1
+    c = mask
+    ans = 0
+    for i in range(n):
+        c &= nums[i]
+        if c == 0:
+            ans += 1
+            c = mask
+    return ans","maxSubarrays(nums = [1, 0, 2, 0, 1, 2])",3,720,[119  10   0]
+435,sample_435,lastVisitedIntegers,"def lastVisitedIntegers(words: List[str]) -> List[int]:
+    res = []
+    a = []
+    k = 0
+    for word in words:
+        if word == 'prev':
+            k += 1
+            n = len(a)
+            if n >= k:
+                res.append(a[n-k])
+            else:
+                res.append(-1)
+        else:
+            a.append(int(word))
+            k = 0
+    return res","lastVisitedIntegers(words = ['1', '2', 'prev', 'prev', 'prev'])","[2, 1, -1]",673,[120   4   0]
+436,sample_436,lastVisitedIntegers,"def lastVisitedIntegers(words: List[str]) -> List[int]:
+    num = []
+    cnt = 0
+    ans = []
+    for word in words:
+        if word == ""prev"":
+            cnt += 1
+            if cnt <= len(num):
+                ans.append(num[- cnt])
+            else:
+                ans.append(-1)
+        else:
+            cnt = 0
+            num.append(int(word))
+    return ans","lastVisitedIntegers(words = ['1', '2', 'prev', 'prev', 'prev'])","[2, 1, -1]",662,[120  13   0]
+437,sample_437,lastVisitedIntegers,"def lastVisitedIntegers(words: List[str]) -> List[int]:
+    ans = []
+    stk = []
+    i = 0
+    for x in words:
+        if x == 'prev':
+            i += 1
+            if i > len(stk):
+                ans.append(-1)
+            else:
+                ans.append(stk[-i])
+        else:
+            stk.append(int(x))
+            i = 0
+    return ans","lastVisitedIntegers(words = ['1', '2', 'prev', 'prev', 'prev'])","[2, 1, -1]",661,[120  18   0]
+438,sample_438,lastVisitedIntegers,"def lastVisitedIntegers(words: List[str]) -> List[int]:
+
+    current = []
+    reached = -1
+    visited = []
+
+    for x in words:
+        if x != ""prev"":
+            current.append(int(x))
+            reached = len(current) - 1
+        elif reached >= 0:
+            visited.append(current[reached])
+            reached -= 1
+        else:
+            visited.append(-1)
+
+    return visited","lastVisitedIntegers(words = ['1', 'prev', '2', 'prev', 'prev'])","[1, 2, 1]",662,[120  21   1]
+439,sample_439,lastVisitedIntegers,"def lastVisitedIntegers(words: List[str]) -> List[int]:
+    ans = []
+    nums = []
+    r = 0
+    for x in words:
+        if x[0] == 'p':
+            r -= 1
+            ans.append(-1 if abs(r) > len(nums) else nums[len(nums)+r])
+        else:
+            nums.append(int(x))
+            r = 0
+            
+    return ans","lastVisitedIntegers(words = ['1', '2', 'prev', 'prev', 'prev'])","[2, 1, -1]",680,[120  11   0]
+440,sample_440,lastVisitedIntegers,"def lastVisitedIntegers(words: List[str]) -> List[int]:
+    ans = []
+    stk = []
+    c = 0
+    for w in words:
+        if w == ""prev"":
+            c += 1
+            if len(stk) < c:
+                ans.append(-1)
+            else:
+                ans.append(stk[-c])
+        else:
+            stk.append(int(w))
+            c = 0
+    return ans","lastVisitedIntegers(words = ['1', '2', 'prev', 'prev', 'prev'])","[2, 1, -1]",661,[120   3   0]
+441,sample_441,countSubMultisets,"import numpy
+
+def countSubMultisets(nums: List[int], l: int, r: int) -> int:
+    record = numpy.zeros(r+1)
+    record[0] = 1
+    count = collections.Counter(nums)
+
+
+    for i in count:
+
+        tmp = numpy.copy(record)
+        if i != 0:
+            for k in range(1,count[i]+1):
+                tmp[i*k:] += record[:-i*k]
+        else:
+            tmp *= (count[i] + 1)
+
+        record = tmp
+        
+        record %= int(1e9+7)
+
+
+
+    return int(numpy.sum(record[l:r+1]) % int (1e9+7))","countSubMultisets(nums = [1, 2, 2, 3], l = 6, r = 6)",1,966,[121  11   0]
+442,sample_442,sumCounts,"def sumCounts(nums: List[int]) -> int:
+    n = len(nums)
+    ans = 0
+    for i in range(n):
+        curr = set()
+        for j in range(i, n):
+            curr.add(nums[j])
+            k = len(curr)
+            ans += k * k
+    return ans","sumCounts(nums = [1, 1])",3,619,[122  11   1]
+443,sample_443,sumCounts,"def sumCounts(nums: List[int]) -> int:
+    counts = []
+    for i in range(len(nums)):
+        hset = set()
+        for j in range(i, len(nums)):
+            hset.add(nums[j])
+            counts.append(len(hset))
+    ans = 0
+    for n in counts:
+        ans += n * n
+    return ans","sumCounts(nums = [1, 1])",3,648,[122  26   1]
+444,sample_444,sumCounts,"def sumCounts(nums: List[int]) -> int:
+    n = len(nums)
+    ans = 0
+    for i in range(n):
+        for j in range(i+1, n+1):
+            s = len(set(nums[i:j]))
+            ans += s * s
+    return ans","sumCounts(nums = [1, 1])",3,613,[122  19   1]
+445,sample_445,sumCounts,"def sumCounts(nums: List[int]) -> int:
+    ans=0
+    n=len(nums)
+    for i in range(n):
+        s=defaultdict(int)
+        for j in range(i,n):
+            s[nums[j]]+=1
+            ans+=len(s)*len(s)
+    return ans","sumCounts(nums = [1, 1])",3,627,[122   5   1]
+446,sample_446,sumCounts,"def sumCounts(nums: List[int]) -> int:
+    ans = 0
+    for i in range(len(nums)):
+        seen = set()
+        for j in range(i, len(nums)):
+            seen.add(nums[j])
+            ans += len(seen) * len(seen)
+    return ans","sumCounts(nums = [1, 1])",3,617,[122  17   1]
+447,sample_447,sumCounts,"def sumCounts(nums: List[int]) -> int:
+    n = len(nums)
+    ans = 0
+    for i in range(n):
+        for j in range(n):
+            l = len(set(nums[i:j + 1]))
+            ans += l * l
+    return ans","sumCounts(nums = [1, 1])",3,633,[122   3   1]
+448,sample_448,minChanges,"def minChanges(s: str) -> int:
+    
+    # for each 2 char, if not equal one needs to be changed
+    ans = i = 0
+    while i < len(s):
+        if s[i] != s[i+1]:
+            ans += 1
+        i += 2
+    return ans",minChanges(s = '10'),1,527,[123  20   1]
+449,sample_449,minChanges,"def minChanges(s: str) -> int:
+    ans = 0
+    for i in range(0,len(s),2):
+        if s[i]!=s[i+1]:ans+=1
+    return ans",minChanges(s = '0000'),0,527,[123  15   2]
+450,sample_450,minChanges,"def minChanges(s: str) -> int:
+    c=1
+    ans=0
+    for i in range(1,len(s)):
+        if s[i]==s[i-1]:
+            c+=1
+        else:
+            if c%2==1:
+                ans+=1
+                c+=1
+            else:
+                c=1
+    return ans",minChanges(s = '1001'),2,585,[123   5   0]
+451,sample_451,minChanges,"def minChanges(s: str) -> int:
+    res = 0
+    for i in range(0, len(s), 2):
+        if s[i] != s[i+1]:
+            res += 1
+    return res",minChanges(s = '1001'),2,539,[123  23   0]
+452,sample_452,minChanges,"def minChanges(s: str) -> int:
+    n = len(s)
+    result = 0
+    for i in range(0, n, 2):
+        if s[i] != s[i + 1]:
+            result += 1
+    return result",minChanges(s = '1001'),2,542,[123  11   0]
+453,sample_453,minChanges,"def minChanges(s: str) -> int:
+    ans = 0
+    for i in range(1, len(s), 2):
+        if s[i] != s[i - 1]:
+            ans += 1
+    return ans",minChanges(s = '10'),1,519,[123  16   1]
+454,sample_454,lengthOfLongestSubsequence,"def lengthOfLongestSubsequence(nums: List[int], target: int) -> int:
+    d = defaultdict(lambda : 0)
+    d[0] = 0
+    for i, v in enumerate(nums):
+        if v > target:
+            continue
+        tmp = defaultdict(lambda : 0)
+        tmp[0] = 0
+        for s in d:
+            if s + v > target:
+                continue
+            tmp[s + v] = max(tmp[s + v], d[s] + 1)
+        for s in tmp:
+            d[s] = max(d[s], tmp[s])
+    return d[target] if target in d else -1","lengthOfLongestSubsequence(nums = [1, 1, 5, 4, 5], target = 3)",-1,817,[124   8   2]
+455,sample_455,lengthOfLongestSubsequence,"def lengthOfLongestSubsequence(nums: List[int], target: int) -> int:
+    nums.sort()
+    dp = [0] * (target + 1)
+    dp[0] = 1
+    for x in nums:
+        for i in range(target - x, -1, -1):
+            if dp[i] > 0:
+                dp[i+x] = max(dp[i+x], 1 + dp[i])
+    return dp[-1] - 1","lengthOfLongestSubsequence(nums = [1, 1, 5, 4, 5], target = 3)",-1,718,[124  18   2]
+456,sample_456,lengthOfLongestSubsequence,"def lengthOfLongestSubsequence(nums: List[int], target: int) -> int:
+    dp = [0]*(target + 1)
+    for x in nums:
+        for i in range(target - x, -1, -1):
+            if dp[i] or not i:
+                dp[i + x] = max(dp[i + x], dp[i] + 1)
+    
+    return dp[-1] if dp[-1] else -1","lengthOfLongestSubsequence(nums = [1, 1, 5, 4, 5], target = 3)",-1,706,[124  13   2]
+457,sample_457,lengthOfLongestSubsequence,"def lengthOfLongestSubsequence(nums: List[int], target: int) -> int:
+    max_len = [-1] * (target + 1)
+    max_len[0] = 0
+    for x in nums:
+        for new_sum in reversed(range(x, target + 1)):
+            if max_len[new_sum - x] != -1:
+                max_len[new_sum] = max(
+                    max_len[new_sum],
+                    max_len[new_sum - x] + 1
+                )
+    return max_len[target]","lengthOfLongestSubsequence(nums = [1, 1, 5, 4, 5], target = 3)",-1,731,[124  11   2]
+458,sample_458,lengthOfLongestSubsequence,"def lengthOfLongestSubsequence(nums: List[int], target: int) -> int:
+    d=[0]*(target+1)
+    t=[el for el in nums if el<=target]
+    if len(t)==0:
+        return -1
+    d[t[0]]=1
+    for el in t[1:]:
+        for j in range(target,0,-1):
+            if j-el>=0 and (j-el==0 or d[j-el]>0):
+                d[j]=max(d[j],d[j-el]+1)
+    if d[target]==0:
+        return -1
+    return d[target]","lengthOfLongestSubsequence(nums = [1, 1, 5, 4, 5], target = 3)",-1,710,[124  14   2]
+459,sample_459,lengthOfLongestSubsequence,"def lengthOfLongestSubsequence(nums: List[int], target: int) -> int:
+    dp=[-1]*(target+1)
+    dp[0]=0
+    for a in nums:
+        for i in range(target-a,-1,-1):
+            if dp[i]==-1:continue
+            dp[i+a]=max(dp[i+a],dp[i]+1)
+    return dp[-1]","lengthOfLongestSubsequence(nums = [1, 1, 5, 4, 5], target = 3)",-1,714,[124  19   2]
+460,sample_460,distributeCandies,"def distributeCandies(n: int, limit: int) -> int:
+  c = 0
+  for i in range(limit + 1):
+    for j in range(limit + 1):
+      for k in range(limit + 1):
+        if i + j + k == n:
+          c += 1
+  return c","distributeCandies(n = 5, limit = 2)",3,985,[125  13   0]
+461,sample_461,distributeCandies,"def distributeCandies(n: int, limit: int) -> int:
+    res = comb(n + 2, 2)
+    if n >= limit + 1:
+        res -= 3 * comb(n - limit + 1, 2)
+    if n >= 2 * limit + 2:
+        res += 3 * comb(n - 2 * limit, 2)
+    if n >= 3 * (limit + 1):
+        res -= comb(n - 3 * limit - 1, 2)
+    return res","distributeCandies(n = 3, limit = 3)",10,521,[125   7   1]
+462,sample_462,distributeCandies,"def distributeCandies(n: int, limit: int) -> int:
+    answer = 0
+    for c3 in range(limit + 1):
+        c1_min = max(0, n - c3 - limit)
+        c1_max = min(limit, n - c3)
+        
+        # print(c3, c1_min, c1_max)
+        
+        answer += max(c1_max - c1_min + 1, 0)
+        
+    return answer","distributeCandies(n = 3, limit = 3)",10,635,[125   2   1]
+463,sample_463,distributeCandies,"def distributeCandies(n: int, limit: int) -> int:
+    limit = min(limit, n)
+    ans = 0
+    for i in range(limit+1):
+        if n-i > limit * 2:
+            continue
+        ans += (min(limit, n-i) - max(0, n-i-limit) + 1)
+    return ans","distributeCandies(n = 5, limit = 2)",3,587,[125   0   0]
+464,sample_464,distributeCandies,"def distributeCandies(n: int, limit: int) -> int:
+    answer = 0 
+    for i in range(limit+1):
+        for j in range(limit+1):
+            k = n-i-j
+            if 0 <= k <= limit:
+                answer+=1
+    return answer","distributeCandies(n = 3, limit = 3)",10,931,[125   8   1]
+465,sample_465,distributeCandies,"def distributeCandies(n: int, limit: int) -> int:
+    ans = 0
+    for a in range(limit+1):
+        for b in range(limit+1):
+            for c in range(limit+1):
+                if a+b+c == n: ans += 1
+    return ans","distributeCandies(n = 5, limit = 2)",3,982,[125   5   0]
+466,sample_466,findWordsContaining,"def findWordsContaining(words: List[str], x: str) -> List[int]:
+    RES = []
+    for i, el in enumerate(words):
+        if x in el:
+            RES.append(i)
+    return RES","findWordsContaining(words = ['abc', 'bcd', 'aaaa', 'cbc'], x = 'a')","[0, 2]",585,[127  40   1]
+467,sample_467,findWordsContaining,"def findWordsContaining(words: List[str], x: str) -> List[int]:
+    
+    l = []
+    for i in range(len(words)):
+        if x in words[i]:
+            l.append(i)
+    
+    return l","findWordsContaining(words = ['leet', 'code'], x = 'e')","[0, 1]",567,[127  45   0]
+468,sample_468,findWordsContaining,"def findWordsContaining(words: List[str], x: str) -> List[int]:
+    res = []
+    for i, w in enumerate(words):
+        if x in w:
+            res.append(i)
+    return res","findWordsContaining(words = ['leet', 'code'], x = 'e')","[0, 1]",565,[127  56   0]
+469,sample_469,findWordsContaining,"def findWordsContaining(words: List[str], x: str) -> List[int]:
+    res = []
+    for i in range(len(words)):
+        try:
+            b = words[i].find(x)
+            if (b >= 0):
+                res.append(i)
+        except:
+            pass
+    return res","findWordsContaining(words = ['abc', 'bcd', 'aaaa', 'cbc'], x = 'a')","[0, 2]",625,[127  33   1]
+470,sample_470,findWordsContaining,"def findWordsContaining(words: List[str], x: str) -> List[int]:
+    res = []
+    for i, w in enumerate(words):
+        if x in w:
+            res.append(i)
+    return res","findWordsContaining(words = ['abc', 'bcd', 'aaaa', 'cbc'], x = 'z')",[],569,[127   6   2]
+471,sample_471,findWordsContaining,"def findWordsContaining(words: List[str], x: str) -> List[int]:
+    return [i for i, w in enumerate(words) if x in w]","findWordsContaining(words = ['abc', 'bcd', 'aaaa', 'cbc'], x = 'a')","[0, 2]",580,[127  44   1]
+472,sample_472,minimumCoins,"def minimumCoins(prices: List[int]) -> int:
+    n = len(prices)
+    if not n: return 0
+    elif n == 1: return prices[0]
+    dp = [float(""inf"")] * n
+    for j in range(2):
+        dp[j] = prices[0]
+    #print(dp)
+    for i in range(1, n):
+        price = dp[i - 1] + prices[i]
+        for j in range(i, min(n, (i + 1) * 2)):
+            dp[j] = min(dp[j], price)
+        #print(dp)
+    return dp[-1]","minimumCoins(prices = [1, 10, 1, 1])",2,732,[128  35   1]
+473,sample_473,minimumCoins,"def minimumCoins(prices: List[int]) -> int:
+    n = len(prices)
+    @cache
+    def dp(i):
+        if i >= n:
+            return 0
+        min_cost = inf
+        for j in range(i + 1, i + i + 3):
+            min_cost = min(min_cost, dp(j))
+        return prices[i] + min_cost
+    return dp(0)","minimumCoins(prices = [3, 1, 2])",4,963,[128  49   0]
+474,sample_474,minimumCoins,"def minimumCoins(prices: List[int]) -> int:
+    
+    @cache
+    def dfs(i, free_until):
+        if i >= len(prices):
+            return 0
+        
+        res = prices[i] + dfs(i + 1, min(len(prices) - 1, i + i + 1))
+        
+        if free_until >= i:
+            res = min(res, dfs(i + 1, free_until))
+            
+        return res
+        
+    dfs.cache_clear()
+    return dfs(0, -1)","minimumCoins(prices = [3, 1, 2])",4,919,[128   6   0]
+475,sample_475,minimumCoins,"def minimumCoins(prices: List[int]) -> int:
+    n = len(prices)
+    
+    @cache
+    def panda(i, fc):
+        if i >= n:
+            return 0
+        
+        c1 = float(inf)
+        if fc != 0:
+            c1 = panda(i + 1, fc - 1)
+            
+        c2 = prices[i] + panda(i + 1, min(n + 1, i + 1))
+        
+        return min(c1, c2)
+    
+    return panda(0, 0)","minimumCoins(prices = [3, 1, 2])",4,934,[128  21   0]
+476,sample_476,minimumCoins,"def minimumCoins(prices: List[int]) -> int:
+    n = len(prices)
+    ans = [float(""inf"")]*(n+1)
+    
+    for i in range(n):
+        if i==0:
+            cost = prices[i]
+        else:
+            cost = ans[i-1]+prices[i]
+            
+        for j in range(i,min(n,i+i+1+1)):
+            ans[j] = min(ans[j],cost)
+    # print(ans)
+    return ans[n-1]","minimumCoins(prices = [1, 10, 1, 1])",2,779,[128  38   1]
+477,sample_477,minimumCoins,"def minimumCoins(prices: List[int]) -> int:
+    n = len(prices)
+    # @cache
+    # def dp(i):
+    #     if i == n:
+    #         return 0
+    #     prices[i] + dp(min(2 * i + 2, n))
+    dp = [math.inf] * (n + 1)
+    dp[-1] = 0
+    for i in reversed(range(n)):
+        dp[i] = prices[i] + min(dp[j] for j in range(i + 1, min(2 * i + 2, n) + 1))
+    return dp[0]","minimumCoins(prices = [3, 1, 2])",4,716,[128  37   0]
+478,sample_478,findMaximumLength,"def findMaximumLength(nums: List[int]) -> int:
+    nums+=[float('inf')]
+    presum=[0]+list(accumulate(nums))
+
+    n, dp, prev, cur = len(nums)-1, Counter(), Counter(),0
+
+    for i in range(n):
+        i+=1
+        cur=max(cur,prev[i])
+        dp[i]=(i-cur-1) + dp[cur]
+        idx=bisect.bisect_left(presum,2*presum[i]-presum[cur])   
+        prev[idx]=i
+    return n-dp[n]","findMaximumLength(nums = [5, 2, 2])",1,792,[129   0   0]

@@ -1,8 +1,8 @@
 import re
-import torch
 import os
 import pandas as pd
 from datasets import load_dataset
+import torch
 from transformers import pipeline
 from argparse import ArgumentParser
 from prompt_template import REASONING_JUDGE
