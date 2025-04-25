@@ -3,4 +3,4 @@
 Loading checkpoint shards:   0%|          | 0/8 [00:00<?, ?it/s]Loading checkpoint shards:  12%|█▎        | 1/8 [00:07<00:55,  7.95s/it]Loading checkpoint shards:  25%|██▌       | 2/8 [00:15<00:48,  8.00s/it]Loading checkpoint shards:  38%|███▊      | 3/8 [00:23<00:39,  7.99s/it]Loading checkpoint shards:  50%|█████     | 4/8 [00:31<00:31,  7.98s/it]Loading checkpoint shards:  62%|██████▎   | 5/8 [00:40<00:24,  8.01s/it]Loading checkpoint shards:  75%|███████▌  | 6/8 [00:48<00:16,  8.01s/it]Loading checkpoint shards:  88%|████████▊ | 7/8 [00:56<00:08,  8.03s/it]Loading checkpoint shards: 100%|██████████| 8/8 [00:59<00:00,  6.72s/it]Loading checkpoint shards: 100%|██████████| 8/8 [00:59<00:00,  7.50s/it]
 Device set to use cuda:0
   0%|          | 0/235 [00:00<?, ?it/s]✅ Resuming from row 211 / 235
- 90%|█████████ | 212/235 [10:11<01:06,  2.89s/it] 91%|█████████ | 213/235 [12:11<01:20,  3.67s/it]
+ 90%|█████████ | 212/235 [10:11<01:06,  2.89s/it] 91%|█████████ | 213/235 [12:11<01:20,  3.67s/it] 91%|█████████ | 214/235 [15:20<01:53,  5.42s/it]
