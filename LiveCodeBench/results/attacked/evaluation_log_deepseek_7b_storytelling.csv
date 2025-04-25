@@ -1,0 +1,863 @@
+perturbation_type,orig_question_content,modified_question_content,difficulty,model,public_test_cases,output,solution_code,result,metadata_output
+storytelling,"You are given a 0-indexed array of strings details. Each element of details provides information about a given passenger compressed into a string of length 15. The system is such that:
+
+The first ten characters consist of the phone number of passengers.
+The next character denotes the gender of the person.
+The following two characters are used to indicate the age of the person.
+The last two characters determine the seat allotted to that person.
+
+Return the number of passengers who are strictly more than 60 years old.
+ 
+Example 1:
+
+Input: details = [""7868190130M7522"",""5303914400F9211"",""9273338290F4010""]
+Output: 2
+Explanation: The passengers at indices 0, 1, and 2 have ages 75, 92, and 40. Thus, there are 2 people who are over 60 years old.
+
+Example 2:
+
+Input: details = [""1313579440F2036"",""2921522980M5644""]
+Output: 0
+Explanation: None of the passengers are older than 60.
+
+ 
+Constraints:
+
+1 <= details.length <= 100
+details[i].length == 15
+details[i] consists of digits from '0' to '9'.
+details[i][10] is either 'M' or 'F' or 'O'.
+The phone numbers and seat numbers of the passengers are distinct.","**The Mysterious Case of the Aging Passengers**
+
+In the bustling city of New Haven, a group of detectives was tasked with solving a peculiar mystery. The local transportation system had been plagued by an increasing number of complaints from passengers who were not satisfied with their seats. As the detectives dug deeper, they discovered that the problem was not just about the seats, but also about the age of the passengers.
+
+It turned out that the system was storing passenger information in a unique format - a 15-character string that contained their phone number, gender, age, and seat number. The detectives were given a list of these strings, and their mission was to find out how many passengers were older than 60.
+
+**Input**
+
+You are given a list of strings `details` that contain passenger information. Each string is 15 characters long and has the following format:
+
+* The first 10 characters are the phone number of the passenger.
+* The 11th character is the gender of the passenger (M for male, F for female, or O for other).
+* The 12th and 13th characters are the age of the passenger.
+* The last 2 characters are the seat number of the passenger.
+
+**Output**
+
+Your task is to return the number of passengers who are strictly more than 60 years old.
+
+**Example**
+
+Suppose you are given the following list of strings:
+
+* `""7868190130M7522""`
+* `""5303914400F9211""`
+* `""9273338290F4010""`
+
+You would need to return `2`, because the passengers at indices 0 and 1 have ages 75 and 92, respectively, which are both more than 60.
+
+**Constraints**
+
+* The list of strings `details` has a length between 1 and 100.
+* Each string in `details` is 15 characters long and consists of digits from 0 to 9.
+* The 11th character of each string is either 'M', 'F', or 'O'.
+* The phone numbers and seat numbers of the passengers are distinct.",easy,deepseek_7b,"[{""input"": ""[\""7868190130M7522\"", \""5303914400F9211\"", \""9273338290F4010\""]"", ""output"": ""2"", ""testtype"": ""functional""}, {""input"": ""[\""1313579440F2036\"", \""2921522980M5644\""]"", ""output"": ""0"", ""testtype"": ""functional""}]","Okay, I need to solve this problem where I have to count how many passengers are older than 60 based on their information stored in a string. Let's think about how to approach this.
+
+First, let's understand the input format. Each string is 15 characters long. The structure is as follows:
+- Characters 0-9: Phone number.
+- Character 10: Gender (M, F, O).
+- Characters 11-12: Age.
+- Characters 13-14: Seat number.
+
+So, the age is in positions 11 and 12, which are the 12th and 13th characters of the string, right? Wait, wait. Wait, in Python, string indices start at 0. So the 11th character is index 10, because 0-based. Wait, no: for a 15-character string, indexes go from 0 to 14. So the 11th character is index 10, 12th is 11, 13th is 12, 14th is 13.
+
+Wait, no, wait. Let's see: The first 10 characters are phone, so indexes 0-9. Then 10th is 11th character? Wait, no: index 10 is the 11th character. Because 0 is first, 1 is second,..., 10 is 11th. So the 11th character is index 10, 12th is 11, 13th is 12, 14th is 13.
+
+Wait, no, the 12th and 13th characters are the age. So for a string like ""7868190130M7522"", let's break it down:
+
+Positions 0-9: '7868190130' (phone)
+Position 10: 'M' (gender)
+Positions 11-12: '75' (age)
+Positions 13-14: '22' (seat)
+
+Wait, no, the example given in the problem: 
+
+They have ""7868190130M7522"". So the 11th character is 'M', 12th and 13th are '7' and '5', making the age 75. Oh wait, no, wait: the 11th and 12th characters are the age? Or is it 12th and 13th? Wait, the problem says the 12th and 13th are the age. So in the string, indexes 11 and 12.
+
+Wait, let's clarify:
+
+Each string is 15 characters. So indexes 0-14.
+
+The 11th character is index 10? Or wait, no. The 1st character is index 0, so the 11th is index 10. Then the 12th is index 11, 13th is index 12, 14th is index 13.
+
+Wait, the problem statement says:
+
+""The 12th and 13th characters are the age of the passenger.""
+
+So in the string, the 12th character is the 11th index (since 12-1=11), and the 13th is index 12.
+
+So for the example string ""7868190130M7522"":
+
+- Phone: 0-9: '7868190130'
+- Gender: 10th index: 'M'
+- Age: 11-12: '75'
+- Seat: 13-14: '22'
+
+So to get the age, I need to take characters at indexes 11 and 12, convert them to integers, and sum them? Or wait, wait: the age is a two-digit number. So for '75', the age is 75.
+
+So the plan is:
+
+For each string in the details list:
+
+1. Extract the age part, which is the substring from index 11 to 13, but wait, no: in Python, s[11:13] would give characters at 11 and 12, right? Because s[11:13] is up to but not including 13, so 11 and 12.
+
+Wait, no: s[11] is 11th index, s[12] is 12th. So s[11:13] gives two characters. So for each string, age_str = s[11] + s[12], then convert to integer.
+
+Wait, but for each string, age_str is s[11] and s[12], which form the age as a two-digit number. So for example, '75' is 75 years old.
+
+Once I have the age as an integer, I need to check if it's strictly greater than 60. If yes, increment the count.
+
+So the steps are:
+
+- Initialize a count variable to 0.
+- Iterate over each string in the details list.
+- For each string:
+   a. Extract the age_str as the substring from index 11 to 13? Wait, no. Wait, s[11] is the first character of the age, s[12] is the second. So the age is s[11] concatenated with s[12], then converted to integer.
+
+Wait, for the example string '7868190130M7522', the age is '75' which is 75.
+
+So, for each string, age = int( s[11] + s[12] )
+
+If age > 60, then count +=1.
+
+So, the code would be:
+
+count = 0
+for s in details:
+    age_str = s[11] + s[12]
+    age = int(age_str)
+    if age > 60:
+        count +=1
+return count
+
+So, now, in Python, the function is called countSeniors and takes details as a list of strings.
+
+Now, let's test this logic against the sample input.
+
+Sample input:
+
+Details = [""7868190130M7522"", ""5303914400F9211"", ""9273338290F4010""]
+
+First string: age is '75' → 75>60 → count +=1.
+
+Second string: age is '92' → 92>60 → count +=1.
+
+Third string: age is '40' → 40 ≤60 → no.
+
+So total is 2, which matches the sample.
+
+Another test case: let's say a string where the age is 60 → should not count. If age is 61 → count.
+
+What about leading zeros? Like '05' → 5, which is less than 60. So it's fine.
+
+So the code seems solid.
+
+Now, implement it in Python.
+
+The starter code is:
+
+class Solution:
+    def countSeniors(self, details: List[str]) -> int:
+        
+So, the function is inside this class.
+
+So, the code would be:
+
+def countSeniors(self, details: List[str]) -> int:
+    count = 0
+    for s in details:
+        age_str = s[11] + s[12]
+        age = int(age_str)
+        if age > 60:
+            count +=1
+    return count
+
+Wait, but wait: what if the age is something like '00' → 0, which is correctly handled.
+
+Yes.
+
+So, that's the plan.
+</think>
+
+To solve this problem, we need to determine how many passengers in a given list are strictly older than 60 years based on their stored information. The information is provided in a specific format within a 15-character string.
+
+### Approach
+1. **Understand the Input Format**: Each string in the input list is 15 characters long and follows this structure:
+   - Characters 0-9: Phone number
+   - Character 10: Gender (M, F, O)
+   - Characters 11-12: Age (as a two-digit number)
+   - Characters 13-14: Seat number
+
+2. **Extract Age Information**: For each string, the age is represented by the characters at positions 11 and 12. These two characters form a two-digit number which we convert to an integer.
+
+3. **Count Passengers Older Than 60**: For each extracted age, check if it is greater than 60. If it is, increment a counter.
+
+4. **Return the Count**: After processing all strings, return the count of passengers who are older than 60.
+
+### Solution Code
+```python
+class Solution:
+    def countSeniors(self, details: List[str]) -> int:
+        count = 0
+        for s in details:
+            age = int(s[11] + s[12])
+            if age > 60:
+                count += 1
+        return count
+```
+
+### Explanation
+- **Initialization**: Start with a counter set to 0.
+- **Iterate Through Each String**: For each string in the input list, extract the age using the characters at positions 11 and 12.
+- **Convert and Compare Age**: Convert the extracted age string to an integer and check if it is greater than 60.
+- **Increment Counter**: If the age is greater than 60, increment the counter.
+- **Return Result**: After processing all strings, return the count of passengers who are seniors (older than 60).
+
+This approach efficiently processes each string in the list, ensuring that we accurately count the number of passengers who meet the age criteria.","class Solution:
+    def countSeniors(self, details: List[str]) -> int:
+        count = 0
+        for s in details:
+            age = int(s[11] + s[12])
+            if age > 60:
+                count += 1
+        return count","[True, True]",{'execution time': 3.5762786865234375e-06}
+storytelling,"You are given a 0-indexed 2D integer array nums. Initially, your score is 0. Perform the following operations until the matrix becomes empty:
+
+From each row in the matrix, select the largest number and remove it. In the case of a tie, it does not matter which number is chosen.
+Identify the highest number amongst all those removed in step 1. Add that number to your score.
+
+Return the final score.
+ 
+Example 1:
+
+Input: nums = [[7,2,1],[6,4,2],[6,5,3],[3,2,1]]
+Output: 15
+Explanation: In the first operation, we remove 7, 6, 6, and 3. We then add 7 to our score. Next, we remove 2, 4, 5, and 2. We add 5 to our score. Lastly, we remove 1, 2, 3, and 1. We add 3 to our score. Thus, our final score is 7 + 5 + 3 = 15.
+
+Example 2:
+
+Input: nums = [[1]]
+Output: 1
+Explanation: We remove 1 and add it to the answer. We return 1.
+ 
+Constraints:
+
+1 <= nums.length <= 300
+1 <= nums[i].length <= 500
+0 <= nums[i][j] <= 10^3","**The Quest for the Golden Number**
+
+In the mystical realm of Numaria, a legendary Golden Number is hidden within a mystical 2D matrix, guarded by the ancient ones. The Golden Number is said to possess the power to grant the finder unimaginable wisdom and knowledge. However, the matrix is guarded by a powerful sorcerer who has cast a spell of confusion, hiding the Golden Number amongst a sea of ordinary numbers.
+
+As a brave adventurer, you have been tasked with uncovering the Golden Number and claiming its power. Your journey begins with a 0-indexed 2D integer array, the mystical matrix, which holds the secrets of the Golden Number. Your quest will take you through the realm, where you will encounter various challenges and obstacles.
+
+**Input**
+
+You are given a 0-indexed 2D integer array `nums`, the mystical matrix, as the starting point of your journey. The matrix is said to be guarded by the ancient ones, and its dimensions are unknown to you.
+
+**Output**
+
+Your ultimate goal is to return the final score, the Golden Number, which holds the power to grant you wisdom and knowledge. Your score will be calculated based on the numbers you encounter on your journey.
+
+**Explanation**
+
+As you navigate through the mystical matrix, you will encounter various numbers, each with its own power and significance. Your task is to perform a series of operations to uncover the Golden Number. The operations are as follows:
+
+1. From each row in the matrix, select the largest number and remove it. In the case of a tie, it does not matter which number is chosen.
+2. Identify the highest number amongst all those removed in step 1. Add that number to your score.
+
+You will repeat this process until the matrix becomes empty. The final score, the Golden Number, will be the sum of all the numbers you have added to your score throughout your journey.
+
+**Example**
+
+Your journey begins with a mystical matrix containing the following numbers:
+
+```
+[[7,2,1],[6,4,2],[6,5,3],[3,2,1]]
+```
+
+As you navigate through the matrix, you remove the largest numbers from each row and add them to your score. Your final score will be the sum of all the numbers you have added to your score throughout your journey.
+
+**Constraints**
+
+Your journey will be filled with challenges and obstacles, and you must be prepared to face them. The mystical matrix is said to have the following properties:
+
+* The matrix has a maximum of 300 rows.
+* Each row has a maximum of 500 columns.
+* The numbers in the matrix are between 0 and 10^3 (1000).
+
+Will you be able to overcome the challenges and obstacles and claim the Golden Number? The fate of Numaria rests in your hands.",medium,deepseek_7b,"[{""input"": ""[[7, 2, 1], [6, 4, 2], [6, 5, 3], [3, 2, 1]]"", ""output"": ""15"", ""testtype"": ""functional""}, {""input"": ""[[1]]"", ""output"": ""1"", ""testtype"": ""functional""}]","Okay, I need to solve this problem where I have to find the Golden Number in a 2D matrix by performing certain operations and summing up the numbers I remove. Let me try to understand the problem step by step.
+
+So, the problem says that I have a 2D integer array, nums. My task is to repeatedly perform operations until the matrix is empty, and then return the sum of the numbers I removed each time.
+
+Each operation consists of two steps. In each step, for every row in the matrix, I select the largest number and remove it. Then, among all these removed numbers, I find the highest one and add it to my score. I repeat this until the matrix is empty.
+
+Wait, no. Wait, the process is: in each iteration, for each row, remove the largest number. Then, among all the numbers removed in that iteration, find the maximum and add it to the score. Then, the matrix becomes empty because each row loses one element each time. So, the number of iterations is equal to the number of columns in the matrix, assuming all rows have the same length. But wait, what if rows have different lengths? Oh, the problem says the matrix is 2D, but each row can have different lengths? Or is it a rectangular matrix?
+
+Looking back at the problem statement: the input is a 0-indexed 2D integer array, nums. So each row can have varying lengths. So, for example, in some rows, there might be more elements than others.
+
+Wait, but the way the process works is that in each iteration, for each row, I select the largest number and remove it. So, in each iteration, each row contributes one number to the pool for that iteration's maximum.
+
+So, the process is: while there are elements in the matrix, for each row, find the maximum, add it to a list, then find the maximum of that list and add to the score. Then, remove those maxima from each row. Repeat until the matrix is empty.
+
+Wait, but how? Because after each iteration, the matrix's rows are being modified by removing one element each. So the number of iterations is equal to the maximum row length, perhaps?
+
+Wait, for example, consider a matrix where the first row has 3 elements, the second has 2. So, in the first iteration, each row removes their max. The first row now has 2 elements, the second has 1. In the second iteration, each row (which now has 2 and 1 elements respectively) removes their max. The first row now has 1, the second is empty. Third iteration: first row has one element, so it's removed. Second row is empty, so nothing is done. So total of 3 iterations.
+
+So, the number of iterations is equal to the maximum row length.
+
+So, the plan is:
+
+1. While there are elements left in any row, perform the following steps:
+
+   a. For each row, find the maximum element. If a row is empty, skip it.
+
+   b. Collect all these maximums from each row (ignoring empty rows).
+
+   c. Find the maximum of this collected list. Add this to the score.
+
+   d. Remove these maxima from each row. So, for each row, remove one occurrence of the maximum (if there are duplicates, it doesn't matter which one is removed).
+
+2. Sum all the maximums collected in each iteration to get the final score.
+
+So, how to implement this in Python.
+
+Hmm, the approach could be:
+
+- While any row in nums is not empty, loop:
+
+   - For each row, find the max, add to a list of maxes.
+
+   - Find the max of this list, add to the total score.
+
+   - Then, for each row, remove the first occurrence of its max (or any occurrence, since the order doesn't matter as long as one is removed).
+
+But wait, for a row, how to remove the max. Because in Python, the list has a method called remove(), which removes the first occurrence of a value. So, for each row, if it's not empty, we can call row.remove(max_val).
+
+So, in code:
+
+We can loop until all rows are empty. For each iteration:
+
+- Create a list called current_maxes.
+
+- For each row in nums:
+
+   - If the row is not empty, find the max, add to current_maxes.
+
+- If current_maxes is empty (which can't happen because each iteration would have at least one row), then break.
+
+- The maximum of current_maxes is added to the total.
+
+- Then, for each row in nums, remove the first occurrence of its max.
+
+Wait, but after each row's max is removed, the next iteration will process the new state of the rows.
+
+Yes.
+
+So, in Python, we can implement this as follows:
+
+Initialize the total score as 0.
+
+Loop:
+
+   current_maxes = []
+
+   for row in nums:
+
+       if row is not empty:
+
+           max_val = max(row)
+
+           current_maxes.append(max_val)
+
+   if not current_maxes:
+
+       break  # but this can't happen unless all rows are empty.
+
+   max_score = max(current_maxes)
+
+   total += max_score
+
+   for row in nums:
+
+       if row:  # if not empty
+
+           row.remove(max_val)  # wait, but each row's max_val is different.
+
+Wait, no. Because for each row, in each iteration, we are finding the current max, and then removing it. So, in each iteration, for each row, we have to find the current max (before any removals) and then remove it.
+
+Wait, but in the code above, for each row, in each iteration, we find the max, add to current_maxes, and then after that, remove that max from the row.
+
+Wait, no. Because for each row, we can't just take the max and then remove it. Because during the same iteration, other rows might have changed. So, in each iteration, for each row, we need to find the max of the current state of the row, then remove it.
+
+So, in code:
+
+In each iteration:
+
+   current_maxes = [max(row) for row in nums if row]
+
+   if not current_maxes:
+
+       break
+
+   max_score = max(current_maxes)
+
+   total += max_score
+
+   # now, for each row, remove the max_val. But wait, each row's max is different.
+
+   # So, for each row, we need to find its max, and remove it.
+
+   # But how?
+
+   # So, perhaps, for each row in nums:
+
+   for row in nums:
+
+       if row:  # if not empty
+
+           max_val = max(row)
+
+           row.remove(max_val)
+
+So, in each iteration, for each row, find the current max and remove it.
+
+Yes.
+
+So, the steps are:
+
+- While there are elements in any row:
+
+   - For each row, if not empty, collect the max.
+
+   - Find the max among these collected maxes, add to total.
+
+   - For each row, if not empty, remove the max.
+
+So, the code outline is:
+
+def matrixSum(nums: List[List[int]]) -> int:
+
+    total = 0
+
+    while any(row for row in nums if row):
+
+        current_maxes = []
+
+        for row in nums:
+
+            if row:
+
+                current_maxes.append(max(row))
+
+        if not current_maxes:
+
+            break
+
+        max_score = max(current_maxes)
+
+        total += max_score
+
+        # Now, remove the max from each row
+
+        for row in nums:
+
+            if row:
+
+                row.remove(max(row))
+
+    return total
+
+Wait, but what if a row has multiple elements equal to the max? Like [7,7,3]. Then, when you remove the max, it removes the first occurrence.
+
+Yes, because the problem says that in case of a tie, it doesn't matter which one is chosen. So, the code is correct.
+
+Testing the example:
+
+The example given is:
+
+[[7,2,1],[6,4,2],[6,5,3],[3,2,1]]
+
+Let's see:
+
+Iteration 1:
+
+current_maxes = [7,6,6,3]
+
+max_score is 7. total is 7.
+
+Then, each row removes their max:
+
+Row 0: [2,1]
+
+Row 1: [4,2]
+
+Row 2: [5,3]
+
+Row 3: [2,1]
+
+Iteration 2:
+
+current_maxes = [2,4,5,2]
+
+max_score is 5. total is 7+5=12.
+
+Then, remove max from each row:
+
+Row0: [2,1] (max is 2, removed) → [1]
+
+Row1: [4,2] → remove 4 → [2]
+
+Row2: [5,3] → remove5 → [3]
+
+Row3: [2,1] → remove2 → [1]
+
+Iteration3:
+
+current_maxes = [1,2,3,1]
+
+max is 3. total is 12+3=15.
+
+Remove 3 from row2 → now row2 is [ ].
+
+So, after this, row2 is empty.
+
+Now, check any(row for row in nums if row):
+
+Row0: [1] → yes.
+
+Row1: [2] → yes.
+
+Row2: empty.
+
+Row3: [1] → yes.
+
+So, next iteration.
+
+Iteration4:
+
+current_maxes = [1,2,1]
+
+max is 2. total is 15+2=17.
+
+Remove 2 from row1 → now row1 is empty.
+
+Row0: [1] → remove 1 → empty.
+
+Row3: [1] → remove 1 → empty.
+
+Now, any row in nums? Let's see:
+
+Row0 is empty.
+
+Row1 is empty.
+
+Row2 is empty.
+
+Row3 is empty.
+
+So, the loop ends.
+
+Total is 17.
+
+Wait, but the example in the problem statement says the final score is 7+5+3+2 = 17. So yes, correct.
+
+So, the code seems to handle this case correctly.
+
+Another test case: let's say a single row.
+
+For example, nums = [[5,3,8,2]]
+
+Iteration1:
+
+current_maxes is [8]. max is 8. total is 8.
+
+Remove 8 → row becomes [5,3,2].
+
+Iteration2:
+
+current_maxes is [5]. total is 8+5=13.
+
+Remove 5 → [3,2].
+
+Iteration3:
+
+current_maxes is [3]. total 16.
+
+Remove 3 → [2].
+
+Iteration4:
+
+current_maxes is [2]. total 18.
+
+Remove 2 → row is empty.
+
+So, total is 8+5+3+2 = 18.
+
+Which is correct.
+
+Another test case: matrix with varying row lengths.
+
+For example, [[10], [9,8], [7,6,5]]
+
+Iteration1:
+
+current_maxes = [10,9,7] → max is 10. total 10.
+
+Remove 10 from first row → it's empty.
+
+Row2: [9,8] → remove9 → [8].
+
+Row3: [7,6,5] → remove7 → [6,5].
+
+Now, any rows? Yes, row1 has 8, row3 has 6,5.
+
+Iteration2:
+
+current_maxes = [8,6]. max is 8. total 18.
+
+Remove 8 → row1 is empty.
+
+Row3: remove6 → [5].
+
+Iteration3:
+
+current_maxes = [5]. total 23.
+
+Remove5 → row3 is empty.
+
+So, total is 10+8+5=23.
+
+Yes.
+
+So, the code seems to handle this correctly.
+
+Now, in Python, the code would be written as:
+
+But wait, in the code, for each row in nums, we have to process it. So, the code can be written as:
+
+But in Python, the code is inside a function called matrixSum.
+
+So, the starter code is:
+
+class Solution:
+    def matrixSum(self, nums: List[List[int]]) -> int:
+        
+So, we'll implement the code as follows.
+
+Potential issues:
+
+- Handling empty rows correctly.
+
+- When a row becomes empty after removal, it's handled in the next iteration.
+
+Now, testing for empty rows in the initial nums.
+
+For example, nums = [[], [1,2,3]]
+
+Iteration1:
+
+current_maxes is [1,2,3]. max is 3.
+
+total +=3.
+
+Then, for each row:
+
+Row0 is empty → nothing.
+
+Row1: remove3 → [1,2].
+
+Now, any row? Yes, row1.
+
+Iteration2:
+
+current_maxes is [2]. total is 3+2=5.
+
+Remove 2 → [1].
+
+Iteration3:
+
+current_maxes is [1]. total 6.
+
+Remove1 → row is empty.
+
+No more rows.
+
+So, total is 3+2+1=6.
+
+Yes.
+
+Another edge case: all rows are empty. Then, total is 0.
+
+What about a matrix where all rows are empty? So, the loop doesn't run, and total remains 0.
+
+Yes.
+
+Another case: a matrix where some rows are empty.
+
+Wait, in the problem statement, it's said that nums is a 2D integer array, so perhaps each row is a list. So, in the code, for row in nums: if row is not empty, then process.
+
+Wait, in Python, an empty list is considered False in a boolean context, so 'for row in nums: if row' correctly skips empty rows.
+
+So, in the code, during the current_maxes collection, it's correct.
+
+Another edge case: all elements are the same.
+
+For example, nums = [[5,5,5], [5,5]]
+
+Iteration1:
+
+current_maxes are [5,5]. max is 5. total +=5.
+
+Each row removes 5. So, row0 becomes [5,5], row1 becomes empty.
+
+Wait, wait:
+
+Wait, row0 is [5,5,5]. So, after removal, it's [5,5].
+
+Row1 is [5,5], so after removal, it's [5].
+
+Wait, no: the code for each row in nums, if row is not empty, remove the max.
+
+So, in the first iteration:
+
+Row0 is [5,5,5]. max is 5. So, row0 becomes [5,5].
+
+Row1 is [5,5]. max is5. row1 becomes [5].
+
+So, current_maxes in iteration2 are [5,5]. max is5. total +=5.
+
+Then, row0 is [5,5]. remove 5 → becomes [5].
+
+Row1 is [5]. remove5 → becomes empty.
+
+Iteration3:
+
+current_maxes is [5]. total +=5. row0 becomes empty.
+
+So, total is 5+5+5=15.
+
+Yes.
+
+So, the code seems to handle all cases correctly.
+
+Now, implementing this in Python.
+
+So, the code is:
+
+We have to import List from typing.
+
+But in the starter code, it's given as 'List[List[int]]'.
+
+So, in the code, the function is called matrixSum, and takes nums as a parameter.
+
+So, the code is:
+
+class Solution:
+    def matrixSum(self, nums: List[List[int]]) -> int:
+        total = 0
+        while any(row for row in nums if row):
+            current_maxes = []
+            for row in nums:
+                if row:
+                    current_maxes.append(max(row))
+            if not current_maxes:
+                break
+            max_score = max(current_maxes)
+            total += max_score
+            for row in nums:
+                if row:
+                    row.remove(max(row))
+        return total
+
+Wait, but in Python, the 'any' function in the condition is applied to a generator expression, which iterates through all rows. If any row is non-empty, the loop continues.
+
+Wait, but in the while loop condition, 'any(row for row in nums if row)' is equivalent to checking if any row is not empty.
+
+Yes.
+
+So, the code should work.
+
+Testing the example:
+
+nums = [[7,2,1],[6,4,2],[6,5,3],[3,2,1]]
+
+The code should return 7+5+3+2 = 17.
+
+Yes.
+
+Another test case:
+
+nums = [[5,3,8,2], [9,8], [7,6,5]]
+
+The code should return 8+5+3+2=18.
+
+Yes.
+
+Thus, the code should handle all cases correctly.
+</think>
+
+To solve this problem, we need to navigate through a 2D matrix and find the ""Golden Number"" by repeatedly removing the largest numbers from each row and summing these numbers until the matrix is empty. The final score, which is the sum of all these removed numbers, will be the ""Golden Number.""
+
+### Approach
+1. **Iterative Removal of Maxima**: For each iteration, we process each row of the matrix to find the largest number. This number is then removed from the row.
+2. **Summing the Maxima**: After processing all rows in an iteration, we find the maximum value among all the removed numbers and add this value to our total score.
+3. **Repeat Until Empty**: This process is repeated until all rows in the matrix are empty.
+
+### Solution Code
+```python
+from typing import List
+
+class Solution:
+    def matrixSum(self, nums: List[List[int]]) -> int:
+        total = 0
+        while any(row for row in nums if row):
+            current_maxes = []
+            for row in nums:
+                if row:
+                    current_maxes.append(max(row))
+            if not current_maxes:
+                break
+            max_score = max(current_maxes)
+            total += max_score
+            for row in nums:
+                if row:
+                    row.remove(max(row))
+        return total
+```
+
+### Explanation
+1. **Initialization**: We start with a total score of 0.
+2. **While Loop**: The loop continues as long as there are non-empty rows in the matrix.
+3. **Collect Maxima**: For each row, if it is not empty, we find the maximum value and add it to a list of maxima for the current iteration.
+4. **Update Total**: After processing all rows, we find the maximum value from the collected maxima and add it to the total score.
+5. **Remove Maxima**: Each row has its maximum value removed. If a row becomes empty after this removal, it is ignored in subsequent iterations.
+6. **Termination**: The loop terminates when all rows are empty, and we return the total score.
+
+This approach ensures that we efficiently remove the largest elements and sum them up, leading us to the ""Golden Number"" as required.","from typing import List
+
+class Solution:
+    def matrixSum(self, nums: List[List[int]]) -> int:
+        total = 0
+        while any(row for row in nums if row):
+            current_maxes = []
+            for row in nums:
+                if row:
+                    current_maxes.append(max(row))
+            if not current_maxes:
+                break
+            max_score = max(current_maxes)
+            total += max_score
+            for row in nums:
+                if row:
+                    row.remove(max(row))
+        return total","[True, True]",{'execution time': 1.0251998901367188e-05}
