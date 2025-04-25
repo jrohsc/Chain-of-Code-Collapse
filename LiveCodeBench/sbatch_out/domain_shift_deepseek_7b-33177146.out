@@ -1,0 +1,7 @@
+/work/pi_ahoumansadr_umass_edu/jroh/miniconda3/envs/overthink/lib/python3.9/site-packages/transformers/utils/hub.py:128: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:32<00:32, 32.17s/it]Loading checkpoint shards: 100%|██████████| 2/2 [01:01<00:00, 30.23s/it]Loading checkpoint shards: 100%|██████████| 2/2 [01:01<00:00, 30.52s/it]
+Device set to use cuda:0
+  0%|          | 0/235 [00:00<?, ?it/s]csv_path: results/attacked/evaluation_log_deepseek_7b_domain_shift.csv
+  0%|          | 1/235 [02:39<10:21:20, 159.32s/it]  1%|          | 2/235 [05:35<10:58:01, 169.45s/it]  1%|▏         | 3/235 [08:51<11:41:36, 181.45s/it]  2%|▏         | 4/235 [10:21<9:20:10, 145.50s/it]   2%|▏         | 5/235 [17:39<16:01:32, 250.84s/it]  3%|▎         | 6/235 [19:12<12:32:41, 197.21s/it]  3%|▎         | 7/235 [23:40<13:57:05, 220.29s/it]  3%|▎         | 8/235 [31:21<18:42:45, 296.76s/it]  4%|▍         | 9/235 [34:03<15:59:11, 254.65s/it]  4%|▍         | 10/235 [48:59<28:17:27, 452.66s/it]You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
+  5%|▍         | 11/235 [1:00:31<32:44:10, 526.12s/it]  5%|▌         | 12/235 [1:11:06<34:38:26, 559.22s/it]  6%|▌         | 13/235 [1:12:35<25:41:19, 416.58s/it]  6%|▌         | 14/235 [1:14:22<19:50:04, 323.10s/it]

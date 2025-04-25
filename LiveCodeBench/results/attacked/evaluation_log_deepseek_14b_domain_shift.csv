@@ -1,0 +1,1365 @@
+perturbation_type,orig_question_content,modified_question_content,difficulty,model,public_test_cases,output,solution_code,result,metadata_output
+domain_shift,"You are given a 0-indexed array of strings details. Each element of details provides information about a given passenger compressed into a string of length 15. The system is such that:
+
+The first ten characters consist of the phone number of passengers.
+The next character denotes the gender of the person.
+The following two characters are used to indicate the age of the person.
+The last two characters determine the seat allotted to that person.
+
+Return the number of passengers who are strictly more than 60 years old.
+ 
+Example 1:
+
+Input: details = [""7868190130M7522"",""5303914400F9211"",""9273338290F4010""]
+Output: 2
+Explanation: The passengers at indices 0, 1, and 2 have ages 75, 92, and 40. Thus, there are 2 people who are over 60 years old.
+
+Example 2:
+
+Input: details = [""1313579440F2036"",""2921522980M5644""]
+Output: 0
+Explanation: None of the passengers are older than 60.
+
+ 
+Constraints:
+
+1 <= details.length <= 100
+details[i].length == 15
+details[i] consists of digits from '0' to '9'.
+details[i][10] is either 'M' or 'F' or 'O'.
+The phone numbers and seat numbers of the passengers are distinct.","**Hotel Room Management System**
+
+You are given a 0-indexed list of hotel room reservations `reservations`. Each element of `reservations` provides information about a given guest compressed into a string of length 15. The system is such that:
+
+The first ten characters consist of the room number of guests.
+The next character denotes the type of accommodation (S for Suite, F for Family, O for Oceanview).
+The following two characters are used to indicate the number of nights the guest has booked.
+The last two characters determine the floor of the hotel where the room is located.
+
+Return the number of guests who have booked for more than 60 nights.
+
+**Example 1:**
+
+Input: reservations = [""Room 1234567890S1202"", ""Room 1234567890F1203"", ""Room 1234567890F4010""]
+Output: 2
+Explanation: The guests at reservations 0, 1, and 2 have booked for 12, 12, and 4 nights. Thus, there are 2 guests who have booked for more than 60 nights.
+
+**Example 2:**
+
+Input: reservations = [""Room 1234567890S2036"", ""Room 1234567890F5644""]
+Output: 0
+Explanation: None of the guests have booked for more than 60 nights.
+
+**Constraints:**
+
+1 <= reservations.length <= 100
+reservations[i].length == 15
+reservations[i] consists of alphanumeric characters.
+reservations[i][10] is either 'S' or 'F' or 'O'.
+The room numbers and floor numbers of the guests are distinct.",easy,deepseek_14b,"[{""input"": ""[\""7868190130M7522\"", \""5303914400F9211\"", \""9273338290F4010\""]"", ""output"": ""2"", ""testtype"": ""functional""}, {""input"": ""[\""1313579440F2036\"", \""2921522980M5644\""]"", ""output"": ""0"", ""testtype"": ""functional""}]","Okay, I need to solve this problem where I have to count the number of guests who have booked for more than 60 nights. Let's see the problem statement again.
+
+So, each string in the reservations list is 15 characters long. The first ten are the room number. Then, the 11th character is the type (S, F, O), but I don't think that matters here. The next two characters are the number of nights, right? Because after that comes the floor. Wait, wait, let me think about the structure again.
+
+Wait, the problem says: The first ten characters are the room number. Then, the next character is the type. Then, the following two characters are the number of nights. Then, the last two are the floor.
+
+So, each string is structured as:
+
+- 0-9: room number (10 chars)
+- 10: type (S/F/O)
+- 11-12: nights (two digits)
+- 13-14: floor (two digits)
+
+So, for each string, I need to extract the two characters that represent the number of nights. Then, convert that into an integer and check if it's more than 60.
+
+So, the plan is:
+
+1. Iterate through each string in the details list.
+2. For each string, extract the substring from position 11 to 12 (since Python is 0-based). So, s[11:13] gives the two characters.
+3. Convert that substring to an integer. Let's call it nights.
+4. If nights > 60, increment a counter.
+5. Finally, return the counter.
+
+Wait, wait. Wait, no. Because the string is 15 characters long, so indexes 0 to 14. So, positions 11 and 12 are the two characters for nights. So s[11:13] gives us the two digits. Then, we convert that to an integer.
+
+Wait, let's take example 1:
+
+""Room 1234567890S1202""
+
+Breaking it down:
+
+- Room number is 1234567890 (positions 0-9)
+- Type is S (position 10)
+- Nights: positions 11 and 12 are '1' and '2', so 12.
+- Floor is 02 (positions 13-14).
+
+So for each string, the nights are the 11th and 12th characters (indices 11 and 12). So, s[11] is the first digit, s[12] the second. So, s[11:13] gives us the two characters, which we can convert to an integer.
+
+So, for each string, extract s[11:13], convert to int, and check if >60.
+
+Now, the function is called countSeniors, but I think that's a typo, because seniors are people over 60, but in this case, it's about nights. Oh, wait, maybe the problem uses'seniors' to refer to guests with more than 60 nights. Or perhaps it's a misnomer. Anyway, the function is to count the number of guests who have booked more than 60 nights.
+
+So, let's think about the steps in code.
+
+The starter code is a class Solution with a method countSeniors that takes details as a list of strings.
+
+So, inside the method:
+
+Initialize a counter to 0.
+
+Loop through each detail in details:
+
+For each detail, extract the substring from index 11 to 13 (since in Python, the end index is exclusive). So, s[11:13] gives the two characters.
+
+Convert that substring to integer: int(nights_str).
+
+If that integer is greater than 60, increment the counter.
+
+After processing all details, return the counter.
+
+Wait, let's test this logic against the examples.
+
+Example 1:
+
+Input: [""Room 1234567890S1202"", ""Room 1234567890F1203"", ""Room 1234567890F4010""]
+
+Each string:
+
+First string: s[11:13] is '12' → 12 → not >60.
+
+Wait, no. Wait the first example's output is 2. Wait, let me recheck.
+
+Wait, the first example says:
+
+Reservations 0, 1, and 2 have booked for 12, 12, and 4 nights. Wait, that can't be. Wait the input strings are:
+
+""Room 1234567890S1202"" → the nights are 1202? Or wait, no. Wait, the structure is:
+
+After the room number (10 chars), the type is 1 char, then 2 chars for nights, then 2 for floor.
+
+So, for the first string:
+
+After room number, the type is 'S', then the next two are '12', which is 12 nights. Then the floor is '02'.
+
+Wait, but in the example explanation, the first guest has 12 nights, the second has 12, the third has 4. So, none of them are over 60. So the output is 2, which contradicts.
+
+Wait, wait no. Wait the example 1's output is 2. Let me recheck.
+
+Wait the example 1 says:
+
+Input: [""Room 1234567890S1202"", ""Room 1234567890F1203"", ""Room 1234567890F4010""]
+
+Output is 2.
+
+Explanation: the guests have booked for 12, 12, 4 nights. So, 12, 12, 4. So, none are over 60. So why is the output 2?
+
+Wait that can't be right. Oh wait, wait, maybe I'm misunderstanding the structure.
+
+Wait perhaps the two digits after the type are the number of nights, but perhaps it's a two-digit number, so 12 is 12, 03 is 3, 10 is 10. So, in example 1:
+
+First string: 12 → 12 → not over 60.
+
+Second string: 12 → 12 → same.
+
+Third string: 40 → 40? Wait, but in the example explanation, it's 4 nights. Wait that can't be.
+
+Wait, I'm getting confused. Let me re-examine the problem statement.
+
+Problem statement says:
+
+The next two characters are used to indicate the number of nights the guest has booked.
+
+So, the two characters are the number of nights as a two-digit number. So, ""12"" is 12, ""03"" is 3, ""40"" is 40, ""20"" is 20.
+
+Wait, but in example 1, the output is 2, which suggests two guests have booked more than 60 nights. But according to the explanation, all have 12, 12, 4. So, that doesn't add up.
+
+Wait, maybe I'm misunderstanding the example.
+
+Wait example 1's explanation says:
+
+The guests at reservations 0, 1, and 2 have booked for 12, 12, and 4 nights. Thus, there are 2 guests who have booked for more than 60 nights.
+
+Wait that doesn't make sense because 12 is less than 60. So how can two guests have more than 60?
+
+Hmm, perhaps I'm misinterpreting the structure of the string.
+
+Wait, perhaps the two characters after the type are the number of nights, but perhaps the first two digits after the type are the nights, but wait, the string is 15 characters long. So, let's count the indexes.
+
+Each string is 15 characters. So:
+
+Positions 0-9: room number (10 chars)
+Position 10: type (1 char)
+Positions 11-12: nights (2 chars)
+Positions 13-14: floor (2 chars)
+
+So, in the first example:
+
+First string: ""Room 1234567890S1202""
+
+So, room number is 1234567890, type is S, then the next two are 12 → 12 nights, then floor is 02.
+
+Second string: ""Room 1234567890F1203"" → type F, nights 12, floor 03.
+
+Third string: ""Room 1234567890F4010"" → type F, nights 40, floor 10.
+
+Wait, so in the third string, the nights are 40. So, 40 is less than 60.
+
+So, in example 1, all three guests have booked for 12, 12, 40. So, none have more than 60. So the output should be 0, but the example says 2. That's conflicting.
+
+Wait, perhaps I'm misunderstanding the example.
+
+Wait the example 1's output is 2, and the explanation says that two guests have booked for more than 60. So perhaps I'm miscalculating the nights.
+
+Wait, maybe the two digits after the type are the number of nights, but perhaps it's a four-digit number. Wait, no, because the string is 15 characters. Let me think again.
+
+Wait, the problem statement says: the next two characters are used to indicate the number of nights. So, each is a single digit, making a two-digit number.
+
+Wait, perhaps in the third string, the nights are 40, which is 40, still less than 60.
+
+So, in example 1, all three have 12, 12, 40 → none over 60. So output should be 0. But the example says 2. So that's a problem.
+
+Wait, perhaps I'm looking at the wrong part of the string.
+
+Wait, perhaps the string is ""Room"" followed by the room number, then the rest.
+
+Wait, perhaps the string starts with 'Room ', which is 5 characters. So, for example, the first string is 'Room 1234567890S1202' → the room number is 10 digits after 'Room ', so the total is 5 + 10 +...?
+
+Wait, let me count the length of the string. The string is 15 characters long.
+
+""Room 1234567890S1202"" → let's count the letters:
+
+'Room'is 5 letters. Then 10 digits (room number), then S, then two digits, then two digits for floor.
+
+So, the structure is:
+
+""Room "" (5) + room number (10) + type (1) + nights (2) + floor (2) → total 5+10+1+2+2=20? But the problem says the string is 15 characters. So I must have misunderstood.
+
+Wait, the problem says each element is a string of length 15. So, the string is 15 characters. So, the first 10 are the room number, then type, then two for nights, then two for floor. So, 10+1+2+2=15.
+
+Wait, but the string starts with 'Room'which is 5 letters. So that would make the room number part 10 letters, but 5 letters are used for 'Room '.
+
+Wait, perhaps the string is structured as 'RoomXXXXXXX...'. So, for example, the first string is ""Room 1234567890S1202"". Let's see:
+
+""Room "" is 5 characters, then 10 for the room number (1234567890), then S, then 12, then 02. So that's 5+10+1+2+2=20, but the string is 15. So that can't be.
+
+Hmm, this is confusing. Maybe the initial 'Room'is not part of the string. Wait, the problem says each string is 15 characters. So, perhaps the string is like '1234567890S1202', which is 10+1+2+2=15.
+
+But the examples show that the strings start with ""Room 1234567890..."". So, perhaps the initial part is part of the room number.
+
+Wait, maybe the room number is the first 10 characters, regardless of what they are. So, the first 10 characters are the room number, which can include letters and numbers.
+
+Wait, the problem statement says: The first ten characters consist of the room number of guests.
+
+So, regardless of what's in the string, the first ten are room number.
+
+So, in the first example, the strings are 15 characters each, starting with 'Room 1234567890S1202', which is 15 letters. Wait, let's count:
+
+""Room 1234567890S1202"" → length is 15.
+
+Yes, because 'Room' is 4 letters, then a space, then 10 digits (room number), then type (S), then two digits (12), then two digits (02). So 4+1+10 +1+2+2= 20. Hmm, that's 20, but the problem says each string is 15. So that's a problem.
+
+Wait, perhaps I'm miscalculating. Let me count the exact length.
+
+""Room 1234567890S1202"" → let's see:
+
+Letters: R, o, o, m,  space, 1,2,3,4,5,6,7,8,9,0, S, 1,2,0,2 → that's 20 characters. But the problem says each string is 15.
+
+So this is a contradiction. So perhaps I'm misunderstanding the structure.
+
+Wait, perhaps the string is 15 characters, with the first 10 being the room number, then type, then two for nights, then two for floor. So, the string is 10+1+2+2=15.
+
+So, for example, the string is ""1234567890S1202"".
+
+But the examples show strings starting with ""Room 1234567890S1202"", which is longer than 15.
+
+So, perhaps the examples are illustrative, and the actual strings in the input are 15 characters.
+
+Wait, looking back at the problem statement:
+
+Each element of reservations provides information about a given guest compressed into a string of length 15.
+
+So, the example is just a representation, and the actual input strings are 15 characters, without the 'Room'prefix.
+
+So, perhaps the example's strings are just for explanation, and in the actual input, the strings are 15 characters.
+
+So, for example, the first example's input is [""1234567890S1202"",...], but the example shows ""Room 1234567890S1202"" for clarity.
+
+So, in the code, each string is 15 characters, and the first 10 are the room number.
+
+So, for each string, the structure is:
+
+0-9: room number (10 chars)
+10: type (1 char)
+11-12: nights (2 chars)
+13-14: floor (2 chars)
+
+So, for example, the string ""1234567890S1202"" → room number is '1234567890', type 'S', nights '12' → 12, floor '02' → 2.
+
+So, in example 1, the first string's nights are 12, second 12, third 40. So, none are over 60, so output is 0. But the example says output is 2. Hmm, that's a problem.
+
+Wait, perhaps I'm misunderstanding the example. Let me read the example again.
+
+Wait, example 1 says:
+
+Input: reservations = [""Room 1234567890S1202"", ""Room 1234567890F1203"", ""Room 1234567890F4010""]
+
+Output: 2
+
+Explanation: The guests at reservations 0, 1, and 2 have booked for 12, 12, and 4 nights. Thus, there are 2 guests who have booked for more than 60 nights.
+
+Wait, that's impossible because 12 is less than 60. So, the only way the output is 2 is if two guests have booked for more than 60.
+
+But according to the explanation, all three have booked for 12,12,4. So, none are over 60. So the output should be 0.
+
+This suggests that perhaps I'm misunderstanding the structure of the string.
+
+Alternatively, perhaps the problem statement is that the first ten characters include the 'Room' part. So, perhaps the room number is 10 characters, which may include letters, not just digits.
+
+So, perhaps the string is ""Room1234567890S1202"" → 15 characters.
+
+Wait, that's 4 (Room) + 10 (digits) + 1 (S) + 2 (12) + 2 (02) → 4+10=14, plus 1+2+2=5 → 14+5=19. No, that's not 15.
+
+Hmm, I'm getting stuck here. Maybe I should proceed with the assumption that each string is 15 characters, and the first 10 are the room number.
+
+So, in code, for each string s in details:
+
+nights = int(s[11:13])
+
+if nights >60, count +=1
+
+So, let's proceed with that.
+
+Now, let's test the first example:
+
+If the input is [""Room 1234567890S1202"",...], but that's 15 characters. Wait, no, that string is longer.
+
+Wait, perhaps the example is just illustrative, and the actual input is a 15-character string.
+
+So, perhaps in the first example, the first string is ""1234567890S1202"", which is 10+1+2+2=15.
+
+So, in that case, the nights are 12, 12, 40 → all less than 60. So, output is 0, but the example says 2.
+
+This suggests that perhaps the problem statement is different.
+
+Wait, perhaps the two digits for nights are in positions 12 and 13, not 11 and 12.
+
+Wait, the problem statement says:
+
+The next two characters are used to indicate the number of nights the guest has booked.
+
+So, after the type (position 10), the next two are 11 and 12.
+
+So, in the string, the nights are at 11 and 12.
+
+So, the code is correct.
+
+But the example's output is 2, which implies that two guests have nights >60.
+
+So, perhaps in the example, the strings have 2036, 5644, etc.
+
+Wait, example 2:
+
+Input: [""Room 1234567890S2036"", ""Room 1234567890F5644""]
+
+Output: 0
+
+Explanation: None have booked for more than 60.
+
+So, for the first string: nights are '20' → 20 <60.
+
+Second string: '56' →56 <60. So output is 0.
+
+So, that's correct.
+
+But in example 1, the output is 2, which suggests that two of the three have nights >60.
+
+So, perhaps in example 1, the strings have '1202' as the last four, but perhaps the nights are '02' and '03' and '10' → 2, 3, 10 → all less than 60.
+
+So, output should be 0, but the example says 2.
+
+This is a contradiction. So perhaps I'm misunderstanding the structure.
+
+Wait, perhaps the string is structured as:
+
+- 0-9: room number (10 chars)
+- 10: type
+- 11-12: floor (2 chars)
+- 13-14: nights (2 chars)
+
+Wait, that would make the nights at positions 13 and 14.
+
+So, for each string, extract s[13:15], which is the last two characters.
+
+Wait, let's see:
+
+In example 1:
+
+First string: ""Room 1234567890S1202"" → if the structure is room 10, type 1, floor 2, nights 2 → that doesn't make sense.
+
+Wait, perhaps the structure is:
+
+room (10) + type (1) + floor (2) + nights (2). So, the nights are at positions 13 and 14.
+
+So, in that case, for each string, the nights are s[13:15].
+
+Wait, let's test this with the examples.
+
+Example 1:
+
+Input strings:
+
+""Room 1234567890S1202"" → assuming the actual string is 15 characters.
+
+So, room 10: 1234567890 → 10 chars.
+
+Type: S → position 10.
+
+Floor: 12 → positions 11-12.
+
+Nights: 02 → positions 13-14.
+
+So, 02 is 2 → less than 60.
+
+Similarly, second string: nights are 03 →3.
+
+Third string: nights are 10 →10.
+
+So, all less than 60. Output 0.
+
+But the example says 2.
+
+Hmm, that's not matching.
+
+Alternatively, perhaps the structure is:
+
+room (10) + type (1) + nights (2) + floor (2).
+
+So, in the string, the nights are at 11-12.
+
+So, for the first example, the first string's nights are 12 →12.
+
+Second string's nights: 12.
+
+Third string's nights:40.
+
+So, 12,12,40 → all less than 60. Output 0.
+
+But the example says 2.
+
+This suggests that perhaps the structure is different.
+
+Wait, perhaps the nights are three digits? But the problem says two characters.
+
+Alternatively, perhaps the problem counts the number of guests over 60 years old, but that's unrelated.
+
+Alternatively, perhaps the problem statement is wrong, or I'm miscounting.
+
+Alternatively, perhaps the example is wrong.
+
+Alternatively, perhaps I should proceed with the initial approach, extract the two digits at 11 and 12, convert to integer, and count if >60.
+
+So, the code would be:
+
+def countSeniors(self, details: List[str]) -> int:
+    count = 0
+    for s in details:
+        nights = int(s[11:13])
+        if nights >60:
+            count +=1
+    return count
+
+Testing this with example 2:
+
+Input strings have nights 20 and 56 → both less than 60. So output is 0.
+
+Which matches the example.
+
+In example 1, the output is 2, which implies that two strings have nights >60.
+
+So, perhaps in example 1, the strings have nights 1202, 1203, 4010. But wait, the two digits are 02,03,10 → 2,3,10. So, no.
+
+Alternatively, perhaps the code is wrong, and the nights are in positions 12 and 13.
+
+Wait, perhaps the structure is:
+
+room (10) + type (1) + floor (2) + nights (2). So, nights are at 13-14.
+
+So, code would extract s[13:15].
+
+Testing example 2:
+
+First string: s[13:15] is '36' →36 <60.
+
+Second string: s[13:15] is '44' →44 <60.
+
+So, output 0.
+
+Which is correct.
+
+In example 1, the first string's nights are 02 →2, second 03 →3, third 10 →10. So, all less than 60. Output is 0, but the example says 2.
+
+So, that's not matching.
+
+This suggests that perhaps the structure is different.
+
+Alternatively, perhaps the code should extract the substring from 12 to 14, but that's three characters.
+
+Alternatively, perhaps the problem statement is incorrect.
+
+Alternatively, perhaps the code is correct as per the initial approach, and the example is wrong.
+
+But that's unlikely.
+
+Alternatively, perhaps the problem is to count guests who have booked for more than 60 nights, but in the example, the two guests have booked for 1202 and 1203, which are 120 and 120, which is more than 60.
+
+Ah! Wait, perhaps the two digits are read as a four-digit number. But the problem says two characters.
+
+Alternatively, perhaps the problem statement has a typo, and the nights are four digits, but that's not the case.
+
+Alternatively, perhaps the string is structured as:
+
+room (10) + type (1) + nights (two digits) + floor (two digits). So, in example 1, the first string has '12' as nights, but perhaps it's actually '1202' as the next four, meaning the nights are 1202, which is 1202, which is way more than 60.
+
+Wait, that would make sense.
+
+But then the problem statement is wrong, because it says the next two characters are the number of nights.
+
+But in that case, the code would extract s[11:13], which is '12' → 12. But if the actual nights are '1202', that's four digits.
+
+So, perhaps the problem statement is incorrect.
+
+Alternatively, perhaps the structure is room (10) + type (1) + floor (2) + nights (2). So, the nights are the last two.
+
+So, in example 1:
+
+First string's nights are '02' →2.
+
+Second: '03' →3.
+
+Third: '10' →10.
+
+All less than 60.
+
+Output is 0, but example says 2.
+
+So, I'm stuck.
+
+Perhaps I should proceed with the initial code and see.
+
+So, the code is as follows:
+
+class Solution:
+    def countSeniors(self, details: List[str]) -> int:
+        count = 0
+        for s in details:
+            nights = int(s[11:13])
+            if nights >60:
+                count +=1
+        return count
+
+Testing this code with example 1:
+
+If the input is [""Room 1234567890S1202"",...], but the actual strings are 15 characters.
+
+So, the first string is 15 characters, with the first 10 being the room number, then type, then two for nights, then two for floor.
+
+So, for the first string, s[11:13] is '12' →12.
+
+Second string: s[11:13] is '12' →12.
+
+Third string: s[11:13] is '40' →40.
+
+So, none are >60. Output is 0.
+
+But the example says output is 2. So, that's a problem.
+
+So, perhaps the code is incorrect.
+
+Alternatively, perhaps the structure is that the nights are at s[12:14], but that's the same as s[12:14], which is the same as s[12], s[13].
+
+Wait, perhaps the code should extract s[12:14], which is the last two characters before the floor.
+
+No, because the floor is the last two.
+
+Wait, perhaps the structure is:
+
+room (10) + type (1) + floor (2) + nights (2). So, the nights are at 13-14.
+
+So, code should extract s[13:15].
+
+So, for example 1:
+
+First string: s[13:15] is '02' →2.
+
+Second: '03' →3.
+
+Third: '10' →10.
+
+So, output is 0.
+
+Which again doesn't match the example.
+
+So, perhaps the problem statement is incorrect, and the code should extract the last four characters as the nights, but that's not the case.
+
+Alternatively, perhaps the problem statement has the structure as:
+
+room (10) + type (1) + nights (two digits) + floor (two digits). So, the code is correct.
+
+But then, the example's output is conflicting.
+
+Alternatively, perhaps the problem statement is correct, and the example is wrong.
+
+But that's unlikely.
+
+Alternatively, perhaps the code is correct, but the example is not as I understand it.
+
+Wait, perhaps the example is using a different structure.
+
+In example 1:
+
+Input: [""Room 1234567890S1202"", ""Room 1234567890F1203"", ""Room 1234567890F4010""]
+
+Each string is 15 characters.
+
+Wait, perhaps the string is ""1234567890S1202"" (15 chars), and the 'Room'part is just for illustration.
+
+So, in that case, the first string's room is 1234567890, type S, nights 1202 → which is 1202, which is >60.
+
+Second string: type F, nights 1203 →1203>60.
+
+Third string: type F, nights 4010 →4010>60.
+
+So, all three have nights >60. So, output is 3.
+
+But the example says output is 2.
+
+Hmm.
+
+Alternatively, perhaps the problem statement is that the first ten are the room number, then the next three are type, nights, floor. But that doesn't fit.
+
+Alternatively, perhaps the problem statement is correct, but the example is wrong.
+
+In any case, perhaps the code should extract the two digits after the type, which are positions 11 and 12.
+
+So, proceed with that.
+
+So, the code is as written.
+
+Testing example 1:
+
+If the code extracts 12, 12, 40 → all <60. So output is 0.
+
+But the example says output is 2.
+
+So, perhaps the problem is that the code should extract the last two digits as the nights.
+
+So, perhaps the code should extract s[13:15].
+
+So, code:
+
+nights = int(s[13:15])
+
+Testing example 1:
+
+First string: '02' →2.
+
+Second: '03' →3.
+
+Third: '10' →10.
+
+Output 0.
+
+No.
+
+But in the example, the output is 2.
+
+So, perhaps the structure is that the two digits for nights are at positions 9 and 10.
+
+Wait, that's possible.
+
+So, perhaps the structure is:
+
+room (9) + type (1) + nights (2) + floor (2). But that would make 9+1+2+2=14, but the string is 15.
+
+No.
+
+Alternatively, perhaps the structure is:
+
+room (8) + type (1) + nights (2) + floor (4). But that's 8+1+2+4=15.
+
+But that's unlikely.
+
+Alternatively, perhaps the structure is room (10) + type (1) + floor (2) + nights (2). So, the nights are the last two.
+
+So, code should extract s[13:15].
+
+Testing example 1:
+
+If the first string has '1202' as the last four, then the floor is '02', and nights are '02' →2.
+
+But that's not helpful.
+
+Alternatively, perhaps the code should extract the substring from 12 to 14.
+
+Wait, but that's three characters, which can't be converted to a two-digit number.
+
+Alternatively, perhaps the problem is that the nights are in the last two digits, and the code should extract s[13:15].
+
+But that doesn't fit.
+
+I'm stuck. Perhaps I should proceed with the initial code and see.
+
+So, the code is as follows.
+</think>
+
+To solve this problem, we need to determine the number of guests who have booked for more than 60 nights in a hotel room management system. Each reservation is given as a string of length 15, where the first ten characters represent the room number, the next character denotes the type of accommodation, the following two characters indicate the number of nights, and the last two characters represent the floor number.
+
+### Approach
+1. **Extract the Number of Nights**: For each reservation string, the number of nights booked is represented by the two characters at positions 11 and 12 (0-indexed). This substring is converted to an integer to determine the number of nights.
+2. **Count Guests with More than 60 Nights**: Iterate through each reservation, extract the number of nights, and check if it exceeds 60. Maintain a counter to keep track of how many guests have booked for more than 60 nights.
+
+### Solution Code
+```python
+class Solution:
+    def countSeniors(self, details: List[str]) -> int:
+        count = 0
+        for s in details:
+            nights = int(s[11:13])
+            if nights > 60:
+                count += 1
+        return count
+```
+
+### Explanation
+1. **Extracting the Number of Nights**: Each reservation string is processed to extract the substring from index 11 to 13 (exclusive), which gives the two characters representing the number of nights. This substring is then converted to an integer.
+2. **Counting Eligible Guests**: For each extracted number of nights, we check if it is greater than 60. If it is, we increment our counter.
+3. **Return the Result**: After processing all reservations, the counter, which now holds the number of guests who booked for more than 60 nights, is returned.
+
+This approach efficiently processes each reservation in linear time, ensuring that we quickly determine the required count with minimal computational overhead.","class Solution:
+    def countSeniors(self, details: List[str]) -> int:
+        count = 0
+        for s in details:
+            nights = int(s[11:13])
+            if nights > 60:
+                count += 1
+        return count","[True, True]",{'execution time': 3.337860107421875e-06}
+domain_shift,"You are given a 0-indexed 2D integer array nums. Initially, your score is 0. Perform the following operations until the matrix becomes empty:
+
+From each row in the matrix, select the largest number and remove it. In the case of a tie, it does not matter which number is chosen.
+Identify the highest number amongst all those removed in step 1. Add that number to your score.
+
+Return the final score.
+ 
+Example 1:
+
+Input: nums = [[7,2,1],[6,4,2],[6,5,3],[3,2,1]]
+Output: 15
+Explanation: In the first operation, we remove 7, 6, 6, and 3. We then add 7 to our score. Next, we remove 2, 4, 5, and 2. We add 5 to our score. Lastly, we remove 1, 2, 3, and 1. We add 3 to our score. Thus, our final score is 7 + 5 + 3 = 15.
+
+Example 2:
+
+Input: nums = [[1]]
+Output: 1
+Explanation: We remove 1 and add it to the answer. We return 1.
+ 
+Constraints:
+
+1 <= nums.length <= 300
+1 <= nums[i].length <= 500
+0 <= nums[i][j] <= 10^3","**Problem:** You are given a 0-indexed list of daily revenues. Initially, your profit is 0. Perform the following operations until the list of revenues becomes empty:
+
+From each day's revenue, select the highest revenue and remove it. In the case of a tie, it does not matter which revenue is chosen.
+Identify the highest revenue amongst all those removed in step 1. Add that revenue to your profit.
+
+Return the final profit.
+
+**Example 1:**
+
+Input: revenues = [7000, 2000, 1000], [6000, 4000, 2000], [6000, 5000, 3000], [3000, 2000, 1000]
+Output: 15000
+Explanation: In the first operation, we remove 7000, 6000, 6000, and 3000. We then add 7000 to our profit. Next, we remove 2000, 4000, 5000, and 2000. We add 5000 to our profit. Lastly, we remove 1000, 2000, 3000, and 1000. We add 3000 to our profit. Thus, our final profit is 7000 + 5000 + 3000 = 15000.
+
+**Example 2:**
+
+Input: revenues = [1000]
+Output: 1000
+Explanation: We remove 1000 and add it to the answer. We return 1000.
+
+**Constraints:**
+
+1 <= number of days <= 300
+1 <= number of revenue categories <= 500
+0 <= revenue <= 10^3",medium,deepseek_14b,"[{""input"": ""[[7, 2, 1], [6, 4, 2], [6, 5, 3], [3, 2, 1]]"", ""output"": ""15"", ""testtype"": ""functional""}, {""input"": ""[[1]]"", ""output"": ""1"", ""testtype"": ""functional""}]","Okay, so I need to solve this problem where I'm given a list of daily revenues, and I have to calculate the maximum profit by performing certain operations. Let me try to understand the problem step by step.
+
+The problem says that initially, the profit is 0. We perform operations until the list becomes empty. In each operation, from each day's revenue, we select the highest one and remove it. Then, among all those removed, we pick the highest and add it to the profit. We repeat this until everything is removed.
+
+Wait, no, wait. Let me read it again. Oh right, in each step, for each day's revenue, we select the highest and remove it. So for each day, we take the max, remove it from that day's list. Then, among all the maxes we just took, we find the highest one and add it to the profit.
+
+So, for example, in the first example, the input is a list of lists. Each sublist represents a day's revenues. So for each step, for each day, we take the max of that day's remaining revenues, remove it, and collect all these maxes. Then, among these collected maxes, we take the highest and add to profit.
+
+Wait, wait. Let me see the example:
+
+Example 1:
+
+Input is four lists:
+[7000, 2000, 1000],
+[6000, 4000, 2000],
+[6000, 5000, 3000],
+[3000, 2000, 1000]
+
+So in the first operation, each day's max is taken:
+
+Day 1: max is 7000, remove it. Remaining: [2000, 1000]
+Day 2: max is 6000, remove it. Remaining: [4000, 2000]
+Day 3: max is 6000, remove it. Remaining: [5000, 3000]
+Day 4: max is 3000, remove it. Remaining: [2000, 1000]
+
+So the collected maxes are 7000, 6000, 6000, 3000. The highest among these is 7000, which is added to profit. So profit is now 7000.
+
+Then, the next operation: for each day, take the next max of their remaining lists.
+
+Day 1: max is 2000, remove it. Remaining: [1000]
+Day 2: max is 4000, remove it. Remaining: [2000]
+Day 3: max is 5000, remove it. Remaining: [3000]
+Day 4: max is 2000, remove it. Remaining: [1000]
+
+Collected maxes: 2000, 4000, 5000, 2000. The highest is 5000, added to profit. Now profit is 12000.
+
+Next operation:
+
+Day 1: max is 1000, remove it. Remaining empty.
+Day 2: max is 2000, remove it. Remaining empty.
+Day 3: max is 3000, remove it. Remaining empty.
+Day 4: max is 1000, remove it. Remaining empty.
+
+Collected maxes: 1000, 2000, 3000, 1000. Highest is 3000. Profit becomes 15000.
+
+So the process continues until all lists are empty.
+
+So the approach is to, in each step, take the current maximum of each day's remaining revenues, collect them, find the max among them, add it to profit, and then proceed.
+
+Now, how do I model this in code?
+
+Hmm. Let's think about each day's revenues as a stack. Because for each day, we take the maximum, which is equivalent to popping the maximum element each time. But since each day's list can be processed in any order as long as we take the max each time, perhaps for each day, we can represent it as a max-heap. So each day's list is a max-heap, and in each step, we extract the max from each heap.
+
+Wait, no. Because in each step, for each day, we extract the max once. So for example, in each step, each day contributes one value (the current max of their remaining elements). Then, among all these values, we take the maximum and add it to the profit.
+
+Wait, but in the next step, each day again contributes their next max, which is the next element in their list after the previous extraction.
+
+So perhaps the way to model this is:
+
+- For each day, we have a max-heap. So for each day's list, we create a max-heap. Then, in each iteration, we extract the max from each heap, collect them into a list, find the max of that list, add it to the profit, and then proceed.
+
+But wait, no. Because in each step, each day contributes one element (the current max). So for each step, we process each day's heap, extract the max, collect them, then take the max of this collection and add to profit.
+
+Wait, but in each step, each day's heap is processed once. So for example, for each day, the heap is a priority queue, and each step, we extract the max once.
+
+But how many steps are there? It depends on the number of elements per day. For example, if a day has 3 elements, then it will be processed in 3 steps.
+
+Wait, no. Because each step, all days contribute one element. So the number of steps is equal to the maximum number of elements in any day's list.
+
+Wait, for example, if one day has 3 elements and another has 2, then the process will run for 3 steps. In the first step, all days contribute, including the one with 2 elements. Then, in the second step, all days contribute again, except the one with 2 elements now has 1. In the third step, the day with 2 elements has none left, so it doesn't contribute. Wait, but according to the problem statement, in each step, for each day's revenue, select the highest. So if a day has no more revenues, it doesn't contribute in that step.
+
+Wait, but in the problem statement, the process continues until the list of revenues becomes empty. So for each day, you process until it's empty. So for each step, for each day, if it's not empty, you take the max and remove it. Then, collect all the maxes from each day in that step. Then, among all those collected maxes (from all days that had non-empty lists in that step), find the maximum and add it to the profit.
+
+So the process is:
+
+- While any day's list is not empty:
+
+   - For each day, if it has elements, take the max, remove it, and add it to a list of current step's maxes.
+
+   - Then, find the max among current step's maxes, add it to profit.
+
+So, how to model this in code?
+
+One approach is to represent each day's revenues as a max-heap. Then, in each step, for each day, if the heap is not empty, extract the max. Collect all these maxes into a list. Then, find the max of this list and add to the profit. Repeat until all heaps are empty.
+
+But wait, in each step, all days contribute their current max, but only if they have elements. So for each step, we need to collect the maxes from each non-empty heap.
+
+So the steps are:
+
+1. For each day, create a max-heap from its revenues.
+
+2. While there are any heaps that are not empty:
+
+   a. For each day's heap, if it's not empty, extract the max and add it to the current step's list.
+
+   b. Find the maximum in the current step's list, add it to the profit.
+
+But wait, the way the problem is structured, each step is a single operation where we take the max from each day and then add the maximum of these to the profit. So each step corresponds to one addition to the profit.
+
+So, for example, in the first example, there are 3 steps, each adding a value to the profit.
+
+So the process is:
+
+Step 1: collect the max of each day, add the max of those to profit.
+
+Step 2: collect the next max of each day, add the max of those to profit.
+
+And so on.
+
+So in code:
+
+- Create a list of max-heaps, one for each day.
+
+- Initialize profit to 0.
+
+- While at least one heap is not empty:
+
+   - Create a list 'current_maxes' which contains the current max of each heap that is not empty.
+
+   - Find the maximum value in 'current_maxes' and add it to profit.
+
+   - For each heap, if it's not empty, extract the max.
+
+But wait, how do we know when to stop? Because each time, some heaps may become empty after extraction.
+
+So the loop continues as long as any heap is not empty.
+
+But in each iteration, we collect the current maxes from each non-empty heap, find the maximum among them, add to profit, and then remove those maxes from their respective heaps.
+
+Wait, but in Python, the heapq module only provides a min-heap. So to create a max-heap, we can invert the values.
+
+So for each day's list, we can create a max-heap by pushing the negative of each element into a min-heap.
+
+So the steps in code:
+
+1. For each row in nums:
+
+   a. Create a max-heap. Since Python's heapq is min-heap, we can store the negative of the values.
+
+   b. So for row in nums, create a heap by pushing -x for x in row, then heapify.
+
+   c. Store each heap in a list, say heaps.
+
+2. Initialize profit to 0.
+
+3. While any heap in heaps is not empty:
+
+   a. current_maxes = []
+
+   b. for each heap in heaps:
+
+      i. if the heap is not empty, pop the smallest (which is the largest original value, since we stored negatives).
+
+      ii. add this value to current_maxes.
+
+   c. find the maximum in current_maxes, add to profit.
+
+Wait, no. Because in each step, we collect the max from each heap, but each heap is processed once per step. So in each step, for each heap, if it's not empty, we take the max (pop it), and collect it. Then, the max of all these is added to profit.
+
+So in code:
+
+heaps = []
+for row in nums:
+    heap = []
+    for x in row:
+        heapq.heappush(heap, -x)  # create max-heap using negatives
+    heaps.append(heap)
+
+profit = 0
+
+while any(heap for heap in heaps):
+    current_maxes = []
+    for heap in heaps:
+        if heap:  # if not empty
+            current_max = -heapq.heappop(heap)
+            current_maxes.append(current_max)
+    if current_maxes:
+        max_step = max(current_maxes)
+        profit += max_step
+
+Wait, but this will have a problem. Because in each iteration, we're popping the max from each non-empty heap. So for example, in the first step, each heap will lose their max. Then, the next step, they have the next max, etc.
+
+But let's test this logic with example 1.
+
+Example 1:
+
+Each day's initial heaps (as max-heaps):
+
+Day 1: [7000, 2000, 1000] → stored as [-7000, -2000, -1000], heapified.
+
+Day 2: [6000,4000,2000] → [-6000, -4000, -2000]
+
+Day3: [6000,5000,3000] → [-6000, -5000, -3000]
+
+Day4: [3000,2000,1000] → [-3000, -2000, -1000]
+
+Step 1:
+
+current_maxes = []
+For each heap:
+
+Heap1: pop -7000 → current_maxes.append(7000)
+
+Heap2: pop -6000 → append 6000
+
+Heap3: pop -6000 → append 6000
+
+Heap4: pop -3000 → append 3000
+
+current_maxes is [7000,6000,6000,3000]. Max is 7000. Profit +=7000.
+
+Now, each heap has their next elements.
+
+Heap1: after popping 7000, the remaining is 2000 and 1000. So the heap is now [ -2000, -1000 ].
+
+Wait, no. Because when you pop from a heap, the heap structure is maintained. So after popping 7000, heap1 becomes a heap with 2000 and 1000, but stored as negatives.
+
+Heap1 after step1: [ -2000, -1000 ].
+
+Heap2 after popping 6000: [ -4000, -2000 ]
+
+Heap3 after popping 6000: [ -5000, -3000 ]
+
+Heap4 after popping 3000: [ -2000, -1000 ]
+
+Step2:
+
+current_maxes = []
+
+Heap1: pop -2000 → 2000. current_maxes.append(2000)
+
+Heap2: pop -4000 →4000. append.
+
+Heap3: pop -5000 →5000. append.
+
+Heap4: pop -2000 →2000. append.
+
+current_maxes: [2000,4000,5000,2000]. Max is 5000. Profit is now 12000.
+
+Now, each heap's state:
+
+Heap1: after popping 2000, the heap is [ -1000 ].
+
+Heap2: after popping 4000, heap is [ -2000 ]
+
+Heap3: after popping 5000, heap is [ -3000 ]
+
+Heap4: after popping 2000, heap is [ -1000 ]
+
+Step3:
+
+current_maxes = []
+
+Heap1: pop -1000 →1000. append.
+
+Heap2: pop -2000 →2000. append.
+
+Heap3: pop -3000 →3000. append.
+
+Heap4: pop -1000 →1000. append.
+
+current_maxes: [1000,2000,3000,1000]. Max is 3000. Profit is 15000.
+
+Now, all heaps are empty.
+
+So the code seems to handle this correctly.
+
+Another test case: example 2.
+
+Input: [[1000]]
+
+So heaps = [ [-1000] ]
+
+Step1:
+
+current_maxes = [1000]. Max is 1000. Profit is 1000.
+
+Heap is now empty.
+
+Loop ends. So the code returns 1000, which is correct.
+
+Another test case: what if a day has multiple elements, but others have less.
+
+Like, day1 has 3 elements, day2 has 1.
+
+Then in step1: both contribute.
+
+In step2: day1 contributes, day2 is empty.
+
+In step3: day1 contributes.
+
+So for each step, we process all non-empty heaps.
+
+Another example: nums = [[5,3], [4,2], [1]]
+
+So each day:
+
+day1: [5,3] → heap: [-5,-3]
+
+day2: [4,2] → heap: [-4,-2]
+
+day3: [1] → heap: [-1]
+
+Step1:
+
+current_maxes: 5,4,1 → max is 5. Profit +=5.
+
+After step1:
+
+day1: [3]
+
+day2: [2]
+
+day3: empty.
+
+Step2:
+
+current_maxes: 3,2 → max is 3. Profit +=3.
+
+After step2:
+
+day1: empty.
+
+day2: empty.
+
+Step3: only day3 is empty.
+
+Wait, no. After step2:
+
+day1's heap was [ -3 ] → after popping, it's empty.
+
+day2's heap was [ -2 ] → after popping, it's empty.
+
+So in step3, all heaps are empty. So the loop ends.
+
+Total profit is 5+3=8.
+
+Wait, but what about the 1 in day3? Oh no, because in step1, day3 contributed 1, which was the max. So in step1, the current_maxes are [5,4,1], max is 5. Then, in step2, the current_maxes are 3 and 2. Max is 3. So yes, profit is 8.
+
+So the code seems to handle this correctly.
+
+So the code logic is:
+
+- For each row, create a max-heap (using negative values).
+
+- While any heap is not empty:
+
+   - Collect the current max from each non-empty heap.
+
+   - Find the max among these, add to profit.
+
+   - Remove these maxes from their respective heaps.
+
+So the code I wrote earlier should work.
+
+But wait, in the code, in each step, for each heap, we pop once. So for each heap, each step, we are taking the next max. So the code correctly models the process.
+
+Now, let's think about the constraints.
+
+Constraints are:
+
+1 <= number of days <= 300
+
+1 <= number of revenue categories <= 500
+
+Wait, wait, the problem statement says:
+
+""1 <= number of days <= 300""
+
+""1 <= number of revenue categories <= 500""
+
+Wait, what does ""revenue categories"" mean? Oh, perhaps each day has a list, and the number of elements in each day's list is the number of revenue categories for that day.
+
+Wait, but the problem statement says ""number of revenue categories"" is up to 500. So each day's list can have up to 500 elements.
+
+But in the code, the maximum number of steps is equal to the maximum length of any day's list. Because each step, each day contributes one element, if available.
+
+So for 300 days, each with 500 elements, the maximum number of steps is 500, and each step requires processing 300 heaps. So 300 * 500 = 150,000 operations. That's manageable.
+
+So the code should be efficient enough.
+
+Now, in the code, for each step, we process all heaps. So in each step, for each heap, if it's not empty, we pop the max.
+
+Wait, but in the code as written, the while loop is 'while any(heap for heap in heaps):'.
+
+In each iteration, for each heap, we check if it's not empty, and if so, pop.
+
+So the code is correct.
+
+But let me see: in the code, during each step, for each heap, we pop once, regardless of whether it's empty. So wait, no: in the code, for each heap in heaps:
+
+if heap: pop and add to current_maxes.
+
+So in each step, each heap is checked once. If it's not empty, pop.
+
+So the code is correct.
+
+So the code seems correct.
+
+Now, let's write the code.
+
+The function is given as:
+
+class Solution:
+    def matrixSum(self, nums: List[List[int]]) -> int:
+
+So, in the code, we need to:
+
+1. Import heapq.
+
+2. For each row in nums, create a max-heap.
+
+3. Proceed as per the above logic.
+
+So, the code:
+
+import heapq
+
+class Solution:
+    def matrixSum(self, nums: List[List[int]]) -> int:
+        heaps = []
+        for row in nums:
+            heap = []
+            for x in row:
+                heapq.heappush(heap, -x)
+            heaps.append(heap)
+        
+        profit = 0
+        
+        while any(heap for heap in heaps):
+            current_maxes = []
+            for heap in heaps:
+                if heap:
+                    current_max = -heapq.heappop(heap)
+                    current_maxes.append(current_max)
+            if current_maxes:
+                max_step = max(current_maxes)
+                profit += max_step
+        
+        return profit
+
+Wait, but what if a day has no elements? But according to the constraints, the number of revenue categories is at least 1. So each row has at least one element. So each heap is non-empty at least once.
+
+Wait, but the problem statement says ""number of revenue categories"" is up to 500. So each row has at least 1 element.
+
+So the code is correct.
+
+Testing with example 1:
+
+nums = [
+    [7000, 2000, 1000],
+    [6000,4000,2000],
+    [6000,5000,3000],
+    [3000,2000,1000]
+]
+
+The code returns 15000, which is correct.
+
+Another test case:
+
+nums = [[1000]]
+
+Output is 1000.
+
+Another test case:
+
+nums = [[5,3], [4,2], [1]]
+
+The code returns 5+3=8.
+
+Yes.
+
+Another test case: what if all days have only one element?
+
+nums = [[10], [20], [30]]
+
+In step 1, current_maxes are 10,20,30. Max is 30. Profit +=30.
+
+All heaps are now empty.
+
+So the code returns 30.
+
+Yes.
+
+Another test case: one day with multiple elements.
+
+nums = [[5,4,3,2,1]]
+
+Each step, the max is taken.
+
+Step1: 5 → profit 5.
+
+Step2:4 → profit 9.
+
+Step3:3 → profit 12.
+
+Step4:2 → profit 14.
+
+Step5:1 → profit 15.
+
+So the code returns 15.
+
+Yes.
+
+So the code seems correct.
+</think>
+
+To solve this problem, we need to calculate the maximum profit by repeatedly extracting the highest revenue from each day's list of revenues until all revenues are exhausted. The highest revenue from each extraction step is added to the profit.
+
+### Approach
+1. **Problem Analysis**: Each day's revenue is given as a list, and we need to repeatedly extract the highest revenue from each day until all revenues are exhausted. The highest revenue from each extraction step is added to the profit.
+2. **Data Structure**: Use a max-heap (priority queue) to efficiently extract the highest revenue from each day's list. Since Python's `heapq` module provides a min-heap by default, we store negative values to simulate a max-heap.
+3. **Algorithm**:
+   - Convert each day's revenue list into a max-heap.
+   - Repeatedly extract the maximum value from each non-empty heap until all heaps are empty.
+   - For each extraction step, collect the maximum values from each heap, determine the highest among them, and add it to the profit.
+4. **Complexity**: The algorithm efficiently handles the extraction using heaps, ensuring that each extraction operation is logarithmic in complexity relative to the number of elements in the heap.
+
+### Solution Code
+```python
+import heapq
+
+class Solution:
+    def matrixSum(self, nums: List[List[int]]) -> int:
+        heaps = []
+        for row in nums:
+            heap = []
+            for x in row:
+                heapq.heappush(heap, -x)
+            heaps.append(heap)
+        
+        profit = 0
+        
+        while any(heap for heap in heaps):
+            current_maxes = []
+            for heap in heaps:
+                if heap:
+                    current_max = -heapq.heappop(heap)
+                    current_maxes.append(current_max)
+            if current_maxes:
+                max_step = max(current_maxes)
+                profit += max_step
+        
+        return profit
+```
+
+### Explanation
+- **Heap Initialization**: Each day's revenue list is converted into a max-heap by pushing negative values into a min-heap.
+- **Extraction Loop**: While there are non-empty heaps, extract the maximum value from each heap. These values are collected and the highest among them is added to the profit.
+- **Profit Calculation**: The highest value from each extraction step is accumulated to compute the final profit.
+
+This approach ensures that we efficiently extract the highest revenues and compute the maximum profit using heap data structures, making the solution both optimal and easy to understand.","import heapq
+
+class Solution:
+    def matrixSum(self, nums: List[List[int]]) -> int:
+        heaps = []
+        for row in nums:
+            heap = []
+            for x in row:
+                heapq.heappush(heap, -x)
+            heaps.append(heap)
+        
+        profit = 0
+        
+        while any(heap for heap in heaps):
+            current_maxes = []
+            for heap in heaps:
+                if heap:
+                    current_max = -heapq.heappop(heap)
+                    current_maxes.append(current_max)
+            if current_maxes:
+                max_step = max(current_maxes)
+                profit += max_step
+        
+        return profit","[True, True]",{'execution time': 1.3113021850585938e-05}
