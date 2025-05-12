@@ -85,7 +85,14 @@ We utilized the `lcb_runner/` folder directly from [LiveCodeBench repository](ht
 ## 📜 Citation
 
 If you use this dataset or findings, please cite:
-Coming Soon
 
-```bibtex```
+```
+@misc{roh2025breakthechain,
+  title        = {{BREAK-THE-CHAIN: Adversarial Prompting in Code Generation}},
+  author       = {Jaechul Roh and Varun Gandhi and Shivani Anilkumar and Arin Garg},
+  year         = {2025},
+  howpublished = {\url{https://github.com/jrohsc/685_Project/tree/main/LiveCodeBench}},
+  note         = {UMass Amherst CS685 Advanced NLP Project},
+}
+```
 
