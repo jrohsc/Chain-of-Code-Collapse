@@ -33,28 +33,6 @@ We generate **700 perturbed prompts** from **100 LeetCode-style problems** using
 
 ---
 
-## 📂 Repository Structure
-
-```text
-📦 Break-the-Chain/
-├── clean/                        # Original (unperturbed) problems
-├── attacked/                     # Perturbed problems (7 transformation types)
-│   ├── storytelling/
-│   ├── gamification/
-│   ├── distracting_constraints/
-│   ├── domain_shift/
-│   ├── example_perturbation/
-│   ├── negation_objective/
-│   └── negation_objective_soft/
-├── models/                       # Model outputs (Claude, Gemini, etc.)
-├── evaluation/                   # Accuracy scripts, LLM-as-a-judge code
-├── figures/                      # All plots and visualizations
-└── README.md
-```
-
-
----
-
 ## 🔬 Example Perturbation (Gamification)
 
 | Clean Prompt                                                   | Gamified Prompt                                                  |
@@ -77,23 +55,31 @@ We generate **700 perturbed prompts** from **100 LeetCode-style problems** using
 
 ---
 
-## 🖼 Suggested Visuals (add to GitHub page)
-
-1. **Figure 1**: Accuracy vs. Logical Preservation Score  
-2. **Table**: Model Performance Across Attacks  
-3. **Figure 2–7**: Prompt Templates for Each Attack  
-4. **Appendix**: Example Prompts and Model Failures
-
-(📁 All figures can be added from the `figures/` folder)
-
----
-
-## 📥 Dataset
+## 📥 Run
 
 Access all clean and modified prompts here:  
 📎 [Google Drive Dataset](https://drive.google.com/drive/u/2/folders/1QZX7q1Y7gf7wqRxrTIaBYcZO9CA4wX7c)
 
+### 1. Download the folders and place them into the corresponding directories:
+* `modified_data` → `data_modified/`
+* `clean_data` → `data/`
+
+### 2. For Batch Runs:
+* For clean input testing:
+```
+python run_script_main.py
+```
+* For perturbed input testing:
+```
+python run_script_main_perturbation.py
+```
+
+‼️ Make sure to enter Anthropic and Gemini Key where it says `ENTER_KEY` in the `main.py` and `main_perturbation.py`.
+
 ---
+
+## 📝 Note
+We utilized the `lcb_runner/` folder directly from [LiveCodeBench repository](https://github.com/LiveCodeBench/LiveCodeBench/tree/main/lcb_runner) for a smooth and accurate evaluation. 
 
 ## 📜 Citation
 
