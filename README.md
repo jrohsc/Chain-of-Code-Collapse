@@ -5,7 +5,7 @@
 
 ---
 
-![Overview of Break-The-Chain](images/figure_1.pdf)
+![Overview of Break-The-Chain](images/figure_1.png)
 
 ## 🧠 Overview
 
