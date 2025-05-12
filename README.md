@@ -85,6 +85,7 @@ We utilized the `lcb_runner/` folder directly from [LiveCodeBench repository](ht
 ## 📜 Citation
 
 If you use this dataset or findings, please cite:
+Coming Soon
 
-```bibtex: Coming Soon
+```bibtex```
 
