@@ -53,7 +53,7 @@ We generate **700 perturbed prompts** from **100 LeetCode-style problems** using
 | Claude 3.7 Sonnet | 90.0% | 63.4% (-26.6%)| 50.0% (-40%)| 47.9% (-42.1%)          |
 | LLaMA 3.1 Instruct| 19.0% | 44.7% (+25.7%)| 37.8% (+18.8%)| 37.6% (+18.6%)          |
 
-🧠 *Natural-sounding rewrites like storytelling can improve performance, while distracting constraints severely hurt reasoning ability.*
+🧠 *Natural-sounding rewrites like storytelling can improve performance, while distracting constraints severely hurt reasoning ability. Except for Claude-3.7-Sonnet, which is the model that achieved with the highest clean accuracy but a drop across all perturbations.*
 
 ---
 
