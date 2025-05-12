@@ -5,6 +5,8 @@
 
 ---
 
+![Overview of Break-The-Chain](images/figure_1.pdf)
+
 ## 🧠 Overview
 
 **BREAK-THE-CHAIN** introduces a new framework to test the *reasoning robustness* of Large Language Models (LLMs) by applying adversarial, yet meaning-preserving, modifications to code generation tasks. Despite strong performance on clean prompts, we find that LLMs are highly sensitive to superficial prompt changes, revealing brittle reasoning under surface-level linguistic shifts.
