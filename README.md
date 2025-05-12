@@ -1,7 +1,7 @@
 # BREAK-THE-CHAIN: Adversarial Prompting in Code Generation
 
 📄 Paper (Coming Soon)  
-📂 [Dataset on Google Drive]([https://drive.google.com/drive/u/2/folders/1QZX7q1Y7gf7wqRxrTIaBYcZO9CA4wX7c](https://drive.google.com/drive/folders/1E1Zoj1Ke1z_OpJePjEUMF2IPv5IqtE2F?usp=sharing))  
+📎 Dataset Download [Link](https://drive.google.com/drive/folders/1E1Zoj1Ke1z_OpJePjEUMF2IPv5IqtE2F?usp=drive_link) 
 
 ---
 
@@ -60,7 +60,7 @@ We generate **700 perturbed prompts** from **100 LeetCode-style problems** using
 ## 📥 Run
 
 Access all clean and modified prompts here:  
-📎 [Google Drive Dataset](https://drive.google.com/drive/u/2/folders/1QZX7q1Y7gf7wqRxrTIaBYcZO9CA4wX7c)
+📎 [Google Drive Dataset](https://drive.google.com/drive/folders/1E1Zoj1Ke1z_OpJePjEUMF2IPv5IqtE2F?usp=drive_link)
 
 ### 1. Download the folders and place them into the corresponding directories:
 * `modified_data` → `data_modified/`
