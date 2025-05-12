@@ -1,3 +1,4 @@
+import time
 import re
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
@@ -10,6 +11,9 @@ from argparse import ArgumentParser
 from tqdm import tqdm
 import os
 import torch
+import anthropic
+import google.generativeai as genai
+from google.generativeai import GenerativeModel
 
 torch.cuda.empty_cache()
 
@@ -117,29 +121,66 @@ def log_result_to_csv(csv_path, question_content, difficulty, model, public_test
     df = pd.DataFrame([row])
     df.to_csv(csv_path, mode='a', header=False, index=False)
 
+def claude_model(SYSTEM_PROMPT, user_prompt, model):
+    ANTHROPIC_API_KEY='ENTER_KEY'
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    message = client.messages.create(
+        model=model,
+        max_tokens=4096,
+        temperature=1,
+        system=SYSTEM_PROMPT,
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": user_prompt
+                    }
+                ]
+            }
+        ]
+    )
+    return message.content[0].text
+
 def main():
     parser = ArgumentParser()
     parser.add_argument('--model_name', type=str, default='qwen_coder')
     args = parser.parse_args()
+
     model_name = args.model_name
+    model_name_split = model_name.split('-')
 
-    # Load tokenizer
-    model_directory = model_map[model_name]
-    tokenizer = AutoTokenizer.from_pretrained(model_directory)
-    # Load model with float16 precision
-    model = AutoModelForCausalLM.from_pretrained(
-        model_directory,
-        torch_dtype=torch.float16,
-        device_map="auto"  # or device_map={"": 0} if only 1 GPU
-    )
+    print(f'model_name: {model_name}')
 
-    # Create pipeline using loaded model + tokenizer
-    pipe = pipeline(
-        "text-generation",
-        model=model,
-        tokenizer=tokenizer,
-        max_new_tokens=100000,
-    )
+    if 'claude' in model_name_split:
+        print("Running Claude API...")
+        ANTHROPIC_API_KEY='ENTER_KEY'
+        model = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    
+    elif 'gemini' in model_name_split or 'gemma' in model_name_split:
+        print("Running Gemini API...")
+        genai.configure(api_key="ENTER_KEY")
+        model = GenerativeModel(model_name)
+        
+    else:
+        # Load tokenizer
+        model_directory = model_map[model_name]
+        tokenizer = AutoTokenizer.from_pretrained(model_directory)
+        # Load model with float16 precision
+        model = AutoModelForCausalLM.from_pretrained(
+            model_directory,
+            torch_dtype=torch.float16,
+            device_map="auto"  # or device_map={"": 0} if only 1 GPU
+        )
+
+        # Create pipeline using loaded model + tokenizer
+        model = pipeline(
+            "text-generation",
+            model=model,
+            tokenizer=tokenizer,
+            max_new_tokens=50000,
+        )
 
     pkl_path = 'data/code_generation_lite.pkl'
     df = pd.read_pickle(pkl_path)
@@ -177,16 +218,53 @@ def main():
         )
         
         prompt = get_generic_question_template_answer(problem)
+
+        if 'claude' in model_name_split:
+            message = model.messages.create(
+            model=model_name,
+            max_tokens=4096,
+            temperature=1,
+            system=SYSTEM_MESSAGE_GENERIC,
+            messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": prompt
+                            }
+                        ]
+                    }
+                ]
+            )
+            output = message.content[0].text
+            
+        elif 'gemini' in model_name_split:
+            time.sleep(56)
+            response = model.generate_content(f"{SYSTEM_MESSAGE_GENERIC}\n\n{prompt}")
+            try:
+                output = response.candidates[0].content.parts[0].text
+            except Exception as e:
+                print(f"⚠️ Failed to parse Gemini output: {e}")
+                result, metadata_output = None, {
+                    "error_message": f"Gemini output parsing error: {str(e)}",
+                    "error_code": -3
+                }
+                log_result_to_csv(
+                csv_path, row["question_content"], row["difficulty"], model_name,
+                row["public_test_cases"], None, None, result, metadata_output
+            )
+                continue
+
+        else:
+            messages = [
+                {"role": "system", "content": SYSTEM_MESSAGE_GENERIC},
+                {"role": "user", "content": prompt},
+            ]
+            response = model(messages)
+            output = response[0]['generated_text'][2]['content']
         
-        messages = [
-            {"role": "system", "content": SYSTEM_MESSAGE_GENERIC},
-            {"role": "user", "content": prompt},
-        ]
-
-        response = pipe(messages)
-        output = response[0]['generated_text'][2]['content']
         generated_code = extract_solution_code(output)
-
         if generated_code is None:
             result, metadata_output = None, {"error_message": "No code extracted", "error_code": -1}
             log_result_to_csv(
