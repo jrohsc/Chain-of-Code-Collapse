@@ -1,6 +1,0 @@
-/work/pi_ahoumansadr_umass_edu/jroh/miniconda3/envs/overthink/lib/python3.9/site-packages/transformers/utils/hub.py:128: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-Loading checkpoint shards:   0%|          | 0/8 [00:00<?, ?it/s]Loading checkpoint shards:  12%|█▎        | 1/8 [00:06<00:47,  6.74s/it]Loading checkpoint shards:  25%|██▌       | 2/8 [00:13<00:40,  6.77s/it]Loading checkpoint shards:  38%|███▊      | 3/8 [00:36<01:10, 14.12s/it]Loading checkpoint shards:  50%|█████     | 4/8 [01:06<01:21, 20.41s/it]Loading checkpoint shards:  62%|██████▎   | 5/8 [01:38<01:13, 24.43s/it]Loading checkpoint shards:  75%|███████▌  | 6/8 [02:08<00:52, 26.46s/it]Loading checkpoint shards:  88%|████████▊ | 7/8 [03:25<00:42, 42.97s/it]Loading checkpoint shards: 100%|██████████| 8/8 [03:53<00:00, 38.28s/it]Loading checkpoint shards: 100%|██████████| 8/8 [03:53<00:00, 29.20s/it]
-Some parameters are on the meta device because they were offloaded to the cpu.
-Device set to use cuda:0
-  0%|          | 0/235 [00:00<?, ?it/s]csv_path: results/attacked/evaluation_log_deepseek_32b_example_perturbation.csv
