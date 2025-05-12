@@ -41,7 +41,7 @@ We generate **700 perturbed prompts** from **100 LeetCode-style problems** using
 |----------------------------------------------------------------|------------------------------------------------------------------|
 | "Given a 2D integer array, return the final matrix sum score" | "In the realm of Azura, brave adventurers collect treasure maps..." |
 
-📁 See all transformed prompts under [`attacked/gamification/`](./attacked/gamification/)
+📁 See all transformed prompts from the downloaded dataset.
 
 ---
 
