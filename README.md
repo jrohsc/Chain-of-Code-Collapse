@@ -1,4 +1,4 @@
-# BREAK-THE-CHAIN: Adversarial Prompting in Code Generation
+# Chain-of-Code Collapse: Reasoning Failures in LLMs via Adversarial Prompting in Code Generation
 
 📄 Paper (Coming Soon)  
 📎 Dataset Download [Link](https://drive.google.com/drive/folders/1E1Zoj1Ke1z_OpJePjEUMF2IPv5IqtE2F?usp=drive_link) 
